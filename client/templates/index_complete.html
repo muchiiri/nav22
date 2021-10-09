@@ -1,0 +1,532 @@
+{% extends "base_client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+<style>
+  .table th{
+    padding-left: 10px !important;
+  }
+</style>
+{% endblock stylesheets %}
+
+<link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"/>
+{% block content %}
+
+<div class="container-fluid py-4">
+      
+  <div class="row mt-4">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-7">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Road Freight</p>
+                <h5 class="font-weight-bolder">{{rno}}</h5>
+                <span class="text-success text-sm font-weight-bolder">on road</span>
+                <!-- <span class="text-sm">on road</span> -->
+              </div>
+            </div>
+            <div class="col-5 text-end my-auto">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <!-- <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i> -->
+                <i class="fa fa-truck"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-7">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Sea Freight</p>
+                <h5 class="font-weight-bolder">{{sno}}</h5>
+                <span class="text-success text-sm font-weight-bolder">on sea</span>
+              </div>
+            </div>
+            <div class="col-5 text-end my-auto">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <!-- <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i> -->
+                <i class="fa fa-ship"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-7">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">Air Freight</p>
+                <h5 class="font-weight-bolder">{{airno}}</h5>
+                <span class="text-success text-sm font-weight-bolder">on air</span>
+                
+              </div>
+            </div>
+            <div class="col-5 text-end my-auto">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <!-- <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i> -->
+                <i class="fa fa-plane"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+      <div class="card">
+        <div class="card-body p-3">
+          <div class="row">
+            <div class="col-7">
+              <div class="numbers">
+                <p class="text-sm mb-0 text-capitalize font-weight-bold">All</p>
+                <h5 class="font-weight-bolder">{{allno}}</h5>
+                <span class="text-success text-sm font-weight-bolder">all</span>
+              </div>
+            </div>
+            <div class="col-5 text-end my-auto">
+              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
+                <i class="ni ni-world text-lg opacity-10" aria-hidden="true" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+
+
+  <div class="row my-4">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header pb-0">
+          <div class="row">
+            <div class="col-lg-6 col-7">
+              <h6>Road Shipments</h6>
+              <!-- <p class="text-sm mb-0">
+                <i class="fa fa-check text-info" aria-hidden="true"></i>
+                <span class="font-weight-bold ms-1">30 done</span> this month
+              </p> -->
+            </div>
+            <div class="col-lg-6 col-5 my-auto text-end">
+              <div class="dropdown float-lg-end pe-4">
+                <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa fa-ellipsis-v text-secondary"></i>
+                </a>
+                <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body px-0 pb-2">
+          <div class="row">
+            <div class="col-sm-12 col-lg-12">
+          <div class="table-responsive">
+
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                    <th><b>Ref No.</th>
+                    <th>Purchase Order#</th>
+                    <th>ETD</th>
+                    <th>ETA</th>
+                    <th>Sailing Status</th>
+                    <th>View</b></th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+              
+              {% for item in context %}
+              {% if item.shippingstatus == 'Completed' %}
+              <tr>
+                {{ item.shippingstatus}}
+                <td>
+                {{ item.refno }} 
+                </td>
+                <td>
+                {{item.son|wordwrap:25|linebreaks}}
+                </td>
+                  <td>
+                {{item.current_etd|wordwrap:25|linebreaks}}                   
+               </td>
+
+              <td>
+                {{item.current_eta|wordwrap:25|linebreaks}}
+              </td>
+
+                <td>
+                  {{item.current_sailingstatus|wordwrap:25|linebreaks}}
+                </td>
+                <td><a href="/view/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a></td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </tbody>
+            </table>
+         
+          </div>
+          </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+
+
+  <div class="row my-4">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header pb-0">
+          <div class="row">
+            <div class="col-lg-6 col-7">
+              <h6>Sea Shipments</h6>
+              <!-- <p class="text-sm mb-0">
+                <i class="fa fa-check text-info" aria-hidden="true"></i>
+                <span class="font-weight-bold ms-1">30 done</span> this month
+              </p> -->
+            </div>
+            <div class="col-lg-6 col-5 my-auto text-end">
+              <div class="dropdown float-lg-end pe-4">
+                <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa fa-ellipsis-v text-secondary"></i>
+                </a>
+                <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body px-0 pb-2">
+          <div class="row">
+            <div class="col-sm-12 col-lg-12">
+          <div class="table-responsive">
+
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                    <th><b>Ref No.</th>
+                    <th>Purchase Order#</th>
+                    <th>ETD</th>
+                    <th>ETA</th>
+                    <th>Sailing status</th>
+                    <th>View</b></th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+              {% for item in context2 %}
+              {% if item.shippingstatus == 'Completed' %}
+              <tr>
+                <td>
+                {{ item.refno }} 
+                </td>
+                <td>
+                {{item.son|wordwrap:25|linebreaks}}
+                </td>
+                <td>
+                  {{item.current_etd|wordwrap:25|linebreaks}}
+                </td>
+                <td>
+                  {{item.current_eta|wordwrap:25|linebreaks}}
+                </td>
+                <td>
+                  {{item.current_sailingstatus|wordwrap:25|linebreaks}}
+                </td>
+                <td><a href="/client/view2/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a></td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </tbody>
+            </table>   
+          </div>
+          </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="row my-4">
+    <div class="col-sm-12">
+      <div class="card">
+        <div class="card-header pb-0">
+          <div class="row">
+            <div class="col-lg-6 col-7">
+              <h6>Air Shipments</h6>
+              <!-- <p class="text-sm mb-0">
+                <i class="fa fa-check text-info" aria-hidden="true"></i>
+                <span class="font-weight-bold ms-1">30 done</span> this month
+              </p> -->
+            </div>
+            <div class="col-lg-6 col-5 my-auto text-end">
+              <div class="dropdown float-lg-end pe-4">
+                <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa fa-ellipsis-v text-secondary"></i>
+                </a>
+                <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
+                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
+                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
+                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-body px-0 pb-2">
+          <div class="row">
+            <div class="col-sm-12 col-lg-12">
+          <div class="table-responsive">
+
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                    <th><b>Ref No.</th>
+                    <th>Purchase Order#</th>
+                    <th>ETD</th>
+                    <th>ETA</th>
+                    <th>sailing Status</th>
+                    <th>View</b></th>
+                    
+                </tr>
+            </thead>
+            <tbody>
+              {% for item in context3 %}
+              {% if item.shippingstatus == 'Completed' %}
+              <tr>
+                <td>
+                {{ item.refno }} 
+                </td>
+                <td>
+                {{item.son|wordwrap:25|linebreaks}}
+                </td>
+                <td>
+                {{item.current_etd|wordwrap:25|linebreaks}}
+                </td>
+                <td>
+                {{item.current_eta|wordwrap:25|linebreaks}}
+                </td>
+                <td>
+                  {{item.current_sailingstatus|wordwrap:25|linebreaks}}
+                </td>
+                <td><a href="view3/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a></td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </tbody>
+            </table>
+         
+         
+         
+          </div>
+          </div>  
+          </div>
+        </div>
+
+
+        
+
+      </div>
+    </div>
+    
+  </div>
+
+  {% include "includes/footer.html" %}
+
+</div>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+<script src="/static/assets/js/plugins/chartjs.min.js"></script>
+<script src="/static/assets/js/plugins/Chart.extension.js"></script>
+<script>
+var ctx = document.getElementById("chart-bars").getContext("2d");
+
+new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: [{
+      label: "Sales",
+      tension: 0.4,
+      borderWidth: 0,
+      pointRadius: 0,
+      backgroundColor: "#fff",
+      data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
+      maxBarThickness: 6
+    }, ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    tooltips: {
+      enabled: true,
+      mode: "index",
+      intersect: false,
+    },
+    scales: {
+      yAxes: [{
+        gridLines: {
+          display: false,
+        },
+        ticks: {
+          suggestedMin: 0,
+          suggestedMax: 500,
+          beginAtZero: true,
+          padding: 0,
+          fontSize: 14,
+          lineHeight: 3,
+          fontColor: "#fff",
+          fontStyle: 'normal',
+          fontFamily: "Open Sans",
+        },
+      }, ],
+      xAxes: [{
+        gridLines: {
+          display: false,
+        },
+        ticks: {
+          display: false,
+          padding: 20,
+        },
+      }, ],
+    },
+  },
+});
+
+var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
+
+var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+
+
+new Chart(ctx2, {
+  type: "line",
+  data: {
+    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: [{
+        label: "Mobile apps",
+        tension: 0.4,
+        borderWidth: 0,
+        pointRadius: 0,
+        borderColor: "#cb0c9f",
+        borderWidth: 3,
+        backgroundColor: gradientStroke1,
+        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+        maxBarThickness: 6
+
+      },
+      {
+        label: "Websites",
+        tension: 0.4,
+        borderWidth: 0,
+        pointRadius: 0,
+        borderColor: "#3A416F",
+        borderWidth: 3,
+        backgroundColor: gradientStroke2,
+        data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+        maxBarThickness: 6
+
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    tooltips: {
+      enabled: true,
+      mode: "index",
+      intersect: false,
+    },
+    scales: {
+      yAxes: [{
+        gridLines: {
+          borderDash: [2],
+          borderDashOffset: [2],
+          color: '#dee2e6',
+          zeroLineColor: '#dee2e6',
+          zeroLineWidth: 1,
+          zeroLineBorderDash: [2],
+          drawBorder: false,
+        },
+        ticks: {
+          suggestedMin: 0,
+          suggestedMax: 500,
+          beginAtZero: true,
+          padding: 10,
+          fontSize: 11,
+          fontColor: '#adb5bd',
+          lineHeight: 3,
+          fontStyle: 'normal',
+          fontFamily: "Open Sans",
+        },
+      }, ],
+      xAxes: [{
+        gridLines: {
+          zeroLineColor: 'rgba(0,0,0,0)',
+          display: false,
+        },
+        ticks: {
+          padding: 10,
+          fontSize: 11,
+          fontColor: '#adb5bd',
+          lineHeight: 3,
+          fontStyle: 'normal',
+          fontFamily: "Open Sans",
+        },
+      }, ],
+    },
+  },
+});
+</script>
+<script>
+var win = navigator.platform.indexOf('Win') > -1;
+if (win && document.querySelector('#sidenav-scrollbar')) {
+  var options = {
+    damping: '0.5'
+  }
+  Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+}
+</script>
+
+{% endblock javascripts %}
+

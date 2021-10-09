@@ -1,0 +1,60 @@
+{%load static %}
+<!-- Website Image From -->
+<!-- <a href='https://www.freepik.com/vectors/food'>Food vector created by jcomp - www.freepik.com</a> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navicus 360</title>
+    <!-- Icon -->
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'img/img/FaviconLogo.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'img/FaviconLogo.png' %}">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'assets/css/homestyles.css' %}">
+    <!-- <link rel="stylesheet" href="css/styles.css"> -->
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <section>
+        <input type="checkbox" id=check>
+        <header>
+            <h2><a href="/" class="logo"><img src="{% static 'img/navicus100x100logo.jpg' %}" class="navbar-brand-img h-100 w-15" alt="Navicus 360"></a></h2>
+            <div class="navigation">
+                <a href="/">Home</a>
+                <a href="">About</a>
+                <a href="">Contact</a>
+                <a href="/client">Sign In</a>
+            </div>
+            <label for="check">
+                <i class="fas fa-bars menu-btn"></i>
+                <i class="fas fa-times close-btn"></i>
+            </label>
+        </header>
+        <div class="content">
+            <div class="info">
+                <h2>Navicus 360 <br></h2>
+                <h3><span> CarGO on the GO</span></h3>
+                <p>Meet the best supply chain ERP system.
+                 We ensure you have round the clock, 360 degree visibility of your cargo throughout
+                 the supply chain. Our system gives you the power and flexibility to effectively manage
+                all your shipments through our state of the art online tracking system.</p>
+                <a href="/client" class="info-btn">Sign In</a>
+            </div>
+        </div>
+        <div class="media-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+
+        </div>
+        <hr>
+        <div class="footer">
+            <p>&copy 2021 Navicus 360 | All Rights Reserved </p>
+        </div>
+    </section>
+    
+</body>
+</html>

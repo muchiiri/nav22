@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="main-content" id="panel">
+
+    
+    <div class="pb-6 p-3">
+      <div class="container">
+      <!-- Header -->
+    <h3>View Cargo Form</h3>
+    <!-- Header -->
+      <form method="POST" action="/fielduser/edit/{{roadfreigh.id}}/">
+      {% csrf_token %}
+       
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+         <h2>Reference No: {{ roadfreigh.refno }}</h2>
+        </div>
+      </div>
+
+    
+      <div class="row form-group">
+        <div class="col-lg-6 col-md-12">
+            <label>Owner</label>
+            <input type="text" name="owner" value=" {{ roadfreigh.owner }}" class="form-control" readonly/>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <label>Bill of number</label>
+            <input type="text" name="bill" value=" {{ roadfreigh.billofnumber }}" class="form-control" readonly/>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-lg-6 col-md-12">
+            <label>Shipping Order Number</label>
+            <input type="text" name="owner" value=" {{ roadfreigh.son }}" class="form-control" readonly/>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <label>Consignee</label>
+            <input type="text" name="bill" value=" {{ roadfreigh.consignee }}" class="form-control" readonly/>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-lg-6 col-md-12">
+            <label>incoterms</label>
+            <input type="text" name="incoterms" value=" {{ roadfreigh.incoterms }}" class="form-control" readonly/>
+        </div>
+        <div class="col-lg-6 col-md-12">
+           
+            <label>Cargo Description</label>
+            <textarea class="form-control" name="desc" readonly>{{ roadfreigh.cargo_description }}</textarea>
+            <!-- <input type="text" value=" {{ roadfreigh.cargo_description }}" class="form-control"/> -->
+
+        </div>
+      </div>
+
+      <div class="row form-group">
+       
+        <div class="col-lg-6 col-md-12">
+            <label>Place of Loading</label>
+            <input type="text" name="load" value="{{roadfreigh.placeofloading}}" class="form-control" readonly/>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <label>Place of Delivery</label>
+            <input type="text" name="delivery" value="{{roadfreigh.placeofdelivery}}" class="form-control" readonly/>
+        </div>
+
+      </div>
+
+      <div class="row form-group">
+        
+        <div class="col-lg-6 col-md-12">
+             <label>Cargo load</label>
+             <input type="text" name="cload" value="{{roadfreigh.cargoload}}" class="form-control" readonly/>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            
+        </div>
+      </div>
+    
+ 
+</form>
+      
+
+    </div>
+    </div>
+{%  endblock content %}
+
+{% block javascripts %}
+
+  
+  {% endblock %}

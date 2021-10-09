@@ -1,0 +1,34 @@
+"""oglshipments URL Configuration
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/3.2/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path,include
+# from .views import indexHome,profileView
+from .views import Home,profileView
+
+urlpatterns = [
+    # path("",indexHome),
+    path("",Home),
+    path("profile/",profileView),
+    path('admin/clearcache/', include('clearcache.urls')),
+    path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('client/', include('client.urls')),
+    path('keyuser/', include('keyuser.urls')),
+    path('fielduser/', include('fielduser.urls')),
+    path('shipments/', include('shipments.urls')),
+    
+
+]

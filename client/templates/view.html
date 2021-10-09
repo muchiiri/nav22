@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+<style>
+  .form-control:disabled, .form-control[readonly]{
+    background-color: white;
+  }
+  p{
+    font-size: 15px !important;
+  }
+</style>
+{% endblock stylesheets %}
+<link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"/>
+{% block content %}
+
+
+<!-- <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"/> -->
+
+
+<div class="container">
+
+ <form>
+  <h6>Details of Shipment</h6>
+  {% for item in context %}
+   <div class="row">
+     <div class="col-sm-12 col-lg-6">
+   <div class="form-group">
+     <label>Reference Number</label>
+     <input type="text" class="form-control" value="{{ item.refno }}" readonly/>
+   </div>
+  </div>
+
+  <div class="col-sm-12 col-lg-6">
+    <div class="form-group">
+      <label>Place of Loading</label>
+      <input type="text" class="form-control" value="{{ item.placeofloading }}" readonly/>
+    </div>
+   </div>
+
+   </div>
+
+   <div class="row">
+     <div class="col-sm-12 col-lg-6">
+   <div class="form-group">
+     <label>Shipping Order Number</label>
+     <input type="text" class="form-control" value="{{ item.son }}" readonly/>
+   </div>
+  </div>
+
+  <div class="col-sm-12 col-lg-6">
+    <div class="form-group">
+      <label>Consignee</label>
+      <input type="text" class="form-control" value="{{ item.consignee }}" readonly/>
+    </div>
+   </div>
+
+   </div>
+
+   <div class="row">
+     <div class="col-sm-12 col-lg-6">
+   <div class="form-group">
+     <label>Customer Ref #</label>
+     <input type="text" class="form-control" value="{{ item.customerref }}" readonly/>
+   </div>
+  </div>
+
+  <div class="col-sm-12 col-lg-6">
+    <div class="form-group">
+      <label>Shipping Line</label>
+      <input type="text" class="form-control" value="{{ item.shippingline }}" readonly/>
+    </div>
+   </div>
+
+   </div>
+
+
+
+   <div class="row">
+    <div class="col-sm-12 col-lg-6">
+  <div class="form-group">
+    <label>Place of Delivery</label>
+    <input type="text" class="form-control" value="{{ item.placeofdelivery }}" readonly/>
+  </div>
+ </div>
+
+ <div class="col-sm-12 col-lg-6">
+   <div class="form-group">
+     <label>Incoterms</label>
+     <input type="text" class="form-control" value="{{ item.incoterms }}" readonly/>
+   </div>
+  </div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-sm-12 col-lg-6">
+  <div class="form-group">
+    <label>Bill of number</label>
+    <input type="text" class="form-control" value="{{ item.billofnumber }}" readonly/>
+  </div>
+ </div>
+
+ <div class="col-sm-12 col-lg-6">
+   <div class="form-group">
+     <label>Cargo Description</label>
+     <input type="text" class="form-control" value="{{ item.cargo_description }}" readonly/>
+   </div>
+  </div>
+
+  </div>
+
+
+   {% endfor %}
+
+ 
+   <div class="row">
+    <div class="col-12">
+      <div class="card mb-4">
+        <div class="card-header pb-0">
+          <h6>Status on Shipment</h6>
+        </div>
+        <div class="card-body px-0 pt-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0 table table-bordered" style="font-size: 15px;;">
+              <thead>
+                <tr>
+                  <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Reference </th> -->
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2"> Date of Departure</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Estimated Date of Arrival</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Comments</th>
+                  {% if group == 'staff' %}
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Staff Comments</th>
+                  {% endif %}
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Updated At</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shippment Status</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                {% for i in updateonshipments %}
+                <tr>
+                  <td class="align-left text-sm">
+                    {{i.etd|wordwrap:25|linebreaks}}
+                  </td>
+
+                  <td class="align-left text-sm">
+                    {{i.eta|wordwrap:25|linebreaks}}
+                  </td>
+
+                    <td class="align-left text-sm">
+                      {{i.sailingstatus|wordwrap:25|linebreaks}}
+                    </td>
+
+                    <td class="align-left text-sm">
+                      {{i.update|wordwrap:25|linebreaks}}
+                    </td>
+
+                    {% if group == 'staff' %}
+                    <td class="align-left text-sm">
+                      {{i.staffcomments|wordwrap:25|linebreaks}}
+                    </td>
+                    {% endif %}
+
+                    <td class="align-left text-sm">
+                      {{i.created|wordwrap:25|linebreaks}}
+                    </td>
+
+                    <td class="align-left text-sm">
+                      {{i.shippingstatus|wordwrap:25|linebreaks}}
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+ </form>
+</div>
+ 
+{%  endblock content %}
+
+{% block additionaljs%}
+
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    $('#roadlist').DataTable();
+  } );
+  </script>
+
+{% endblock %}

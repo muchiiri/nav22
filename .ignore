@@ -1,0 +1,5 @@
+#ignore sqlite database
+db.sqlite3
+
+#ignore settings
+oglshipments/
