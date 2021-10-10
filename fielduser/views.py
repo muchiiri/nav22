@@ -227,6 +227,16 @@ def editRoadFreigh(request,userid,refno):
         #return render(request,'index_fielduser.html',{'success':'success'})
         return redirect(settings.BASEURL+"fielduser/")
 
+        #Edit Created Shipment
+@login_required
+def shipmentEdit(request, shipmentid, refno):
+    roadForm = None
+    if request.method == "GET" and refno[3] == 'R': 
+        roadShipment = RoadFreightShip.object.get(id=shipmentid)
+        roadForm = RoadFreightShipForm(instance=roadShipment)
+    return render(request, 'shipmentedit.html', {'form': roadForm})
+
+
 @login_required
 def editSeaFreigh(request,userid,refno):
     #userid = userid
