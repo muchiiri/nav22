@@ -22,7 +22,7 @@ urlpatterns = [
     # path("",indexHome),
     path("",Home),
     path("profile/",profileView),
-    path('admin/clearcache/', include('clearcache.urls')),
+    #path('admin/clearcache/', include('clearcache.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('client/', include('client.urls')),
