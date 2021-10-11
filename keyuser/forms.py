@@ -70,7 +70,7 @@ class RoadFreightShipForm(forms.ModelForm):
     incoterms =  forms.CharField(widget=forms.Select(choices=INCOTERMS_CHOICES))
     cargoload = forms.CharField(widget=forms.Select(choices=CARGOLOAD_CHOICES))
     shippingline = forms.CharField(widget=forms.Select(choices=SHIPPING_CHOICES))
-    shippingstatus = forms.CharField(widget=forms.Select(choices=STATUS_CHOICES))
+    shippingstatus = forms.CharField(widget=forms.Select(choices=STATUS_CHOICES),required=False)
     # containersize = forms.CharField(widget=forms.Select(choices=CONTAINER_CHOICES))
     class Meta:
         model = RoadFreightShip
@@ -121,7 +121,7 @@ class SeaFreightShipForm(forms.ModelForm):
     shippingline = forms.CharField(widget=forms.Select(choices=SHIPPING_CHOICES))
     cargoload = forms.CharField(widget=forms.Select(choices=CARGOLOAD_CHOICES))
     containersize = forms.CharField(widget=forms.Select(choices=CONTAINER_CHOICES))
-    shippingstatus = forms.CharField(widget=forms.Select(choices=STATUS_CHOICES))
+    shippingstatus = forms.CharField(widget=forms.Select(choices=STATUS_CHOICES),required=False)
     class Meta:
         model = SeaFreightShip
         exclude = ('staff',)

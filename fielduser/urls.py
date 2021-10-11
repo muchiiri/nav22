@@ -14,6 +14,7 @@ urlpatterns = [
     path('edit3/<userid>/<str:refno>/',editAirFreigh, name='airedit'),
     #Edit Shipment URL
     path('editshipment/<int:shipmentid>/<str:refno>/',shipmentEdit, name='editshipment'),
+    
     path('view/<int:uid>/<str:refno>/',view ,name='view'),
     path('view2/<int:uid>/<str:refno>/',view2 ,name='view2'),
     path('view3/<int:uid>/<str:refno>/',view3 ,name='view3'),

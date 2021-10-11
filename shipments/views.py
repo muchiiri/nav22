@@ -10,7 +10,6 @@ def editRoadFreigh(request,userid):
     #userid = userid
     if request.method == "GET":
         RoadModelobject = RoadFreightShip.objects.get(id=userid)
-        #import pdb;pdb.set_trace()
         return render(request,'edit.html',{'roadfreigh':RoadModelobject})   
     else:
         #print(userid)

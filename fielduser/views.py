@@ -228,13 +228,76 @@ def editRoadFreigh(request,userid,refno):
         return redirect(settings.BASEURL+"fielduser/")
 
         #Edit Created Shipment
+
 @login_required
 def shipmentEdit(request, shipmentid, refno):
     roadForm = None
     if request.method == "GET" and refno[3] == 'R': 
-        roadShipment = RoadFreightShip.object.get(id=shipmentid)
-        roadForm = RoadFreightShipForm(instance=roadShipment)
-    return render(request, 'shipmentedit.html', {'form': roadForm})
+        roadShipment = RoadFreightShip.objects.get(id=shipmentid)
+        form = RoadFreightShipForm(instance=roadShipment)
+        return render(request, 'shipmentedit.html', {'form': form,'shipmentid':shipmentid,'owner':roadShipment.owner,'refno':roadShipment.refno,'type':'road'})
+    
+    elif request.method == "POST" and refno[3] == 'R': 
+        roadShipment = RoadFreightShip.objects.get(id=shipmentid)
+        roadShipment.son = request.POST.get('son')
+        roadShipment.consignee = request.POST.get('consignee')
+        roadShipment.customerref = request.POST.get('customerref')
+        roadShipment.shippingline = request.POST.get('shippingline')
+        roadShipment.billofnumber = request.POST.get('billofnumber')
+        roadShipment.incoterms = request.POST.get('incoterms')
+        roadShipment.cargo_description = request.POST.get('cargo_description')
+        roadShipment.placeofloading = request.POST.get('placeofloading')
+        roadShipment.placeofdelivery = request.POST.get('placeofdelivery')
+        roadShipment.cargoload = request.POST.get('cargoload')
+
+        roadShipment.save()
+
+    elif request.method == "GET" and refno[3] == 'S':
+        seaShipment = SeaFreightShip.objects.get(id=shipmentid)
+        form = SeaFreightShipForm(instance=seaShipment)
+        return render(request, 'shipmentedit.html', {'form': form,'shipmentid':shipmentid,'owner':seaShipment.owner,'refno':seaShipment.refno,'type':'sea'})
+    
+    elif request.method == "POST" and refno[3] == 'S':
+        seaShipment = SeaFreightShip.objects.get(id=shipmentid)
+        seaShipment.son = request.POST.get('son')
+        seaShipment.consignee = request.POST.get('consignee')
+        seaShipment.customerref = request.POST.get('customerref')
+        seaShipment.shippingline = request.POST.get('shippingline')
+        seaShipment.billofnumber = request.POST.get('billofnumber')
+        seaShipment.incoterms = request.POST.get('incoterms')
+        seaShipment.cargo_description = request.POST.get('cargo_description')
+        seaShipment.placeofloading = request.POST.get('placeofloading')
+        seaShipment.placeofdelivery = request.POST.get('placeofdelivery')
+        seaShipment.containersize = request.POST.get('containersize')
+        seaShipment.unitsize = request.POST.get('unitsize')
+        seaShipment.unittype = request.POST.get('unittype')
+        
+        seaShipment.save()
+
+    elif request.method == "GET" and refno[3] == 'A':
+        airShipment = AirFreightShip.objects.get(id=shipmentid)
+        form = AirFreightShipForm(instance=airShipment)
+        return render(request, 'shipmentedit.html', {'form': form,'shipmentid':shipmentid,'owner':airShipment.owner,'refno':airShipment.refno,'type':'air'})
+    
+    elif request.method == "POST" and refno[3] == 'A':
+        airShipment = AirFreightShip.objects.get(id=shipmentid)
+
+        airShipment.son = request.POST.get('son')
+        airShipment.consignee = request.POST.get('consignee')
+        airShipment.customerref = request.POST.get('customerref')
+        airShipment.shippingline = request.POST.get('shippingline')
+        airShipment.billofnumber = request.POST.get('billofnumber')
+        airShipment.incoterms = request.POST.get('incoterms')
+        airShipment.cargo_description = request.POST.get('cargo_description')
+        airShipment.placeofloading = request.POST.get('placeofloading')
+        airShipment.placeofdelivery = request.POST.get('placeofdelivery')
+        airShipment.weight = request.POST.get('weight')
+        airShipment.packagesno = request.POST.get('packagesno')
+        airShipment.save()
+    
+    else:
+        return render(request, 'shipmentedit.html')
+    return redirect("fielduser:fielduser_home")
 
 
 @login_required

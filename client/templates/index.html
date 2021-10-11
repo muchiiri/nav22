@@ -6,6 +6,15 @@
   .table th{
     padding-left: 10px !important;
   }
+
+  .table td{
+border: 1px solid black !important;
+}
+
+.table> :not(:last-child)> :last-child>*{
+  border: 1px solid black;
+  border-bottom: unset;
+}
 </style>
 {% endblock stylesheets %}
 

@@ -5,10 +5,17 @@
 <style>
   .table th{
     padding-left: 10px !important;
+    border-bottom: 1px solid black;
   }
 
+.table td{
+border: 1px solid black !important;
+}
 
-  
+.table> :not(:last-child)> :last-child>*{
+  border: 1px solid black;
+  border-bottom: unset;
+}
 </style>
 {% endblock stylesheets %}
 
@@ -173,7 +180,7 @@
                 <td><a href="view/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
                   <a href="edit/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
                   <!-- <a href="editshipment/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a> -->
-                  <a href="{url 'editshipment' item.id item.refno}"><i class="fa fa-edit"></i></a>
+                  <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
                 </td>
                 
               </tr>
@@ -350,7 +357,7 @@
                 </td>
                 <td><a href="view3/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
                   <a href="edit3/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
-                  <a href="editshipment/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a>
+                  <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
                 </td>
               </tr>
               {% endif %}

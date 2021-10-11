@@ -9,20 +9,16 @@
     <div class="pb-6 p-3">
       <div class="container">
       <!-- Header -->
-    <h3>Create Road Shipment</h3>
+    <h3>Edit Shipment</h3>
     <!-- Header -->
-      <form method="POST" action="cargoroad">
+    {% if type == "road" %}
+      <form method="POST" action="{% url 'fielduser:editshipment' shipmentid refno %}">
       {% csrf_token %}
-
-
+      
       <div class="row">
         <div class="col-lg-6 col-md-12">
           <label>Owner</label>
-            <select name="owner" class="form-control">
-              {% for i in owners %}
-              <option value="{{i}}">{{ i }}</option>
-              {% endfor %}
-            </select>
+          <input type="text" class="form-control" value="{{owner}}" readonly/>
         </div>
         <div class="col-lg-6 col-md-12">
             {{ form.refno |as_crispy_field }}
@@ -78,10 +74,170 @@
             {{ form.cargoload |as_crispy_field }}
         </div>
       </div>
+      
+      <input type="submit" name="submit" class="btn btn-primary" value="Submit">
+</form>
+    {% elif type == "sea" %}
+    <form method="POST" action="{% url 'fielduser:editshipment' shipmentid refno %}">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <label>Owner</label>
+          <input type="text" class="form-control" value="{{owner}}" readonly/>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.refno |as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+        
+            {{ form.customerref |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.shippingline |as_crispy_field }}
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+        
+            {{ form.son |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.consignee |as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+            {{ form.billofnumber |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.incoterms |as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+       
+        <div class="col-lg-6 col-md-12">
+            {{ form.cargo_description |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.placeofloading |as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="row">
+        
+        <div class="col-lg-6 col-md-12">
+            {{ form.placeofdelivery |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.containersize |as_crispy_field }}
+        </div>
+      </div>
+      <div class="row">
+        
+        <div class="col-lg-6 col-md-12">
+            {{ form.unitsize |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.unittype |as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          {{ form.cargoload |as_crispy_field }}
+      </div>
+      </div>
+
 
       <input type="submit" name="submit" class="btn btn-primary" value="Submit">
 </form>
+    {% elif type == "air" %}
+
+    <form method="POST" action="{% url 'fielduser:editshipment' shipmentid refno %}">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <label>Owner</label>
+          <input type="text" class="form-control" value="{{owner}}" readonly/>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.refno |as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+        
+            {{ form.customerref |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.shippingline |as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+        
+            {{ form.son |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.consignee |as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+            {{ form.billofnumber |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.incoterms |as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+       
+        <div class="col-lg-6 col-md-12">
+            {{ form.cargo_description |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.placeofloading |as_crispy_field }}
+        </div>
+
+      </div>
+
+      <div class="row">
+        
+        <div class="col-lg-6 col-md-12">
+            {{ form.placeofdelivery |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+            {{ form.weight |as_crispy_field }}
+        </div>
+      </div>
+
+      <div class="row">
+        
+        <div class="col-lg-6 col-md-12">
+            {{ form.packagesno |as_crispy_field }}
+        </div>
+        <div class="col-lg-6 col-md-12">
+          {{ form.cargoload |as_crispy_field }}
+      </div>
       
+      </div>
+      <input type="submit" name="submit" class="btn btn-primary" value="Submit">
+</form>
+
+    {% endif %}
 
     </div>
     </div>
