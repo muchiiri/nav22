@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path,include
 from .views import *
-
+app_name = "fielduser"
 urlpatterns = [
     
     path('',home ,name='fielduser_home'),
@@ -12,6 +12,8 @@ urlpatterns = [
     path('edit/<userid>/<str:refno>/',editRoadFreigh, name='roadedit'),
     path('edit2/<userid>/<str:refno>/',editSeaFreigh, name='seaedit'),
     path('edit3/<userid>/<str:refno>/',editAirFreigh, name='airedit'),
+    #Edit Shipment URL
+    path('editshipment/<int:shipmentid>/<str:refno>/',shipmentEdit, name='editshipment'),
     path('view/<int:uid>/<str:refno>/',view ,name='view'),
     path('view2/<int:uid>/<str:refno>/',view2 ,name='view2'),
     path('view3/<int:uid>/<str:refno>/',view3 ,name='view3'),

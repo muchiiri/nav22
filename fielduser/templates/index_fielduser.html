@@ -171,7 +171,9 @@
                   {{item.incoterms}}
                 </td>
                 <td><a href="view/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
-                  <a href="edit/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a>
+                  <a href="edit/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
+                  <!-- <a href="editshipment/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a> -->
+                  <a href="{url 'editshipment' item.id item.refno}"><i class="fa fa-edit"></i></a>
                 </td>
                 
               </tr>
@@ -263,7 +265,9 @@
                   {{item.incoterms}}
                 </td>
                 <td><a href="view2/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
-                  <a href="edit2/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a>
+                  <a href="edit2/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
+                  <!-- <a href="editshipment/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a> -->
+                  <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
                 </td>
               </tr>
               {% endif %}
@@ -345,7 +349,8 @@
                   {{item.incoterms}}
                 </td>
                 <td><a href="view3/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
-                  <a href="edit3/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a>
+                  <a href="edit3/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
+                  <a href="editshipment/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a>
                 </td>
               </tr>
               {% endif %}
