@@ -163,9 +163,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'navicus360@gmail.com'
-EMAIL_HOST_USER = 'bkkipkemoi@kabarak.ac.ke'
-# EMAIL_HOST_PASSWORD = 'Navicus@2021!'
-EMAIL_HOST_PASSWORD = '02September#95'
+EMAIL_HOST_USER = 'navicus360@gmail.com'
+EMAIL_HOST_PASSWORD = 'Navicus@2021!'
 
-SESSION_COOKIE_AGE = 3000
+SESSION_COOKIE_AGE = 10000
