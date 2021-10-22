@@ -78,7 +78,7 @@ class RoadFreightShipForm(forms.ModelForm):
         #fields = '__all__'
         labels = {
             'refno':'Reference Number',
-            'son':'Purchase Order No',
+            'son':'Shipping Order No',
             'consignee':'Consignee',
             'billofnumber':'Bill of Lading',
             'cargo_description':'Cargo Description',
@@ -105,7 +105,7 @@ class AirFreightShipForm(forms.ModelForm):
 
         labels = {
             'refno':'Reference Number',
-            'son':'Purchase Order No',
+            'son':'Shipping Order No',
             'consignee':'Consignee',
             'billofnumber':'Bill of Lading',
             'cargo_description':'Cargo Description',
@@ -128,7 +128,7 @@ class SeaFreightShipForm(forms.ModelForm):
 
         labels = {
             'refno':'Reference Number',
-            'son':'Purchase Order No',
+            'son':'Shipping Order No',
             'consignee':'Consignee',
             'billofnumber':'Bill of Lading',
             'cargo_description':'Cargo Description',
