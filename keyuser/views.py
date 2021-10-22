@@ -37,15 +37,14 @@ def home2(request):
     seafreight = SeaFreightShip.objects.filter( staff= request.user)
     airfreight = AirFreightShip.objects.filter( staff= request.user)
 
-    # shipmentstatus = FreightForwarding.objects.filter(shippingstatus = 'completed')
-    # import pdb;pdb.set_trace()
-
     rno = len(roadfreight)
     sno = len(seafreight)
     airno = len(airfreight)
     allno = rno+sno+airno
 
-    return render(request,"index_completed.html",{"group":"staff","context":roadfreight,"context2":seafreight,"context3":airfreight,"airno":airno,"sno":sno,"rno":rno,"allno":allno,"sidebar":"false"})
+    return render(request,"index_completed.html",{"group":"staff","context":roadfreight,
+    "context2":seafreight,"context3":airfreight,"airno":airno,"sno":sno,"rno":rno,
+    "allno":allno,"sidebar":"false"})
 
 @login_required
 def RoadFreightShip_view(request):
