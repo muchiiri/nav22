@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'shipments',
     'fielduser',
     'keyuser',
+    'reports',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

@@ -1,0 +1,389 @@
+<html>
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<style>
+ body{
+   background-color: white;
+ }
+ tr {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.logo{
+
+}
+    </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="container logo">
+    <div class="row">
+      <div class="col">
+        <img src="https://navicus360.com/static/img/navicus100x100logo.jpg" alt="Navicus" class="text-left"/>
+      </div>
+      <div class="col">
+
+    <img src="https://offshorelogistics.co.ke/img/logo3.png" alt="Ogl" class="float-right"/>
+      </div>
+
+    </div>
+    
+  </div>
+
+  <div class="row">
+    <div class="col">
+      
+    </div>
+    <div class="col">
+      <b>{{ today }}</b><br/>
+      <b>{{ companyname }}</b><br/>
+      <b>{{ companyaddr }}</b><br/>
+    </div>
+  </div>
+</div>
+<!-- Sea -->
+{% if data_sea %}
+<section class="container py-3 py-lg-5">
+  <div class="card">
+    <h5 class="text-center card-header">Sea Shipments Progressive Status Report</h5>
+    <div class="card-body">
+
+      <div class="p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Consignee</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer ref</th>
+              
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BOL</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping line</th> -->
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Incoterms</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Desc</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loading</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delivery</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Container size</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit size</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit type</th> -->
+        
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for data in data_sea %}
+            <tr>
+              <td>
+               {{ data.refno|wordwrap:50|linebreaksbr }}
+              </td>
+              <td>
+               {{ data.consignee|wordwrap:50|linebreaksbr }}
+              </td>
+              <td class="align-middle text-center text-sm">
+                
+                {{ data.customerref|wordwrap:50|linebreaksbr }}
+              </td>
+              <td class="align-middle text-center">
+                {{ data.billofnumber|wordwrap:50|linebreaksbr }}
+              </td>
+
+              {% comment %}
+              <td class="align-middle">
+                {{ data.shippingline|wordwrap:50|linebreaksbr }}
+              </td>
+             
+
+              <td class="align-middle">
+                {{ data.incoterms|wordwrap:50|linebreaksbr }}
+              </td>
+              {% endcomment %}
+
+              <td class="align-middle">
+                {{ data.cargo_description|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofloading|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofdelivery|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.containersize|wordwrap:50|linebreaksbr }}
+              </td>
+
+              {% comment %}
+              <td class="align-middle">
+                {{ data.unitsize|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.unittype|wordwrap:50|linebreaksbr }}
+               
+              </td>
+              {% endcomment %}
+              
+
+              <td class="align-middle">
+                {{ data.current_etd|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_eta|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_sailingstatus|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.shippingstatus|wordwrap:50|linebreaksbr }}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endif %}
+
+<!-- Road -->
+{% if data_road %}
+<section class="container py-3 py-lg-5">
+  <div class="card">
+    <h5 class="text-center card-header">Road Shipments Progressive Status Report</h5>
+    <div class="card-body">
+
+      <div class="p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Consignee</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer ref</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BOL</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping line</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Incoterms</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Desc</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loading</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delivery</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Container size</th> -->
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit size</th> -->
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Load</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for data in data_road %}
+            <tr>
+              <td>
+               {{ data.refno }}
+              </td>
+              <td>
+               {{ data.consignee }}
+              </td>
+              <td class="align-middle text-center text-sm">
+                
+                {{ data.customerref }}
+              </td>
+              <td class="align-middle text-center">
+                {{ data.billofnumber }}
+              </td>
+
+              {% comment %}
+              <td class="align-middle">
+                {{ data.shippingline }}
+              </td>
+              
+
+              <td class="align-middle">
+                {{ data.incoterms }}
+              </td>
+
+              {% endcomment %}
+
+              <td class="align-middle">
+                {{ data.cargo_description }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofloading }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofdelivery }}
+              </td>
+
+              <!-- <td class="align-middle">
+                {{ data.containersize }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.unitsize }}
+              </td> -->
+
+              <!-- <td class="align-middle">
+                {{ data.cargoload }}
+               
+              </td> -->
+
+              
+
+              <td class="align-middle">
+                {{ data.current_etd }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_eta }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_sailingstatus }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.shippingstatus }}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endif %}
+
+<!-- Air -->
+{% if data_air %}
+<section class="container py-3 py-lg-5">
+  <div class="card">
+    <h5 class="text-center card-header">Air Shipments Progressive Status Report</h5>
+    <div class="card-body">
+
+      <div class="p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Consignee</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer ref</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BOL</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping line</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Incoterms</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Desc</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loading</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delivery</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Weight</th> 
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Package No</th> -->
+            
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {% for data in data_air %}
+            <tr>
+              <td>
+               {{ data.refno }}
+              </td>
+              <td>
+               {{ data.consignee }}
+              </td>
+              <td class="align-middle text-center text-sm">
+                
+                {{ data.customerref }}
+              </td>
+              <td class="align-middle text-center">
+                {{ data.billofnumber }}
+              </td>
+              <!-- <td class="align-middle">
+                {{ data.shippingline }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.incoterms }}
+              </td> -->
+
+              <td class="align-middle">
+                {{ data.cargo_description }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofloading }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofdelivery }}
+              </td>
+
+              <!-- <td class="align-middle">
+                {{ data.weight }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.packagesno }}
+              </td> -->
+
+              <td class="align-middle">
+                {{ data.current_etd }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_eta }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_sailingstatus }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.shippingstatus }}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endif %}
+<script>
+var win = navigator.platform.indexOf('Win') > -1;
+if (win && document.querySelector('#sidenav-scrollbar')) {
+  var options = {
+    damping: '0.5'
+  }
+  Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+}
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

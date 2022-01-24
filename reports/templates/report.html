@@ -1,0 +1,602 @@
+{% extends "base_client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+
+<style>
+ 
+</style>
+{% endblock stylesheets %}
+{% block content %}
+
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+            <form action="{% url 'reports:report' %}" method="post">
+                {% csrf_token %}
+                <h3>Reports</h3>
+                <p>show:</p> 
+                <div class="row">
+                  <div class="col-sm-12">
+
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="all" class="form-check-input" id="allcheck" value="all">All
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="air" class="form-check-input" value="air">Air Freight
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="sea" class="form-check-input" value="sea">Sea Freight
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="checkbox" name="road" class="form-check-input" value="road">Road Freight
+                      </label>
+                    </div>
+
+                  </div>
+                </div>
+
+                <input type="submit" class="btn btn-primary" name="submit" value="Search"/>
+            </form>
+          </div>
+          </div>
+        </div>
+    </div>
+</div>
+<hr/>
+
+<!-- Sea -->
+{% if data_sea %}
+<section class="container py-3 py-lg-5">
+  <div class="card">
+    <h5 class="text-center card-header">Sea Shipments Progressive Status Report</h5>
+    <div class="card-body">
+      
+      <div class="float-right">
+        <a href="{% url 'reports:report_sea' %}" class="btn btn-success float-right">Download in pdf</a>
+      </div>
+
+      <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Consignee</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer ref</th>
+              
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BOL</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping line</th> -->
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Incoterms</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Desc</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loading</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delivery</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Container size</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit size</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit type</th> -->
+        
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for data in data_sea %}
+            <tr>
+              <td>
+               {{ data.refno|wordwrap:50|linebreaksbr }}
+              </td>
+              <td>
+               {{ data.consignee|wordwrap:50|linebreaksbr }}
+              </td>
+              <td class="align-middle text-center text-sm">
+                
+                {{ data.customerref|wordwrap:50|linebreaksbr }}
+              </td>
+              <td class="align-middle text-center">
+                {{ data.billofnumber|wordwrap:50|linebreaksbr }}
+              </td>
+
+              {% comment %}
+              <td class="align-middle">
+                {{ data.shippingline|wordwrap:50|linebreaksbr }}
+              </td>
+             
+
+              <td class="align-middle">
+                {{ data.incoterms|wordwrap:50|linebreaksbr }}
+              </td>
+              {% endcomment %}
+
+              <td class="align-middle">
+                {{ data.cargo_description|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofloading|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofdelivery|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.containersize|wordwrap:50|linebreaksbr }}
+              </td>
+
+              {% comment %}
+              <td class="align-middle">
+                {{ data.unitsize|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.unittype|wordwrap:50|linebreaksbr }}
+               
+              </td>
+
+              
+              {% endcomment %}
+              
+
+              <td class="align-middle">
+                {{ data.current_etd|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_eta|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_sailingstatus|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.shippingstatus|wordwrap:50|linebreaksbr }}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endif %}
+
+<!-- Road -->
+{% if data_road %}
+<section class="container py-3 py-lg-5">
+  <div class="card">
+    <h5 class="text-center card-header">Road Shipments Progressive Status Report</h5>
+    <div class="card-body">
+      
+      <div class="float-right">
+        <a href="{% url 'reports:report_road' %}" class="btn btn-success float-right">Download in pdf</a>
+      </div>
+
+      <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Consignee</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer ref</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BOL</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping line</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Incoterms</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Desc</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loading</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delivery</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Container size</th> -->
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit size</th> -->
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Load</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for data in data_road %}
+            <tr>
+              <td>
+               {{ data.refno }}
+              </td>
+              <td>
+               {{ data.consignee }}
+              </td>
+              <td class="align-middle text-center text-sm">
+                
+                {{ data.customerref }}
+              </td>
+              <td class="align-middle text-center">
+                {{ data.billofnumber }}
+              </td>
+
+              {% comment %}
+              <td class="align-middle">
+                {{ data.shippingline }}
+              </td>
+              
+
+              <td class="align-middle">
+                {{ data.incoterms }}
+              </td>
+
+              {% endcomment %}
+
+              <td class="align-middle">
+                {{ data.cargo_description }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofloading }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofdelivery }}
+              </td>
+
+              <!-- <td class="align-middle">
+                {{ data.containersize }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.unitsize }}
+              </td> -->
+
+              <!-- <td class="align-middle">
+                {{ data.cargoload }}
+               
+              </td> -->
+
+              
+
+              <td class="align-middle">
+                {{ data.current_etd }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_eta }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_sailingstatus }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.shippingstatus }}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endif %}
+
+<!-- Air -->
+{% if data_air %}
+<section class="container py-3 py-lg-5">
+  <div class="card">
+    <h5 class="text-center card-header">Air Shipments Progressive Status Report</h5>
+    <div class="card-body">
+      
+      <div class="float-right">
+        <a href="{% url 'reports:report_air' %}" class="btn btn-success float-right">Download in pdf</a>
+      </div>
+
+      <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Consignee</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer ref</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BOL</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping line</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Incoterms</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Desc</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loading</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delivery</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Weight</th> 
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Package No</th> -->
+            
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {% for data in data_air %}
+            <tr>
+              <td>
+               {{ data.refno }}
+              </td>
+              <td>
+               {{ data.consignee }}
+              </td>
+              <td class="align-middle text-center text-sm">
+                
+                {{ data.customerref }}
+              </td>
+              <td class="align-middle text-center">
+                {{ data.billofnumber }}
+              </td>
+              <!-- <td class="align-middle">
+                {{ data.shippingline }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.incoterms }}
+              </td> -->
+
+              <td class="align-middle">
+                {{ data.cargo_description }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofloading }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofdelivery }}
+              </td>
+
+              <!-- <td class="align-middle">
+                {{ data.weight }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.packagesno }}
+              </td> -->
+
+              <td class="align-middle">
+                {{ data.current_etd }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_eta }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_sailingstatus }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.shippingstatus }}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endif %}
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+<script src="/static/assets/js/plugins/chartjs.min.js"></script>
+<script src="/static/assets/js/plugins/Chart.extension.js"></script>
+<script>
+  var allcheckbox = document.querySelector("#allcheck");
+  allcheckbox.addEventListener("click",toggleCheckbox);
+
+  function toggleCheckbox(){
+    const checkbox_classes = document.querySelectorAll(".form-check-input");
+    if(allcheckbox.checked){
+       //check all the checkboxes
+       for(let i=0;i<checkbox_classes.length;i++){
+          checkbox_classes[i].checked = true;
+       }
+
+    }else{
+        //uncheck all the checkboxes
+       for(let i=0;i<checkbox_classes.length;i++){
+          checkbox_classes[i].checked = false;
+       }
+
+    }
+  }
+</script>
+
+<script>
+var ctx = document.getElementById("chart-bars").getContext("2d");
+
+new Chart(ctx, {
+  type: "bar",
+  data: {
+    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: [{
+      label: "Sales",
+      tension: 0.4,
+      borderWidth: 0,
+      pointRadius: 0,
+      backgroundColor: "#fff",
+      data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
+      maxBarThickness: 6
+    }, ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    tooltips: {
+      enabled: true,
+      mode: "index",
+      intersect: false,
+    },
+    scales: {
+      yAxes: [{
+        gridLines: {
+          display: false,
+        },
+        ticks: {
+          suggestedMin: 0,
+          suggestedMax: 500,
+          beginAtZero: true,
+          padding: 0,
+          fontSize: 14,
+          lineHeight: 3,
+          fontColor: "#fff",
+          fontStyle: 'normal',
+          fontFamily: "Open Sans",
+        },
+      }, ],
+      xAxes: [{
+        gridLines: {
+          display: false,
+        },
+        ticks: {
+          display: false,
+          padding: 20,
+        },
+      }, ],
+    },
+  },
+});
+
+var ctx2 = document.getElementById("chart-line").getContext("2d");
+
+var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
+gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
+
+var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
+
+gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
+gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
+
+
+new Chart(ctx2, {
+  type: "line",
+  data: {
+    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    datasets: [{
+        label: "Mobile apps",
+        tension: 0.4,
+        borderWidth: 0,
+        pointRadius: 0,
+        borderColor: "#cb0c9f",
+        borderWidth: 3,
+        backgroundColor: gradientStroke1,
+        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
+        maxBarThickness: 6
+
+      },
+      {
+        label: "Websites",
+        tension: 0.4,
+        borderWidth: 0,
+        pointRadius: 0,
+        borderColor: "#3A416F",
+        borderWidth: 3,
+        backgroundColor: gradientStroke2,
+        data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
+        maxBarThickness: 6
+
+      },
+    ],
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
+    },
+    tooltips: {
+      enabled: true,
+      mode: "index",
+      intersect: false,
+    },
+    scales: {
+      yAxes: [{
+        gridLines: {
+          borderDash: [2],
+          borderDashOffset: [2],
+          color: '#dee2e6',
+          zeroLineColor: '#dee2e6',
+          zeroLineWidth: 1,
+          zeroLineBorderDash: [2],
+          drawBorder: false,
+        },
+        ticks: {
+          suggestedMin: 0,
+          suggestedMax: 500,
+          beginAtZero: true,
+          padding: 10,
+          fontSize: 11,
+          fontColor: '#adb5bd',
+          lineHeight: 3,
+          fontStyle: 'normal',
+          fontFamily: "Open Sans",
+        },
+      }, ],
+      xAxes: [{
+        gridLines: {
+          zeroLineColor: 'rgba(0,0,0,0)',
+          display: false,
+        },
+        ticks: {
+          padding: 10,
+          fontSize: 11,
+          fontColor: '#adb5bd',
+          lineHeight: 3,
+          fontStyle: 'normal',
+          fontFamily: "Open Sans",
+        },
+      }, ],
+    },
+  },
+});
+</script>
+<script>
+var win = navigator.platform.indexOf('Win') > -1;
+if (win && document.querySelector('#sidenav-scrollbar')) {
+  var options = {
+    damping: '0.5'
+  }
+  Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+}
+</script>
+
+{% endblock javascripts %}

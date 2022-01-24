@@ -30,6 +30,7 @@ urlpatterns = [
     path('keyuser/', include('keyuser.urls')),
     path('fielduser/', include('fielduser.urls')),
     path('shipments/', include('shipments.urls')),
+    path('reports/', include('reports.urls')),
     
 
 ]
