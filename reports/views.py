@@ -136,15 +136,16 @@ def report_download_road(request):
 
      #current user
     currentuser = request.user
-    
     uname = Account.objects.filter(email=currentuser)
     companyname = None
 
     for u in uname:
         companyname = u.company
+        companyaddr = u.address
 
     data_road = road_report(request)
-    html = loader.render_to_string(input_filename, {'data_road':data_road,'today':d2,"companyname":companyname,"currentuser":currentuser})
+
+    html = loader.render_to_string(input_filename, {'data_road':data_road,'today':d2,"companyname":companyname,"currentuser":currentuser,"companyaddr":companyaddr})
     output= pdfkit.from_string(html, output_path=output_filename)
     
     filename = f"/reports/roadreports/roadshipment_{dt_string}.pdf"
@@ -171,15 +172,16 @@ def report_download_air(request):
 
      #current user
     currentuser = request.user
-    
     uname = Account.objects.filter(email=currentuser)
     companyname = None
 
     for u in uname:
         companyname = u.company
+        companyaddr = u.address
 
     data_air = air_report(request)
-    html = loader.render_to_string(input_filename, {'data_air':data_air,'today':d2,"companyname":companyname,"currentuser":currentuser})
+
+    html = loader.render_to_string(input_filename, {'data_air':data_air,'today':d2,"companyname":companyname,"currentuser":currentuser,"companyaddr":companyaddr})
     output= pdfkit.from_string(html, output_path=output_filename)
     
     filename = f"/reports/airreports/airshipment_{dt_string}.pdf"
