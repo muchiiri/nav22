@@ -12,6 +12,12 @@
 .logo{
 
 }
+.reports{
+  margin-top: 70px;
+}
+.reports h4{
+  line-height: 3px;
+}
     </style>
 </head>
 
@@ -32,13 +38,15 @@
   </div>
 
   <div class="row">
-    <div class="col">
+    <!-- <div class="col">
       
-    </div>
+    </div> -->
     <div class="col">
-      <b>{{ today }}</b><br/>
-      <b>{{ companyname }}</b><br/>
-      <b>{{ companyaddr }}</b><br/>
+      <div class="reports">
+      <h4><b>{{ today }}</b></h4><br>
+      <h4><b>{{ companyname }}</b></h4><br>
+      <h4><b>{{ companyaddr }}</b></h4><br/>
+      </div>
     </div>
   </div>
 </div>
