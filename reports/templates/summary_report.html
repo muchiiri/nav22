@@ -1,0 +1,140 @@
+{% extends "base_client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            Summary Report
+        </div>
+        <div class="card-body">
+            <h5>Complete vs Incomplete Shipments</h5>
+            <!-- Chart one -->
+            <div id="chart1">
+            </div>
+        </div>
+    </div>
+    <br/><br/>
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Shipment Type</h5>
+        </div>
+
+        <div class="card-body">
+            <!-- Chart two -->
+            <div id="chart2">
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js">
+</script>
+<script src = "https://code.highcharts.com/highcharts.js"></script>
+<script>
+     $(document).ready(function() {
+        //highchart js
+        var complete = parseFloat("{{ context.complete | safe}}");
+        var incomplete = parseFloat("{{ context.incomplete | safe}}");
+        var airno = parseFloat("{{ context.airno | safe}}");
+        var roadno = parseFloat("{{ context.roadno | safe}}");
+        var seano = parseFloat("{{ context.seano | safe}}");
+
+        var chart = {
+               plotBackgroundColor: null,
+               plotBorderWidth: null,
+               plotShadow: false
+            };
+            var title = {
+               text: 'Complete vs Incomplete'   
+            };
+
+            var title2 = {
+               text: 'Shipment type'   
+            };
+
+            var title3 = {
+              text: 'Active vs Inactive'  
+            };
+
+            var title4 = {
+              text: 'Stage of Application'  
+            };
+
+            var tooltip = {
+               pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            };
+            
+            var series = [{
+               type: 'pie',
+               name: 'Shipments',
+               data: [
+                  ['Complete', complete],
+                  
+                  ['Incomplete',  incomplete]
+               ]
+            }];
+
+            var series2 = [{
+               type: 'pie',
+               name: 'Type',
+               data: [
+                  ['Air', airno],
+                  
+                  ['Road',  roadno],
+
+                  ['Sea',  seano]
+               ]
+            }];
+
+            // complete vs incomplete chart
+            var json1 = {};   
+            json1.chart = chart; 
+            json1.title = title;     
+            json1.tooltip = tooltip;  
+            json1.series = series;
+            // end
+
+            //application types
+            var json2 = {};   
+            json2.chart = chart; 
+            json2.title = title2;     
+            json2.tooltip = tooltip;  
+            json2.series = series2;
+            // end of application types
+
+            //active
+            // var json3 = {};   
+            // json3.chart = chart; 
+            // json3.title = title3;     
+            // json3.tooltip = tooltip;  
+            // json3.series = series3;
+            // // end of active
+
+            //stage of application
+            // var json4 = {};   
+            // json4.chart = chart; 
+            // json4.title = title4;     
+            // json4.tooltip = tooltip;  
+            // json4.series = series4;
+            // // end of stage of application
+
+
+            $('#chart1').highcharts(json1);
+            $('#chart2').highcharts(json2);
+            // $('#chart3').highcharts(json3);
+            // $('#chart4').highcharts(json4);
+             
+
+         });
+</script>
+{% endblock javascripts %}

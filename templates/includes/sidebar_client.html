@@ -138,6 +138,16 @@
             <span class="nav-link-text ms-1">New Report</span>
           </a>
         </li>
+
+        <li class="nav-item mb-1">
+          <a class="nav-link {% if 'rtl' in segment %} active {% endif %}" href="{% url 'reports:report_summary' %}">
+            <div class="icon icon-shape icon-xs border-radius-sm  text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-chart-pie" style="font-size:100%;color:black;"></i>
+            </div>
+            <span class="nav-link-text ms-1">Summary Report</span>
+          </a>
+        </li>
+
       </ul>
     </div>
     <!-- <div class="sidenav-footer mx-3 mt-3 pt-3">

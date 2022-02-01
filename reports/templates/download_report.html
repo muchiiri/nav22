@@ -46,6 +46,7 @@
       <h4><b>{{ today }}</b></h4><br>
       <h4><b>{{ companyname }}</b></h4><br>
       <h4><b>{{ companyaddr }}</b></h4><br/>
+      <h4><b>{{ currentuser }}</b></h4><br/>
       </div>
     </div>
   </div>
@@ -77,8 +78,8 @@
         
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Current Progress</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th> -->
             </tr>
           </thead>
           <tbody>
@@ -150,9 +151,9 @@
                 {{ data.current_sailingstatus|wordwrap:50|linebreaksbr }}
               </td>
 
-              <td class="align-middle">
+              <!-- <td class="align-middle">
                 {{ data.shippingstatus|wordwrap:50|linebreaksbr }}
-              </td>
+              </td> -->
             </tr>
             {% endfor %}
             
@@ -191,8 +192,8 @@
               <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Load</th> -->
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Current Progress</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th> -->
             </tr>
           </thead>
           <tbody>
@@ -264,9 +265,9 @@
                 {{ data.current_sailingstatus }}
               </td>
 
-              <td class="align-middle">
+              <!-- <td class="align-middle">
                 {{ data.shippingstatus }}
-              </td>
+              </td> -->
             </tr>
             {% endfor %}
             
@@ -305,8 +306,8 @@
             
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
               <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
-              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Current Progress</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th> -->
             </tr>
           </thead>
           <tbody>
@@ -365,10 +366,10 @@
               <td class="align-middle">
                 {{ data.current_sailingstatus }}
               </td>
-
+<!-- 
               <td class="align-middle">
                 {{ data.shippingstatus }}
-              </td>
+              </td> -->
             </tr>
             {% endfor %}
             

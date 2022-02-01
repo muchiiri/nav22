@@ -27,8 +27,8 @@ CARGOLOAD_CHOICES= [
 ]
 
 CONTAINER_CHOICES= [
-    ('twentyft', "20 FT"),
-    ('fortyft', "40 FT"),
+    ('20 FT', "20 FT"),
+    ('40 FT', "40 FT"),
 ]
 
 SHIPPING_CHOICES= [

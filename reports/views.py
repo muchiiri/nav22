@@ -11,42 +11,48 @@ from datetime import datetime
 
 # Create your views here.
 def report(request):
-    all = request.POST.get("all")
-    road = request.POST.get("road")
-    sea = request.POST.get("sea")
-    air = request.POST.get("air")
+    # all = request.POST.get("all")
+    # road = request.POST.get("road")
+    # sea = request.POST.get("sea")
+    # air = request.POST.get("air")
+    shippingstatus = request.POST.get("shippingstatus")
+    request.session["shippingstatus"] = shippingstatus
 
     data_road = None
     data_sea = None
     data_air = None
     freightforward = None
 
-    if all:
-        data_road = road_report(request)
-        data_sea = sea_report(request)
-        data_air = air_report(request)
-        print("all")
-    elif road and sea:
-        data_road = road_report(request)
-        data_sea = sea_report(request)
-        print("road & sea")
-    elif road and air:
-        data_road = road_report(request)
-        data_air = air_report(request)
-        print("road & air")
-    elif sea and air:
-        data_sea= sea_report(request)
-        data_air= air_report(request)
-        print("sea & air")
-    elif road:
-        data_road = road_report(request)
-        print("road")
-    elif sea:
-        data_sea = sea_report(request)
-        print("sea")
-    elif air:
-        data_air = air_report(request)
-        print("air")
+    data_road = road_report(request)
+    data_sea = sea_report(request)
+    data_air = air_report(request)
+
+    # if all:
+    #     data_road = road_report(request)
+    #     data_sea = sea_report(request)
+    #     data_air = air_report(request)
+    #     print("all")
+    # elif road and sea:
+    #     data_road = road_report(request)
+    #     data_sea = sea_report(request)
+    #     print("road & sea")
+    # elif road and air:
+    #     data_road = road_report(request)
+    #     data_air = air_report(request)
+    #     print("road & air")
+    # elif sea and air:
+    #     data_sea= sea_report(request)
+    #     data_air= air_report(request)
+    #     print("sea & air")
+    # elif road:
+    #     data_road = road_report(request)
+    #     print("road")
+    # elif sea:
+    #     data_sea = sea_report(request)
+    #     print("sea")
+    # elif air:
+    #     data_air = air_report(request)
+    #     print("air")
     
     # Textual month, day and year
     today = date.today()
@@ -61,23 +67,28 @@ def report(request):
     for u in uname:
         companyname = u.company
 
+    
     return render(request,"report.html",
     {"data_road":data_road,"data_sea":data_sea,"data_air":data_air,"today":d2,
     "companyname":companyname,"email":currentuser})
 
 def road_report(request):
     currentuser = request.user
-    road = RoadFreightShip.objects.filter(owner=currentuser)
+    type = request.session["shippingstatus"]
+    road = RoadFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+    print(type)
     return road
 
 def air_report(request):
     currentuser = request.user
-    air = AirFreightShip.objects.filter(owner=currentuser)
+    type = request.session["shippingstatus"]
+    air = AirFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
     return air
 
 def sea_report(request):
     currentuser = request.user
-    sea = SeaFreightShip.objects.filter(owner=currentuser)
+    type = request.session["shippingstatus"]
+    sea = SeaFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
     return sea
 
 def report_download_sea(request):
@@ -194,5 +205,47 @@ def report_download_air(request):
 
     return response
 
-def report_template(request):
-    return render(request,"download_report.html")
+def report_summary_charts(request):
+    context = {}
+    complete = 0
+    incomplete = 0
+    seano = 0
+    airno = 0
+    roadno = 0
+
+    road_shipment = road_report(request)
+    sea_shipment = sea_report(request)
+    air_shipment = air_report(request)
+
+
+    #loop thru shipments to get complete and incomplete shipments
+    for r in road_shipment:
+        roadno = roadno + 1
+        if r.shippingstatus == "Completed":
+            complete = complete + 1
+        else:
+            incomplete = incomplete + 1
+
+    for s in sea_shipment:
+        seano = seano + 1
+        if s.shippingstatus == "Completed":
+            complete = complete + 1
+        else:
+            incomplete = incomplete + 1
+    
+    for a in air_shipment:
+        airno = airno + 1
+        if r.shippingstatus == "Completed":
+            complete = complete + 1
+        else:
+            incomplete = incomplete + 1
+
+    context ={
+        "complete":complete,
+        "incomplete":incomplete,
+        "seano":seano,
+        "airno":airno,
+        "roadno":roadno,
+    }
+
+    return render(request,"summary_report.html",{"context":context})

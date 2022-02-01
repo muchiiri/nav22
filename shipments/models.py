@@ -74,7 +74,7 @@ class RoadFreightShip(models.Model):
     current_etd = models.CharField(max_length=100, null=True, blank=True)
     current_eta = models.CharField(max_length=100, null=True, blank=True)
     current_sailingstatus = models.CharField(max_length=100, null=True, blank=True)
-    shippingstatus = models.CharField(max_length=100, null=True, blank=True)
+    shippingstatus = models.CharField(max_length=100, null=True, blank=True,default='in-progress')
 
     def __str__(self):
         return self.refno
