@@ -15,9 +15,12 @@ def report(request):
     # road = request.POST.get("road")
     # sea = request.POST.get("sea")
     # air = request.POST.get("air")
-    shippingstatus = request.POST.get("shippingstatus")
-    request.session["shippingstatus"] = shippingstatus
-
+    if request.method == 'POST':
+        shippingstatus = request.POST.get("shippingstatus")
+        request.session["shippingstatus"] = shippingstatus
+    else:
+        request.session["shippingstatus"] = None
+    request.session["report_type"] = "table_report"
     data_road = None
     data_sea = None
     data_air = None
@@ -74,21 +77,36 @@ def report(request):
 
 def road_report(request):
     currentuser = request.user
-    type = request.session["shippingstatus"]
-    road = RoadFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
-    print(type)
+    if request.session["report_type"] == "table_report":
+        type = request.session["shippingstatus"]
+        road = RoadFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+        if not road and request.method == "POST":
+            type = ""
+            road = RoadFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+    else:
+        road = RoadFreightShip.objects.filter(owner=currentuser)
     return road
 
 def air_report(request):
     currentuser = request.user
-    type = request.session["shippingstatus"]
-    air = AirFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+    if request.session["report_type"] == "table_report":
+        type = request.session["shippingstatus"]
+        air = AirFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+    else:
+        air = AirFreightShip.objects.filter(owner=currentuser)
     return air
 
 def sea_report(request):
     currentuser = request.user
-    type = request.session["shippingstatus"]
-    sea = SeaFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+    if request.session["report_type"] == "table_report":
+        type = request.session["shippingstatus"]
+        sea = SeaFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+
+        if not sea and request.method == "POST":
+            type="In Progress"
+            sea = SeaFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+    else:
+        sea = SeaFreightShip.objects.filter(owner=currentuser)
     return sea
 
 def report_download_sea(request):
@@ -206,6 +224,7 @@ def report_download_air(request):
     return response
 
 def report_summary_charts(request):
+    request.session["report_type"] = "summary_report"
     context = {}
     complete = 0
     incomplete = 0
@@ -235,7 +254,7 @@ def report_summary_charts(request):
     
     for a in air_shipment:
         airno = airno + 1
-        if r.shippingstatus == "Completed":
+        if a.shippingstatus == "Completed":
             complete = complete + 1
         else:
             incomplete = incomplete + 1
