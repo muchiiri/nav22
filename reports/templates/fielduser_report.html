@@ -1,0 +1,462 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+
+<style>
+ 
+</style>
+{% endblock stylesheets %}
+{% block content %}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+            <form action="{% url 'reports:report' %}" method="post">
+                {% csrf_token %}
+                <h3>Reports</h3>
+                <p>Show:</p> 
+                <div class="row">
+                  <div class="col-sm-12 col-lg-6">
+
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="radio" name="shippingstatus" class="form-check-input" value="in-progress" required>Active Shipments
+                      </label>
+                    </div>
+
+                    <div class="form-check">
+                      <label class="form-check-label">
+                        <input type="radio" name="shippingstatus" class="form-check-input" value="Completed" required>Completed Shipments  
+                      </label>
+                    </div>
+
+                    Select Client:
+                    <select class="form-control" name="owner" id="ownerid" required>
+                      {% for i in owners %}
+                      <option value="{{i}}">{{ i }}</option>
+                      {% endfor %}
+                    </select>
+
+                    <hr/>
+                  </div>
+
+
+                </div>
+
+                <input type="submit" class="btn btn-primary" name="submit" value="Search"/>
+            </form>
+          </div>
+          </div>
+        </div>
+    </div>
+</div>
+<hr/>
+
+<!-- Sea -->
+{% if data_sea %}
+<section class="container py-3 py-lg-5">
+  <div class="card">
+    <p class="text-center p-1"> {{ companyname }}</p>
+    <h5 class="text-center card-header">Sea Shipments Progressive Status Report</h5>
+    <div class="card-body">
+      
+      <div class="float-right">
+        <a href="{% url 'reports:report_sea' %}" class="btn btn-success float-right">Download in pdf</a>
+      </div>
+
+      <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Owner</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Consignee</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer ref</th>
+              
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BOL</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping line</th> -->
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Incoterms</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Desc</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loading</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delivery</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Container size</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit size</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit type</th> -->
+        
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for data in data_sea %}
+            <tr>
+              <td>
+                {{ data.owner|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td>
+               {{ data.refno|wordwrap:50|linebreaksbr }}
+              </td>
+              <td>
+               {{ data.consignee|wordwrap:50|linebreaksbr }}
+              </td>
+              <td class="align-middle text-center text-sm">
+                
+                {{ data.customerref|wordwrap:50|linebreaksbr }}
+              </td>
+              <td class="align-middle text-center">
+                {{ data.billofnumber|wordwrap:50|linebreaksbr }}
+              </td>
+
+              {% comment %}
+              <td class="align-middle">
+                {{ data.shippingline|wordwrap:50|linebreaksbr }}
+              </td>
+             
+
+              <td class="align-middle">
+                {{ data.incoterms|wordwrap:50|linebreaksbr }}
+              </td>
+              {% endcomment %}
+
+              <td class="align-middle">
+                {{ data.cargo_description|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofloading|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofdelivery|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.containersize|wordwrap:50|linebreaksbr }}
+              </td>
+
+              {% comment %}
+              <td class="align-middle">
+                {{ data.unitsize|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.unittype|wordwrap:50|linebreaksbr }}
+               
+              </td>
+
+              
+              {% endcomment %}
+              
+
+              <td class="align-middle">
+                {{ data.current_etd|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_eta|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_sailingstatus|wordwrap:50|linebreaksbr }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.shippingstatus|wordwrap:50|linebreaksbr }}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endif %}
+
+<!-- Road -->
+{% if data_road %}
+<section class="container py-3 py-lg-5">
+  <div class="card">
+    <p class="text-center p-1"> {{ companyname }}</p>
+    <h5 class="text-center card-header">Road Shipments Progressive Status Report</h5>
+    <div class="card-body">
+      
+      <div class="float-right">
+        <a href="{% url 'reports:report_road' %}" class="btn btn-success float-right">Download in pdf</a>
+      </div>
+
+      <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Owner</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Consignee</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer ref</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BOL</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping line</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Incoterms</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Desc</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loading</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delivery</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Container size</th> -->
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Unit size</th> -->
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Load</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for data in data_road %}
+            <tr>
+                <td>
+                    {{ data.owner }}
+                </td>
+
+              <td>
+               {{ data.refno }}
+              </td>
+              <td>
+               {{ data.consignee }}
+              </td>
+              <td class="align-middle text-center text-sm">
+                
+                {{ data.customerref }}
+              </td>
+              <td class="align-middle text-center">
+                {{ data.billofnumber }}
+              </td>
+
+              {% comment %}
+              <td class="align-middle">
+                {{ data.shippingline }}
+              </td>
+              
+
+              <td class="align-middle">
+                {{ data.incoterms }}
+              </td>
+
+              {% endcomment %}
+
+              <td class="align-middle">
+                {{ data.cargo_description }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofloading }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofdelivery }}
+              </td>
+
+              <!-- <td class="align-middle">
+                {{ data.containersize }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.unitsize }}
+              </td> -->
+
+              <!-- <td class="align-middle">
+                {{ data.cargoload }}
+               
+              </td> -->
+
+              
+
+              <td class="align-middle">
+                {{ data.current_etd }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_eta }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_sailingstatus }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.shippingstatus }}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endif %}
+
+<!-- Air -->
+
+{% if data_air %}
+<section class="container py-3 py-lg-5">
+  <div class="card">
+    <p class="text-center p-1"> {{ companyname }}</p>
+    <h5 class="text-center card-header">Air Shipments Progressive Status Report</h5>
+    <div class="card-body">
+      
+      <div class="float-right">
+        <a href="{% url 'reports:report_air' %}" class="btn btn-success float-right">Download in pdf</a>
+      </div>
+
+      <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0">
+          <thead>
+            <tr>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Owner</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ref No</th>
+              <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Consignee</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Customer ref</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">BOL</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping line</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Incoterms</th> -->
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Cargo Desc</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Loading</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Delivery</th>
+              <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Weight</th> 
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Package No</th> -->
+            
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETD</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ETA</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sailing Status</th>
+              <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Shipping Status</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {% for data in data_air %}
+            <tr>
+            <td>
+                {{ data.owner }}
+            </td>
+              <td>
+               {{ data.refno }}
+              </td>
+              <td>
+               {{ data.consignee }}
+              </td>
+              <td class="align-middle text-center text-sm">
+                
+                {{ data.customerref }}
+              </td>
+              <td class="align-middle text-center">
+                {{ data.billofnumber }}
+              </td>
+              <!-- <td class="align-middle">
+                {{ data.shippingline }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.incoterms }}
+              </td> -->
+
+              <td class="align-middle">
+                {{ data.cargo_description }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofloading }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.placeofdelivery }}
+              </td>
+
+              <!-- <td class="align-middle">
+                {{ data.weight }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.packagesno }}
+              </td> -->
+
+              <td class="align-middle">
+                {{ data.current_etd }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_eta }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.current_sailingstatus }}
+              </td>
+
+              <td class="align-middle">
+                {{ data.shippingstatus }}
+              </td>
+            </tr>
+            {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% endif %}
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+<script src="/static/assets/js/plugins/chartjs.min.js"></script>
+<script src="/static/assets/js/plugins/Chart.extension.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<script>
+  // var allcheckbox = document.querySelector("#allcheck");
+  // allcheckbox.addEventListener("click",toggleCheckbox);
+
+  function toggleCheckbox(){
+    const checkbox_classes = document.querySelectorAll(".form-check-input");
+    if(allcheckbox.checked){
+       //check all the checkboxes
+       for(let i=0;i<checkbox_classes.length;i++){
+          checkbox_classes[i].checked = true;
+       }
+
+    }else{
+        //uncheck all the checkboxes
+       for(let i=0;i<checkbox_classes.length;i++){
+          checkbox_classes[i].checked = false;
+       }
+
+    }
+  }
+</script>
+
+<script>
+ function pageScroll() {
+    	window.scrollBy(0,450); // horizontal and vertical scroll increments
+    	//scrolldelay = setTimeout('pageScroll()',100); // scrolls every 100 milliseconds
+}
+pageScroll();
+</script>
+{% endblock javascripts %}

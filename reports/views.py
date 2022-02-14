@@ -8,13 +8,10 @@ import pdfkit
 from django.template import loader
 from datetime import date
 from datetime import datetime
-
+import time
 # Create your views here.
+
 def report(request):
-    # all = request.POST.get("all")
-    # road = request.POST.get("road")
-    # sea = request.POST.get("sea")
-    # air = request.POST.get("air")
     if request.method == 'POST':
         shippingstatus = request.POST.get("shippingstatus")
         request.session["shippingstatus"] = shippingstatus
@@ -26,36 +23,18 @@ def report(request):
     data_air = None
     freightforward = None
 
-    data_road = road_report(request)
-    data_sea = sea_report(request)
-    data_air = air_report(request)
+    #check group of user
+    user = request.user
 
-    # if all:
-    #     data_road = road_report(request)
-    #     data_sea = sea_report(request)
-    #     data_air = air_report(request)
-    #     print("all")
-    # elif road and sea:
-    #     data_road = road_report(request)
-    #     data_sea = sea_report(request)
-    #     print("road & sea")
-    # elif road and air:
-    #     data_road = road_report(request)
-    #     data_air = air_report(request)
-    #     print("road & air")
-    # elif sea and air:
-    #     data_sea= sea_report(request)
-    #     data_air= air_report(request)
-    #     print("sea & air")
-    # elif road:
-    #     data_road = road_report(request)
-    #     print("road")
-    # elif sea:
-    #     data_sea = sea_report(request)
-    #     print("sea")
-    # elif air:
-    #     data_air = air_report(request)
-    #     print("air")
+    #if client else if staff
+    if user.groups.filter(name='Ogl Clients').exists():
+        data_road = road_report(request)
+        data_sea = sea_report(request)
+        data_air = air_report(request)
+    else:
+        data_road = fielduser_road_report(request)
+        data_sea = fielduser_sea_report(request)
+        data_air = fielduser_air_report(request)
     
     # Textual month, day and year
     today = date.today()
@@ -70,16 +49,42 @@ def report(request):
     for u in uname:
         companyname = u.company
 
-    
-    return render(request,"report.html",
-    {"data_road":data_road,"data_sea":data_sea,"data_air":data_air,"today":d2,
-    "companyname":companyname,"email":currentuser})
+    # get list of owners
+    owners = []
+    usergroup = Account.objects.filter(groups__name='Ogl Clients')
+    usergrouplen = len(usergroup)
+    for i in range(usergrouplen):
+        owners.append(usergroup[i])
 
+    #if client else if staff
+    if user.groups.filter(name='Ogl Clients').exists():
+        
+        return render(request,"report.html",
+        {"data_road":data_road,"data_sea":data_sea,"data_air":data_air,"today":d2,
+        "companyname":companyname,"email":currentuser,"owners":owners})
+
+    if user.groups.filter(name='Ogl_fielduser').exists():
+        
+        return render(request,"fielduser_report.html",
+        {"data_road":data_road,"data_sea":data_sea,"data_air":data_air,"today":d2,
+        "companyname":companyname,"email":currentuser,"owners":owners})
+    
+    
+
+#client report
 def road_report(request):
     currentuser = request.user
+    
     if request.session["report_type"] == "table_report":
         type = request.session["shippingstatus"]
-        road = RoadFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+
+        #if client else if staff
+        if currentuser.groups.filter(name='Ogl Clients').exists():
+            road = RoadFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+        else:
+            owner = request.session["owner"]
+            road = RoadFreightShip.objects.filter(staff=currentuser,shippingstatus=type,owner=owner)
+
         if not road and request.method == "POST":
             type = ""
             road = RoadFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
@@ -87,29 +92,93 @@ def road_report(request):
         road = RoadFreightShip.objects.filter(owner=currentuser)
     return road
 
+#fielduser report
+def fielduser_road_report(request):
+    currentuser = request.user
+    owner = request.POST.get("owner")
+    request.session["owner"] = owner
+
+
+    if request.session["report_type"] == "table_report":
+        type = request.session["shippingstatus"]
+        road = RoadFreightShip.objects.filter(staff=currentuser,shippingstatus=type,owner=owner)
+        if not road and request.method == "POST":
+            type = ""
+            road = RoadFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+    else:
+        road = RoadFreightShip.objects.filter(owner=currentuser)
+    return road
+
+#client report
 def air_report(request):
     currentuser = request.user
     if request.session["report_type"] == "table_report":
         type = request.session["shippingstatus"]
-        air = AirFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+
+        #if client else if staff
+        if currentuser.groups.filter(name='Ogl Clients').exists():
+            air = AirFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+        else:
+            owner = request.session["owner"]
+            air = AirFreightShip.objects.filter(staff=currentuser,shippingstatus=type,owner=owner)
     else:
         air = AirFreightShip.objects.filter(owner=currentuser)
     return air
 
+#fielduser report
+def fielduser_air_report(request):
+    currentuser = request.user
+    owner = request.POST.get("owner")
+    request.session["owner"] = owner
+
+    if request.session["report_type"] == "table_report":
+        type = request.session["shippingstatus"]
+        air = AirFreightShip.objects.filter(staff=currentuser,shippingstatus=type,owner=owner)
+    else:
+        air = AirFreightShip.objects.filter(staff=currentuser)
+    return air
+
+#client report
 def sea_report(request):
     currentuser = request.user
     if request.session["report_type"] == "table_report":
         type = request.session["shippingstatus"]
-        sea = SeaFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+        
+        #if client else if staff
+        if currentuser.groups.filter(name='Ogl Clients').exists():
+            sea = SeaFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+            
+            #in case sea queryset is empyt, also check shipping status with this spelling
+            if not sea and request.method == "POST":
+                sea = SeaFreightShip.objects.filter(owner=currentuser,shippingstatus="In Progress")
+        else:
+            owner = request.session["owner"]
+            sea = SeaFreightShip.objects.filter(staff=currentuser,shippingstatus=type,owner=owner)
+    else:
+        sea = SeaFreightShip.objects.filter(owner=currentuser)
+    
+    return sea
+
+#fielduser report
+def fielduser_sea_report(request):
+    currentuser = request.user
+    owner = request.POST.get("owner")
+    request.session["owner"] = owner
+
+    if request.session["report_type"] == "table_report":
+        type = request.session["shippingstatus"]
+        sea = SeaFreightShip.objects.filter(staff=currentuser,shippingstatus=type,owner=owner)
 
         if not sea and request.method == "POST":
             type="In Progress"
-            sea = SeaFreightShip.objects.filter(owner=currentuser,shippingstatus=type)
+            sea = SeaFreightShip.objects.filter(staff=currentuser,shippingstatus=type,owner=owner)
     else:
         sea = SeaFreightShip.objects.filter(owner=currentuser)
     return sea
 
+#download pdf
 def report_download_sea(request):
+    currentuser = request.user
     # datetime object containing current date and time
     now = datetime.now()
     dt_string = now.strftime("%d_%m_%Y_%H_%M_%S")
@@ -130,16 +199,27 @@ def report_download_sea(request):
         companyname = u.company
         companyaddr = u.address
 
+    #change method GET to POST
+    request.method = "POST"
+    
     data_sea = sea_report(request)
-
+    # if currentuser.groups.filter(name='Ogl Clients').exists():    
+    #     data_sea = sea_report(request)
+    # else:
+    #     print("Fielduser")
+    #     data_sea = fielduser_sea_report(request)
+    
     #get update from staff
+    freightforward = None
     for shipment in data_sea:
         freightforward = FreightForwarding.objects.filter(refno=shipment.refno)
-
+    
     html = loader.render_to_string(input_filename, {'data_sea':data_sea,'today':d2,"companyname":companyname,"currentuser":currentuser,"companyaddr":companyaddr,
     "freightforward":freightforward})
     
+    time.sleep(1)
     output= pdfkit.from_string(html, output_path=output_filename)
+    
     
     filename = f"/reports/seareports/seashipment_{dt_string}.pdf"
     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -175,6 +255,7 @@ def report_download_road(request):
     data_road = road_report(request)
 
     html = loader.render_to_string(input_filename, {'data_road':data_road,'today':d2,"companyname":companyname,"currentuser":currentuser,"companyaddr":companyaddr})
+    time.sleep(1)
     output= pdfkit.from_string(html, output_path=output_filename)
     
     filename = f"/reports/roadreports/roadshipment_{dt_string}.pdf"
@@ -209,8 +290,14 @@ def report_download_air(request):
         companyaddr = u.address
 
     data_air = air_report(request)
+    
+    #get update from staff
+    freightforward = None
+    for shipment in data_air:
+        freightforward = FreightForwarding.objects.filter(refno=shipment.refno)
 
-    html = loader.render_to_string(input_filename, {'data_air':data_air,'today':d2,"companyname":companyname,"currentuser":currentuser,"companyaddr":companyaddr})
+    html = loader.render_to_string(input_filename, {'data_air':data_air,'today':d2,"companyname":companyname,"currentuser":currentuser,"companyaddr":companyaddr,"freightforward":freightforward})
+    time.sleep(1)
     output= pdfkit.from_string(html, output_path=output_filename)
     
     filename = f"/reports/airreports/airshipment_{dt_string}.pdf"
@@ -268,3 +355,12 @@ def report_summary_charts(request):
     }
 
     return render(request,"summary_report.html",{"context":context})
+
+def fielduser_report(request):
+    # get list of owners for dropdown
+    owners = []
+    usergroup = Account.objects.filter(groups__name='Ogl Clients')
+    usergrouplen = len(usergroup)
+    for i in range(usergrouplen):
+        owners.append(usergroup[i])
+    return render(request,"fielduser_report.html",{"owners":owners})
