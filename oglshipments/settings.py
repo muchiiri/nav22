@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mtobu&sib1i(qqave!2i2*4%$a7kyn0z%@kjy_!$1vors5^e)&'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -164,7 +164,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'navicus360@gmail.com'
-EMAIL_HOST_PASSWORD = 'Navicus@2021!'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
 
 SESSION_COOKIE_AGE = 10000
