@@ -1,0 +1,121 @@
+{% extends "base_client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+<style>
+#div_id_owner,#div_id_staff_owner,#div_id_status{
+    display: none;
+}
+</style>
+{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Request Quotation Form
+    </div>
+    <div class="card-body">
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+
+        <form method="post" action="{% url 'quotation:quote_home' %}">
+            {% csrf_token %}
+            
+            {{ form.owner | as_crispy_field }}
+            {{ form.staff_owner | as_crispy_field }}
+            {{ form.status | as_crispy_field }}
+
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.quote_number | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.date | as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.type | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.cargoload | as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.incoterms | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.container_size | as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.cargo_length | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.cargo_width | as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.cargo_height | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.country_origin | as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.collection_address | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.cargo_description | as_crispy_field }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.goods_category | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.special_instructions | as_crispy_field }}
+                    </div>
+                </div>
+            </div>
+
+            <p class="text-right" style="margin-right: 3%;">
+                <input type="submit" name="submit" class="btn btn-success"/>
+            </p>
+            
+        </form>
+        
+    </div>
+
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script>
+    document.getElementById("id_quote_number").readOnly = true; 
+
+    //get today date
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + '/' + mm + '/' + yyyy;
+    document.getElementById("id_date").value=today;
+    document.getElementById("id_date").readOnly = true;
+</script>
+{% endblock javascripts %}

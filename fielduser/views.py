@@ -10,7 +10,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
 import datetime
-# Create your views here.
+from quotation.models import *
 
 # Create your views here.
 def not_in_oglstaff_group(user):
@@ -26,15 +26,16 @@ def home(request):
     seafreight = SeaFreightShip.objects.filter( staff= request.user)
     airfreight = AirFreightShip.objects.filter( staff= request.user)
 
-    # shipmentstatus = FreightForwarding.objects.filter(shippingstatus = 'completed')
-    # import pdb;pdb.set_trace()
-
     rno = len(roadfreight)
     sno = len(seafreight)
     airno = len(airfreight)
     allno = rno+sno+airno
 
-    return render(request,"index_fielduser.html",{"group":"staff","context":roadfreight,"context2":seafreight,"context3":airfreight,"airno":airno,"sno":sno,"rno":rno,"allno":allno,"sidebar":"true"})
+    #query Quotation model
+    staff_id = request.user.id
+    quotation = Quotation.objects.filter(staff_owner=staff_id)
+
+    return render(request,"index_fielduser.html",{"group":"staff","context":roadfreight,"context2":seafreight,"context3":airfreight,"airno":airno,"sno":sno,"rno":rno,"allno":allno,"sidebar":"true","allocated_quotations":quotation})
 
 def home2(request):
     # roadfreight = RoadFreightShip.objects.all()

@@ -1,0 +1,18 @@
+[
+    {
+      "model": "quotation.Quotation_Staff",
+      "pk": 1,
+      "fields": {
+        "staff": "3",
+        "quotations": "11"
+      }
+    },
+    {
+      "model": "quotation.Quotation_Staff",
+      "pk": 2,
+      "fields": {
+        "staff": "2",
+        "quotations": "7"
+      }
+    }
+]

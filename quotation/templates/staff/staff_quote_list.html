@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+
+<style>
+    .badge-primary {
+    color: #fff;
+    background-color: #007bff;
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+     Quotation List
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <th>Sno</th>
+                <th>Quote No</th>
+                <th>Date Requested</th>
+                <th>Status</th>
+                <th>Action</th>
+            </thead>
+            <tbody>
+            {% for q in quotes %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ q.quote_number }}</td>
+                    <td>{{ q.date }}</td>
+                    <td><span class="badge badge-primary">{{ q.status }}</span></td>
+                    <td><a href="{% url 'quotation:staff_quote_detail' q.id %}"><i class="fa fa-pen"></i></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+{% endblock javascripts %}

@@ -1,0 +1,107 @@
+{% extends "base_client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5>Status : {{ quote.0.status }} </h5>
+        Quotation Details
+    </div>
+
+    <div class="card-body">
+        <form>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Quote Number</label>
+                        <input type="text" class="form-control" value="{{ quote.0.quote_number}}" readonly/>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Date of Quotation</label>
+                        <input type="text" class="form-control" value="{{ quote.0.date}}" readonly/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Type</label>
+                        <input type="text" class="form-control" value="{{ quote.0.type}}" readonly/>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Cargo Load</label>
+                        <input type="text" class="form-control" value="{{ quote.0.cargoload}}" readonly/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Incoterms</label>
+                        <input type="text" class="form-control" value="{{ quote.0.incoterms}}" readonly/>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Container size</label>
+                        <input type="text" class="form-control" value="{{ quote.0.container_size}}" readonly/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Cargo length</label>
+                        <input type="text" class="form-control" value="{{ quote.0.cargo_length}}" readonly/>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Cargo width</label>
+                        <input type="text" class="form-control" value="{{ quote.0.cargo_width}}" readonly/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Cargo height</label>
+                        <input type="text" class="form-control" value="{{ quote.0.cargo_height}}" readonly/>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Country Origin</label>
+                        <input type="text" class="form-control" value="{{ quote.0.country_origin}}" readonly/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Collection address</label>
+                        <input type="text" class="form-control" value="{{ quote.0.collection_address}}" readonly/>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Cargo description</label>
+                        <input type="text" class="form-control" value="{{ quote.0.cargo_description}}" readonly/>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Are goods categorized as dangerous</label>
+                        <input type="text" class="form-control" value="{{ quote.0.goods_category}}" readonly/>
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <label>Special instructions</label>
+                        <textarea class="form-control" style="height: 100px;">
+                            {{ quote.0.special_instructions}}
+                        </textarea>
+                        
+                    </div>
+                </div>
+
+            </div>
+        </form>
+        <!-- {{ quote }} -->
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+
+{% endblock javascripts %}

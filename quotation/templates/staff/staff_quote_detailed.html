@@ -1,0 +1,424 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+
+<style>
+   hr{
+       margin: unset;
+   }
+
+   #div_id_quotation,#div_id_status{
+    visibility: hidden;
+   }
+   
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5>Status : {{ quote.0.status }} </h5>
+        Quotation Details
+    </div>
+
+    <div class="card-body">
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#quote">Quote</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#verify">Approval</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+       <div class="tab-content">
+        <div class="tab-pane container active" id="quote">
+
+                <form>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Quote Number</label>
+                                <input type="text" class="form-control" value="{{ quote.0.quote_number}}" readonly/>
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Date of Quotation</label>
+                                <input type="text" class="form-control" value="{{ quote.0.date}}" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Type</label>
+                                <input type="text" class="form-control" value="{{ quote.0.type}}" readonly/>
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Cargo Load</label>
+                                <input type="text" class="form-control" value="{{ quote.0.cargoload}}" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Incoterms</label>
+                                <input type="text" id="incoterms_id" class="form-control" value="{{ quote.0.incoterms}}" readonly/>
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Container size</label>
+                                <input type="text" class="form-control" value="{{ quote.0.container_size}}" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Cargo length</label>
+                                <input type="text" class="form-control" value="{{ quote.0.cargo_length}}" readonly/>
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Cargo width</label>
+                                <input type="text" class="form-control" value="{{ quote.0.cargo_width}}" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Cargo height</label>
+                                <input type="text" class="form-control" value="{{ quote.0.cargo_height}}" readonly/>
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Country Origin</label>
+                                <input type="text" class="form-control" value="{{ quote.0.country_origin}}" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Collection address</label>
+                                <input type="text" class="form-control" value="{{ quote.0.collection_address}}" readonly/>
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Cargo description</label>
+                                <input type="text" class="form-control" value="{{ quote.0.cargo_description}}" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Are goods categorized as dangerous</label>
+                                <input type="text" class="form-control" value="{{ quote.0.goods_category}}" readonly/>
+                            </div>
+                            <div class="col-sm-12 col-lg-6">
+                                <label>Special instructions</label>
+                                <textarea class="form-control" style="height: 100px;">
+                                    {{ quote.0.special_instructions}}
+                                </textarea>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <!-- End of quote tab -->
+
+            <!-- Pricing tab -->
+            <div class="tab-pane container fade" id="pricing">
+                <form method="POST" action="{% url 'quotation:staff_quote_detail' quote.0.id %}">
+                    {% csrf_token %}
+
+                   <h5>Agent</h5>
+                   <hr />
+                    {{ staff_pricing_form.agent_name |as_crispy_field }}
+                    
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Buying rate</th>
+                              <th scope="col">Selling rate</th>
+                              <th scope="col">Margin</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            <h5 class="sectionA">Origin Charges</h5>
+                            <hr />
+                            <tr class="sectionA">
+                                <th scope="row">1</th>
+                                <td>{{ staff_pricing_form.buying_origin_haulage |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_origin_haulage |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_origin_haulage |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionA">
+                                <th scope="row">2</th>
+                                <td>{{ staff_pricing_form.buying_customs_documentation |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_customs_documentation |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_customs_documentation |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionA">
+                                <th scope="row">3</th>
+                                <td>{{ staff_pricing_form.buying_origin_terminal_handling |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_origin_terminal_handling |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_origin_terminal_handling |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionA">
+                                <th scope="row">4</th>
+                                <td>{{ staff_pricing_form.buying_port_charges |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_port_charges |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_port_charges |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionA">
+                                <th scope="row">5</th>
+                                <td>{{ staff_pricing_form.buying_other_charges |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_other_charges |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_other_charges |as_crispy_field }}</td>
+                              </tr>
+                        
+
+                              <tr class="sectionB">
+                                  <td><b>B. Freight Elements</b></td>
+                              </tr>
+
+                              <tr class="sectionB">
+                                <th scope="row">1</th>
+                                <td>{{ staff_pricing_form.buying_freight_cost |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_freight_cost |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_freight_cost |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionB">
+                                <th scope="row">2</th>
+                                <td>{{ staff_pricing_form.buying_other_freight_charges |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_other_freight_charges |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_other_freight_charges |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionB">
+                                <th scope="row">3</th>
+                                <td>{{ staff_pricing_form.buying_total_origin |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_total_origin |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_total_origin |as_crispy_field }}</td>
+                              </tr>
+
+                    
+                              <tr class="sectionC">
+                                  <td><b>C.Destination Charges</b></td>
+                              </tr>
+
+                              <tr class="sectionC">
+                                <th scope="row">1</th>
+                                <td>{{ staff_pricing_form.buying_terminal_handling |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_terminal_handling |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_terminal_handling |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionC">
+                                <th scope="row">2</th>
+                                <td>{{ staff_pricing_form.buying_port_charges_dest |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_port_charges_dest |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_port_charges_dest |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionC">
+                                <th scope="row">3</th>
+                                <td>{{ staff_pricing_form.buying_agency_fee |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_agency_fee |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_agency_fee |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionC">
+                                <th scope="row">4</th>
+                                <td>{{ staff_pricing_form.buying_transport_delivery |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_transport_delivery |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_transport_delivery |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionC">
+                                <th scope="row">5</th>
+                                <td>{{ staff_pricing_form.buying_other_destination_charges |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_other_destination_charges |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_other_destination_charges |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionC">
+                                <th scope="row">6</th>
+                                <td>{{ staff_pricing_form.buying_total_destination |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.selling_total_destination |as_crispy_field }}</td>
+                                <td>{{ staff_pricing_form.margin_total_destination |as_crispy_field }}</td>
+                              </tr>
+
+                    
+                              <tr class="sectionD">
+                                  <td>
+                                      <b>Import Duties and Taxes</b>
+                                  </td>
+                              </tr>
+
+                              <tr class="sectionD">
+                                  <th scope="row">1</th>
+                                  <td>{{ staff_pricing_form.hs_code |as_crispy_field }}</td>
+                              </tr>
+
+                              <tr class="sectionD">
+                                <th scope="row">2</th>
+                                <td>{{ staff_pricing_form.fob_value |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionD">
+                                <th scope="row">3</th>
+                                <td>{{ staff_pricing_form.freight_charges |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionD">
+                                <th scope="row">4</th>
+                                <td>{{ staff_pricing_form.insurance |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionD">
+                                <th scope="row">5</th>
+                                <td>{{ staff_pricing_form.customs_value |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionD">
+                                <th scope="row">6</th>
+                                <td>{{ staff_pricing_form.sub_total_duties |as_crispy_field }}</td>
+                            </tr>
+
+                    
+                            <tr class="sectionE">
+                                <td>
+                                    <b>No</b>
+                                </td>
+                                <td>
+                                    <b>Tax Rate(%)</b>
+                                </td>
+                                <td>
+                                    Tax Amount
+                                </td>
+                            </tr>
+
+                            <tr class="sectionE">
+                                <th scope="row">1</th>
+                                <td>25%</td>
+                                <td>{{ staff_pricing_form.import_duty |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionE">
+                                <th scope="row">2</th>
+                                <td>10%</td>
+                                <td>{{ staff_pricing_form.excise_duty |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionE">
+                                <th scope="row">3</th>
+                                <td>16%</td>
+                                <td>{{ staff_pricing_form.vat |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionE">
+                                <th scope="row">4</th>
+                                <td>1.50%</td>
+                                <td>{{ staff_pricing_form.railway_levy |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionE">
+                                <th scope="row">5</th>
+                                <td>3.50%</td>
+                                <td>{{ staff_pricing_form.idf_fee |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionE">
+                                <th scope="row">6</th>
+                                <td>0%</td>
+                                <td>{{ staff_pricing_form.levies |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionE">
+                                <th scope="row">7</th>
+                                <td></td>
+                                <td>{{ staff_pricing_form.sub_total_taxes |as_crispy_field }}</td>
+                            </tr>
+
+                            <tr class="sectionE">
+                                <th scope="row">8</th>
+                                <td></td>
+                                <td>{{ staff_pricing_form.total_tax |as_crispy_field }}</td>
+                            </tr>
+
+                
+
+                            <tr class="sectionF">
+                                <td>
+                                    <th scope="row">###</th>
+                                    <td><h5>Grand Total:</h5></td>
+                                    <td>
+                                        {{ staff_pricing_form.grand_total |as_crispy_field }}
+                                        {{ staff_pricing_form.status |as_crispy_field }}
+                                    </td>
+                                </td>
+                            </tr>
+
+                          </tbody>
+                    </table>
+                    
+                    {% if status == 'pending' %}
+                    <p class="text-center">
+                    <input type="submit" class="btn btn-primary" name="submit" value="Submit Pricing"/>
+                    </p>
+                    {% endif %}
+
+                    {{ staff_pricing_form.quotation |as_crispy_field }}
+
+                </form>
+            </div>
+
+            <div class="tab-pane container fade" id="verify">
+                <form>
+                    {% csrf_token %}
+                    <p>
+                        {{ admin_form.status_admin | as_crispy_field }}
+                    </p>
+                    
+                    <p>
+                        {{ admin_form.comment | as_crispy_field }}
+                    </p>
+
+                    <p class="text-center">
+                        <input type="submit" class="btn btn-primary" name="submit" value="Approval" />
+                    </p>
+                    
+                    
+                    <p>
+                        {{ admin_form.quotation | as_crispy_field }}
+                    </p>
+
+                </form>
+            </div>
+
+      </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'js/calculatetotal.js' %}"></script>
+
+<script>
+    
+    
+</script>
+{% endblock javascripts %}

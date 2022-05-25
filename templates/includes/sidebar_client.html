@@ -10,9 +10,15 @@
     /* height: calc(100vh - 360px); */
     height: unset !important;
 }
-  
+
+.quotelink:hover{
+  /* font-size: 20px; */
+  width: 20%;
+}
 </style>
 {% endblock stylesheets %}
+
+
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-4 fixed-left ms-4" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute right-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -95,6 +101,31 @@
       {% endif %}
 
     </div>
+
+    <div class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
+      <ul class="navbar-nav">
+        <li class="nav-item mt-3">
+          <h6 class="ps-4 text-uppercase text-xs font-weight-bolder opacity-6">Quotation</h6>
+        </li>
+
+        <!-- Quotation -->
+        <li class="nav-item mb-1 quotelink">
+          <a class="nav-link {% if 'tables' in segment %} active {% endif %}" href="{% url 'quotation:quote_home' %}">        
+            <span class="nav-link-text ms-1"> <img src="{% static 'img/quote.png' %}" style="width: 15%;">Create Quotation</span>
+          </a>
+        </li>
+        
+        <li class="nav-item mb-1 quotelink">
+          <a class="nav-link {% if 'tables' in segment %} active {% endif %}" href="{% url 'quotation:quote_list' %}">        
+            <span class="nav-link-text ms-1"> <img src="{% static 'img/quote.png' %}" style="width: 15%;">List Quotations</span>
+          </a>
+        </li>
+
+        <!-- End of Quotation -->
+
+      </ul>
+    </div>
+
 
     <!-- new navlinks -->
     <div class="collapse navbar-collapse  w-auto" id="sidenav-collapse-main">
