@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
+
 {% block stylesheets %}
 
 <style>
@@ -17,7 +18,7 @@
 {% block content %}
 <div class="card">
     <div class="card-header">
-        <h5>Status : {{ quote.0.status }} </h5>
+        <h5>Status : {{ quote.status }} </h5>
         Quotation Details
     </div>
 
@@ -31,9 +32,15 @@
             <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#pricing">Pricing</a>
             </li>
-            <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#verify">Approval</a>
-            </li>
+
+        {% for group in request.user.groups.all %}
+           {% if group.name == 'Admins' %}
+                <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#verify">Approval</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
         </ul>
 
         <!-- Tab panes -->
@@ -45,78 +52,78 @@
                         <div class="row">
                             <div class="col-sm-12 col-lg-6">
                                 <label>Quote Number</label>
-                                <input type="text" class="form-control" value="{{ quote.0.quote_number}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.quote_number}}" readonly/>
                             </div>
                             <div class="col-sm-12 col-lg-6">
                                 <label>Date of Quotation</label>
-                                <input type="text" class="form-control" value="{{ quote.0.date}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.date}}" readonly/>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12 col-lg-6">
                                 <label>Type</label>
-                                <input type="text" class="form-control" value="{{ quote.0.type}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.type}}" readonly/>
                             </div>
                             <div class="col-sm-12 col-lg-6">
                                 <label>Cargo Load</label>
-                                <input type="text" class="form-control" value="{{ quote.0.cargoload}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.cargoload}}" readonly/>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12 col-lg-6">
                                 <label>Incoterms</label>
-                                <input type="text" id="incoterms_id" class="form-control" value="{{ quote.0.incoterms}}" readonly/>
+                                <input type="text" id="incoterms_id" class="form-control" value="{{ quote.incoterms}}" readonly/>
                             </div>
                             <div class="col-sm-12 col-lg-6">
                                 <label>Container size</label>
-                                <input type="text" class="form-control" value="{{ quote.0.container_size}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.container_size}}" readonly/>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12 col-lg-6">
                                 <label>Cargo length</label>
-                                <input type="text" class="form-control" value="{{ quote.0.cargo_length}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.cargo_length}}" readonly/>
                             </div>
                             <div class="col-sm-12 col-lg-6">
                                 <label>Cargo width</label>
-                                <input type="text" class="form-control" value="{{ quote.0.cargo_width}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.cargo_width}}" readonly/>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12 col-lg-6">
                                 <label>Cargo height</label>
-                                <input type="text" class="form-control" value="{{ quote.0.cargo_height}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.cargo_height}}" readonly/>
                             </div>
                             <div class="col-sm-12 col-lg-6">
                                 <label>Country Origin</label>
-                                <input type="text" class="form-control" value="{{ quote.0.country_origin}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.country_origin}}" readonly/>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12 col-lg-6">
                                 <label>Collection address</label>
-                                <input type="text" class="form-control" value="{{ quote.0.collection_address}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.collection_address}}" readonly/>
                             </div>
                             <div class="col-sm-12 col-lg-6">
                                 <label>Cargo description</label>
-                                <input type="text" class="form-control" value="{{ quote.0.cargo_description}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.cargo_description}}" readonly/>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-12 col-lg-6">
                                 <label>Are goods categorized as dangerous</label>
-                                <input type="text" class="form-control" value="{{ quote.0.goods_category}}" readonly/>
+                                <input type="text" class="form-control" value="{{ quote.goods_category}}" readonly/>
                             </div>
                             <div class="col-sm-12 col-lg-6">
                                 <label>Special instructions</label>
                                 <textarea class="form-control" style="height: 100px;">
-                                    {{ quote.0.special_instructions}}
+                                    {{ quote.special_instructions}}
                                 </textarea>
                                 
                             </div>
@@ -129,7 +136,7 @@
 
             <!-- Pricing tab -->
             <div class="tab-pane container fade" id="pricing">
-                <form method="POST" action="{% url 'quotation:staff_quote_detail' quote.0.id %}">
+                <form method="POST" action="{% url 'quotation:staff_quote_detail' quote.id %}">
                     {% csrf_token %}
 
                    <h5>Agent</h5>
@@ -383,8 +390,13 @@
             </div>
 
             <div class="tab-pane container fade" id="verify">
-                <form>
+                <form method="post" action="{% url 'quotation:admin_review' %}">
                     {% csrf_token %}
+                    
+                    <p style="display: none">
+                        {{ staff_pricing_form.quotation }}
+                    </p>
+                    
                     <p>
                         {{ admin_form.status_admin | as_crispy_field }}
                     </p>

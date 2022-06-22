@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'reports',
     'quotation',
 ]
+
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [

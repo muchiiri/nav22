@@ -37,7 +37,8 @@ class Quotation(models.Model):
     status_choices = (
         ("pending","Pending"),
         ("review","Review"),
-        ("approved","Approved"),
+        ("approved_admin","Approved_Admin"),
+        ("approved_client","Approved_Client"),
         ("rejected","Rejected"),
     )
 

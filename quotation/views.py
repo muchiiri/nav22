@@ -2,14 +2,17 @@ from multiprocessing.dummy import current_process
 from django.shortcuts import render
 from urllib3 import HTTPResponse
 from .models import Quotation,Quotation_Staff,Staff_Quotation,Admin_Quotation
-from .forms import QuotationForm,StaffQuotationForm,AdminQuotationForm
+from .forms import QuotationForm,StaffQuotationForm,AdminQuotationForm,ClientQuotationPricing
 import random
 from django.urls import reverse
 from django.http import HttpResponseRedirect,HttpResponse
 from accounts.models import Account
 from django.core import serializers
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import render,redirect
 import snoop
+import json
+
 
 #round robin staff quote allocation
 def quote_staff_owner(request):
@@ -61,11 +64,62 @@ def quote_list(request):
         quote_list.append(qot)
     return render(request,"quote_list.html",{"quotes":quote_list})
 
+# #client all list quotations
+# def quote_list_all(request):
+#     current_user = request.user
+#     quote = Quotation.objects.all()
+#     quote_list = []
+    
+#     for qot in quote:
+#         quote_list.append(qot)
+#     return render(request,"quote_list.html",{"quotes":quote_list})
+
 #client detailed quotation
 def quote_detailed(request,id):
     quote = Quotation.objects.filter(id=id)
     quote_values = quote.values()
     return render(request,"quote_detailed.html",{"quote":quote_values})
+
+#client pricing: view quote pricing
+def quote_pricing(request,quote_id,quote_incoterms):
+    quotation = Staff_Quotation.objects.get(quotation=quote_id)
+    print(quote_incoterms)
+    initial = {
+        "quotation":quotation.quotation,
+        "agent_name":quotation.agent_name,
+        "selling_origin_haulage":quotation.selling_origin_haulage,
+        "selling_customs_documentation":quotation.selling_customs_documentation,
+        "selling_origin_terminal_handling":quotation.selling_origin_terminal_handling,
+        "selling_port_charges":quotation.selling_port_charges,
+        "selling_other_charges":quotation.selling_other_charges,
+        "selling_freight_cost":quotation.selling_freight_cost,
+        "selling_other_freight_charges":quotation.selling_other_freight_charges,
+        "selling_total_origin":quotation.selling_total_origin,
+        "selling_terminal_handling":quotation.selling_terminal_handling,
+        "selling_port_charges_dest":quotation.selling_port_charges_dest,
+        "selling_agency_fee":quotation.selling_agency_fee,
+        "selling_transport_delivery":quotation.selling_transport_delivery,
+        "selling_other_destination_charges":quotation.selling_other_destination_charges,
+        "selling_total_destination":quotation.selling_total_destination,
+        "hs_code":quotation.hs_code,
+        "fob_value":quotation.fob_value,
+        "freight_charges":quotation.freight_charges,
+        "insurance":quotation.insurance,
+        "customs_value":quotation.customs_value,
+        "sub_total_duties":quotation.sub_total_duties,
+        "import_duty":quotation.import_duty,
+        "excise_duty":quotation.excise_duty,
+        "vat":quotation.vat,
+        "railway_levy":quotation.railway_levy,
+        "idf_fee":quotation.idf_fee,
+        "levies":quotation.levies,
+        "sub_total_taxes":quotation.sub_total_taxes,
+        "total_tax":quotation.total_tax,
+        "grand_total":quotation.grand_total,
+    }
+    
+    quote_pricing = ClientQuotationPricing(initial=initial)
+    return render(request,"quote_pricing.html",{"quote_pricing":quote_pricing,"quote_incoterms":quote_incoterms,"quote_id":quotation.quotation_id})
 
 #staff quote list
 def staff_quote_list(request):
@@ -75,24 +129,35 @@ def staff_quote_list(request):
 
     return render(request,"staff/staff_quote_list.html",{"quotes":quotation,"sidebar":"true"})
 
+#staff quote list all
+def staff_quote_list_all(request):
+    #query Quotation model
+    staff_id = request.user.id
+    quotation = Quotation.objects.all()
+    return render(request,"staff/staff_quote_list.html",{"quotes":quotation,"sidebar":"true"})
+
+
 #staff detailed quotation
 def staff_quote_detailed(request,id):
+    staff_id = request.user.id
+    quote = Quotation.objects.get(id=id)
+
     if request.method == "POST":
         quote_pricing = StaffQuotationForm(request.POST)
         if quote_pricing.is_valid():
-            print("Validdddddddddddd")
             record = quote_pricing.save(commit=False)
             record.status = "review"
             record.save()
 
-    staff_id = request.user.id
-    quote = Quotation.objects.filter(id=id)
-    quote_values = quote.values()
+            #update Quotation status
+            quote.status = "review"
+            quote.save()
 
     #query Staff Quotation
     quote_pricing = Staff_Quotation.objects.filter(quotation=id)
 
     status = None
+    
     if quote_pricing.exists():
         initial = {
             'quotation': id,
@@ -163,18 +228,29 @@ def staff_quote_detailed(request,id):
         status = "pending"
 
     #model form
-    quote_id = quote_values[0]["id"]
+    quote_id = quote.id
     staff_pricing_form = StaffQuotationForm(initial=initial)
 
-    initial_admin = {
-        "quotation":quote_id
-    }
+    #check if approver has reviewed the quote
+    quote_approver = Admin_Quotation.objects.filter(quotation=quote_id)
+    
+    if quote_approver.exists():
+        initial_admin ={
+            "status_admin":quote_approver[0].status_admin,
+            "comment":quote_approver[0].comment
+        }
+    else:
+        initial_admin = {
+            "quotation":quote_id
+        }
     admin_form = AdminQuotationForm(initial=initial_admin)
+    
 
-    return render(request,"staff/staff_quote_detailed.html",{"quote":quote_values,
+    return render(request,"staff/staff_quote_detailed.html",{"quote":quote,
     "staff_pricing_form":staff_pricing_form,"status":status,"admin_form":admin_form,"sidebar":"true"})
 
-def admin_review(request,qid):
+#admin approval of Quote pricing
+def admin_review(request):
     if request.method == "POST":
         admin_form = AdminQuotationForm(request.POST)
         
@@ -182,14 +258,29 @@ def admin_review(request,qid):
             admin_form.save()
 
         #change status of Quotation
-        quote = Quotation.objects.filter(id=qid)
-        quote.status = admin_form.status
-        quote.save()
+        qid = request.POST.get("quotation")
+        quote = Quotation.objects.get(id=qid)
+
+        if request.POST.get("status_admin") == "approved":
+            quote.status = "approved_admin"
+            quote.save()
+
 
         #change status of Staff Quotation
-        quote_staff = Staff_Quotation.objects.filter(quotation=qid)
-        quote_staff.status = admin_form.status
+        quote_staff = Staff_Quotation.objects.get(quotation=qid)
+        quote_staff.status = request.POST.get("status_admin")
         quote_staff.save()
+
+    return redirect(f"/quotation/staff_detailed/{qid}/")
+
+
+#client decision
+def client_decision(request):
+    print(request.GET)
+    quote_id = int(request.GET.get("id"))
+    decision = request.GET.get("status")
     
-    # admin_form = AdminQuotationForm()
-    # return render(request,"")
+    quote_status = Quotation.objects.get(id=quote_id)
+    quote_status.status = decision
+    quote_status.save()
+    return HttpResponse("200")

@@ -198,7 +198,7 @@ $('.numberinput').on('change',function(){
 
     }
     else if(incoterms == "FOB"){
-        hide_section_B();
+        hide_section_A();
     }
     else if(incoterms == "CRF"){
         hide_section_A();
@@ -215,6 +215,7 @@ $('.numberinput').on('change',function(){
         var sectionA = document.getElementsByClassName("sectionA");
         for(let i = 0 ; i<sectionA.length;i++){
         sectionA[i].style.display = "none";
+        console.log("TTTT");
        }
     }
 

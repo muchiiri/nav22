@@ -7,11 +7,27 @@
 {% block content %}
 <div class="card">
     <div class="card-header">
-        <h5>Status : {{ quote.0.status }} </h5>
+        <h5>Status :
+            {% if quote.0.status == 'review' %}
+               In Progress
+            {% elif quote.0.status == 'approved_admin' %}
+                Awaiting Review
+            {% else %}
+                {{ quote.0.status }}
+            {% endif %}
+        </h5>
+
         Quotation Details
     </div>
 
     <div class="card-body">
+        {% if quote.0.status == 'approved_admin' %}
+        
+        <div class="border border-primary p-1">
+            <a href="{% url 'quotation:quote_pricing' quote.0.id quote.0.incoterms %}">Your quote has been replied. <u>Click here to view pricing</u></a>
+        </div>
+        {% endif %}
+
         <form>
             <div class="container">
                 <div class="row">

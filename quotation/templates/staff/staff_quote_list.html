@@ -8,6 +8,32 @@
     color: #fff;
     background-color: #007bff;
 }
+
+.badge-secondary {
+    color: #fff;
+    background-color: #6c757d;
+}
+
+
+.badge-success {
+    color: #fff;
+    background-color: #28a745;
+}
+
+.badge-danger {
+    color: #fff;
+    background-color: #dc3545;
+}
+
+.badge-warning {
+    color: #212529;
+    background-color: #ffc107;
+}
+
+.badge-review {
+    color: #ffffff;
+    background-color: #ffc107;
+}
 </style>
 {% endblock stylesheets %}
 {% block content %}
@@ -30,7 +56,19 @@
                     <td>{{ forloop.counter }}</td>
                     <td>{{ q.quote_number }}</td>
                     <td>{{ q.date }}</td>
-                    <td><span class="badge badge-primary">{{ q.status }}</span></td>
+                    <td>
+                        {% if q.status == "pending" %}
+                        <span class="badge badge-primary">{{ q.status }}</span>
+                        {% elif q.status == "rejected" %}
+                        <span class="badge badge-danger">{{ q.status }}</span>
+                        {% elif q.status == "approved_client" %}
+                        <span class="badge badge-success">{{ q.status }}</span>
+                        {% elif q.status == "review" %}
+                        <span class="badge badge-review">Admin Review</span>
+                        {% else %}
+                        <span class="badge badge-primary">{{ q.status }}</span>
+                        {% endif %}
+                    </td>
                     <td><a href="{% url 'quotation:staff_quote_detail' q.id %}"><i class="fa fa-pen"></i></a></td>
                 </tr>
             {% endfor %}
