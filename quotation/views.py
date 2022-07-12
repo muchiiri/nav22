@@ -28,12 +28,17 @@ def quote_staff_owner(request):
     return str(staff_owner[0])
 
 # Create your views here.
-# @snoop
+@snoop
 def quote_home(request):
     current_user = request.user
     if request.method == "POST":
         quote_staff_owner(request)
         quote_form = QuotationForm(request.POST)
+        
+        for key in request.POST:
+            print(key,request.POST[key])
+        # import pdb; pdb.set_trace()
+
         if quote_form.is_valid():
             record = quote_form.save(commit=False)
             record.owner = current_user
@@ -49,6 +54,10 @@ def quote_home(request):
             
             Quotation_Staff.objects.filter(staff = staffid).update(quotations = quotation_no)
             return HttpResponseRedirect(reverse('quotation:quote_list'))
+        else:
+            print(quote_form.errors)
+            return render(request,"quotation_wizard_air.html",{"form":quote_form})
+
     else:
         random_number = random.randint(10,10000)
         quote_form = QuotationForm(initial={'quote_number':random_number})

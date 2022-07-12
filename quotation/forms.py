@@ -13,6 +13,13 @@ class QuotationForm(forms.ModelForm):
             'goods_category':'Are gooods categorized as dangerous'
         }
 
+#Quotation_Air form
+class Quotation_Air(forms.ModelForm):
+    class Meta:
+        model = Quotation
+        fields = ('incoterms','other_vas','cargo_weight','cargo_length','cargo_width','cargo_height',
+        'country_origin','collection_address','cargo_description','goods_category','special_instructions')
+
 #staff pricing form
 class StaffQuotationForm(forms.ModelForm):
     class Meta:

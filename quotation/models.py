@@ -42,6 +42,17 @@ class Quotation(models.Model):
         ("rejected","Rejected"),
     )
 
+    truck_choices = (
+        ("van","Van"),
+        ("3T","3T Truck"),
+        ("5T","5T Truck"),
+        ("7T","7T Truck"),
+        ("10T","10T Truck"),
+        ("15T","15T Truck"),
+        ("28T","28T Truck"),
+
+    )
+
     owner = models.CharField(max_length = 1000,default="anonymous")
     staff_owner = models.CharField(max_length=1000,default="anonymous")
     quote_number = models.CharField(max_length=10000,default="00000")
@@ -50,16 +61,21 @@ class Quotation(models.Model):
 
     type = models.CharField(max_length=20,choices=FreightType,default="sea")
     cargoload = models.CharField(max_length=20,choices=CargoLoad,default="full")
-    incoterms = models.CharField(max_length=20,choices=Incoterms,default="EX")
+    incoterms = models.CharField(max_length=20,choices=Incoterms,default="EX",blank=True,null=True)
     container_size = models.CharField(max_length=20)
-    cargo_length = models.CharField(max_length=20)
-    cargo_width = models.CharField(max_length=20)
-    cargo_height = models.CharField(max_length=20)
-    country_origin = models.CharField(max_length=100)
-    collection_address = models.CharField(max_length=500)
+    cargo_weight = models.CharField(max_length=200, blank=True, null=True)
+    cargo_length = models.IntegerField()
+    cargo_width = models.IntegerField()
+    cargo_height = models.IntegerField()
+    # cargo_dimensions = models.CharField(max_length=200, blank=True, null=True)
+    country_origin = models.CharField(max_length=100,blank=True,null=True)
+    collection_address = models.CharField(max_length=1000,blank=True,null=True)
+    delivery_address = models.CharField(max_length=1000,blank=True,null=True)
     cargo_description = models.CharField(max_length=500)
     goods_category = models.CharField(max_length=20,choices=category,default="no")
-    special_instructions = models.CharField(max_length=1000)
+    special_instructions = models.CharField(max_length=1000, blank=True, null=True)
+    other_vas = models.CharField(max_length=1000,blank=True,null=True)
+    truck_size = models.CharField(max_length=20,choices=truck_choices,blank=True,null=True)
     status = models.CharField(max_length=20,choices=status_choices,default="pending")
 
 

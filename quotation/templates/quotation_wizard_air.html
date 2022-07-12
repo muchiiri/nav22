@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {% block stylesheets %}
 <style>
-#div_id_owner,#div_id_staff_owner,#div_id_status{
+#div_id_air_form-owner,#div_id_air_form-staff_owner,#div_id_air_form-status{
     display: none;
 }
 </style>
@@ -20,20 +20,30 @@
             {{ form.errors }}
         {% endif %}
 
-        <form method="post" action="{% url 'quotation:quote_home' %}" id="quotation-form">
+        <form method="post" action="" id="quotation-form">
             {% csrf_token %}
-            
-            {{ form.owner | as_crispy_field }}
-            {{ form.staff_owner | as_crispy_field }}
-            {{ form.status | as_crispy_field }}
+
+            {% if form.errors %}
+                {% for field in form %}
+                    {% for error in field.errors %} 
+                    <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                    </div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+
+                {{ form.owner | as_crispy_field }}
+                {{ form.staff_owner | as_crispy_field }}
+                {{ form.status | as_crispy_field }}
 
             <div class="container-fluid main-form">
                 <div class="row">
                     <div class="col-sm-12 col-lg-6">
-                        {{ form.quote_number | as_crispy_field }}
+                        {{ form.incoterms | as_crispy_field }}
                     </div>
                     <div class="col-sm-12 col-lg-6">
-                        {{ form.date | as_crispy_field }}
+                        {{ form.other_vas | as_crispy_field }}
                     </div>
                 </div>
 
@@ -60,50 +70,53 @@
                         {{ form.other_vas | as_crispy_field }}
                     </div>
                     <div class="col-sm-12 col-lg-6">
-                        
+                        {{ form.cargo_weight | as_crispy_field }}
                     </div>
                 </div>
 
+                <fieldset style="border: 1px solid black;padding: 16px;border-radius: 15px;">
+                    <p>Cargo Dimensions in CM</p>
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-4">
+                            {{ form.cargo_length | as_crispy_field }}
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            {{ form.cargo_width | as_crispy_field }}
+                        </div>
+                        <div class="col-sm-12 col-lg-4">
+                            {{ form.cargo_height | as_crispy_field }}
+                        </div>
+                    </div>
+                </fieldset>
+
 
                 <div class="row">
-                    <div class="col-sm-12 col-lg-6">
-                        {{ form.cargo_length | as_crispy_field }}
-                    </div>
-                    <div class="col-sm-12 col-lg-6">
-                        {{ form.cargo_width | as_crispy_field }}
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-sm-12 col-lg-6">
-                        {{ form.cargo_height | as_crispy_field }}
-                    </div>
                     <div class="col-sm-12 col-lg-6">
                         {{ form.country_origin | as_crispy_field }}
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="col-sm-12 col-lg-6">
                         {{ form.collection_address | as_crispy_field }}
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-sm-12 col-lg-6">
                         {{ form.cargo_description | as_crispy_field }}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        {{ form.goods_category | as_crispy_field }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-sm-12 col-lg-6">
-                        {{ form.goods_category | as_crispy_field }}
-                    </div>
-                    <div class="col-sm-12 col-lg-6">
                         {{ form.special_instructions | as_crispy_field }}
                     </div>
-                </div>
             </div>
 
             <p class="text-right" style="margin-right: 3%;">
                 <input type="submit" name="submit" class="btn btn-success"/>
+                
             </p>
             
         </form>
@@ -116,18 +129,6 @@
 <!-- Specific JS goes HERE --> 
 {% block javascripts %}
 <script>
-    document.getElementById("id_quote_number").readOnly = true; 
 
-    //get today date
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = dd + '/' + mm + '/' + yyyy;
-    document.getElementById("id_date").value=today;
-    document.getElementById("id_date").readOnly = true;
 </script>
-
-<script src="{% static 'js/client_hide.js' %}"></script>
 {% endblock javascripts %}

@@ -38,3 +38,34 @@ function hide_section_E(){
     sectionE[i].style.display = "none";
    }
 }
+
+
+    // hide all form elements
+    // function hide_all(){
+    //     var mainform = document.getElementsByClassName("main-form");
+
+    //     document.getElementById("").style.display = "block";
+    // }
+    // hide_all();
+
+   //hide sections based on type of shipment 
+//     var type_of_shipment = document.getElementById("quotation-form").onchange = function(){
+//     var type = document.getElementById("id_type").value;
+//     alert(type);
+//     var getallclasses = document.getElementsByClassName("form-control");
+
+//     for (let i = 0; i < getallclasses.length; i++) {
+//         getallclasses[i].style.display = "none";
+//     }
+
+//     if(type == "sea"){
+//         alert("Sea Shipment");
+//     }
+//     else if(type == "air"){
+//         alert("Air Shipment");
+//     }
+//     else{
+//         alert("Land Shipment");
+//     }
+// }
+// alert(type_of_shipment);
