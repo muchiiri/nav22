@@ -1,0 +1,35 @@
+{% extends "base_client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block stylesheets %}
+<style>
+/* #div_id_air_form-owner,#div_id_air_form-staff_owner,#div_id_air_form-status{
+    display: none;
+} */
+</style>
+{% endblock stylesheets %}
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Request Quotation Form
+    </div>
+    <div class="card-body">
+        {% if form.errors %}
+            {{ form.errors }}
+        {% endif %}
+
+        
+        
+    </div>
+
+</div>
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}
+<script>
+
+</script>
+{% endblock javascripts %}

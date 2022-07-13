@@ -1,7 +1,7 @@
 from cProfile import label
 from pyexpat import model
 from django import forms
-from .models import Quotation,Staff_Quotation,Admin_Quotation
+from .models import Quotation,Staff_Quotation,Admin_Quotation,Quotation_Type
 from crispy_forms.helper import FormHelper
 
 class QuotationForm(forms.ModelForm):
@@ -11,6 +11,15 @@ class QuotationForm(forms.ModelForm):
 
         labels={
             'goods_category':'Are gooods categorized as dangerous'
+        }
+
+#Quotation Type
+class QuotationTypeForm(forms.ModelForm):
+    class Meta:
+        model = Quotation_Type
+        fields = ('type',)
+        labels={
+            'type':'What type of quotation do you need?'
         }
 
 #Quotation_Air form

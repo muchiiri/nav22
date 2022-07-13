@@ -4,6 +4,28 @@ from django.db import models
 from accounts.models import Account
 # Create your models here.
 
+#incoterms
+Incoterms = (
+    ("EX","EX Works"),
+    ("FOB","FOB"),
+    ("CRF","CRF"),
+    ("DAP","DAP"),
+    ("OTHER","Other"),
+)
+
+category = (
+        ("yes","Yes"),
+        ("no","No"),
+    )
+
+#type of freight
+FreightType = (
+("air","Air Freight"),
+("sea","Sea Freight"),
+("road","Road Freight"),
+("warehouse","Ware Housing"),
+)
+
 class Quotation(models.Model):
     #type of freight
     FreightType = (
@@ -78,6 +100,21 @@ class Quotation(models.Model):
     truck_size = models.CharField(max_length=20,choices=truck_choices,blank=True,null=True)
     status = models.CharField(max_length=20,choices=status_choices,default="pending")
 
+class Quotation_Type(models.Model):
+    type = models.CharField(max_length=20,choices=FreightType,default="sea")
+
+class Quotation_Air(models.Model):
+    incoterms = models.CharField(max_length=20,choices=Incoterms,default="EX",blank=True,null=True)
+    other_vas = models.CharField(max_length=1000,blank=True,null=True)
+    cargo_weight = models.CharField(max_length=200, blank=True, null=True)
+    cargo_length = models.IntegerField()
+    cargo_width = models.IntegerField()
+    cargo_height = models.IntegerField()
+    country_origin = models.CharField(max_length=100,blank=True,null=True)
+    collection_address = models.CharField(max_length=1000,blank=True,null=True)
+    cargo_description = models.CharField(max_length=500)
+    goods_category = models.CharField(max_length=20,choices=category,default="no")
+    special_instructions = models.CharField(max_length=1000, blank=True, null=True)
 
 class Quotation_Staff(models.Model):
     staff = models.ForeignKey(Account,

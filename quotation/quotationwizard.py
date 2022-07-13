@@ -1,16 +1,24 @@
 from re import TEMPLATE
+from traceback import format_list
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from formtools.wizard.views import SessionWizardView
 from quotation.models import Quotation
-
+from quotation.forms import *
 
 TEMPLATES = {
+    "":"quotation_wizard.html",
     "air_form": "quotation_wizard_air.html",
 }
 
 class QuotationWizard(SessionWizardView):
-    
+    form_list = [QuotationTypeForm]
+    def get(self, request, *args, **kwargs):
+        # if request.GET.get('next_step'):
+        #     return HttpResponseRedirect(request.path)
+        print("Treeeeee222222222")
+        return super().get(request, *args, **kwargs)
+
     def get_template_names(self):
         return TEMPLATES[self.steps.current]
 

@@ -6,7 +6,7 @@ from quotation.forms import QuotationForm
 
 app_name = 'quotation'
 
-FORMS = [("air_form", QuotationForm),]
+# FORMS = [("air_form", QuotationForm),]
 
 urlpatterns = [
     #client url
@@ -23,5 +23,5 @@ urlpatterns = [
     path('staff_pricing_approval/',admin_review,name='admin_review'),
 
     #wizard form
-    path('quotation_wizard/',QuotationWizard.as_view(FORMS),name='quotation_wizard'),
+    path('quotation_wizard/',QuotationWizard.as_view(),name='quotation_wizard'),
 ]

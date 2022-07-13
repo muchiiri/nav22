@@ -37,7 +37,6 @@ def quote_home(request):
         
         for key in request.POST:
             print(key,request.POST[key])
-        # import pdb; pdb.set_trace()
 
         if quote_form.is_valid():
             record = quote_form.save(commit=False)
