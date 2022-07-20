@@ -101,6 +101,7 @@ class Quotation(models.Model):
     status = models.CharField(max_length=20,choices=status_choices,default="pending")
 
 class Quotation_Type(models.Model):
+    owner = models.ForeignKey(Account,on_delete=models.CASCADE)
     type = models.CharField(max_length=20,choices=FreightType,default="sea")
 
 class Quotation_Air(models.Model):
@@ -115,6 +116,46 @@ class Quotation_Air(models.Model):
     cargo_description = models.CharField(max_length=500)
     goods_category = models.CharField(max_length=20,choices=category,default="no")
     special_instructions = models.CharField(max_length=1000, blank=True, null=True)
+
+class Quotation_Sea(models.Model):
+    incoterms = models.CharField(max_length=20,choices=Incoterms,default="EX",blank=True,null=True)
+    other_vas = models.CharField(max_length=1000,blank=True,null=True)
+    cargo_weight = models.CharField(max_length=200, blank=True, null=True)
+    cargo_length = models.IntegerField()
+    cargo_width = models.IntegerField()
+    cargo_height = models.IntegerField()
+    country_origin = models.CharField(max_length=100,blank=True,null=True)
+    collection_address = models.CharField(max_length=1000,blank=True,null=True)
+    cargo_description = models.CharField(max_length=500)
+    goods_category = models.CharField(max_length=20,choices=category,default="no")
+    special_instructions = models.CharField(max_length=1000, blank=True, null=True)
+
+class Quotation_Road(models.Model):
+    incoterms = models.CharField(max_length=20,choices=Incoterms,default="EX",blank=True,null=True)
+    other_vas = models.CharField(max_length=1000,blank=True,null=True)
+    cargo_weight = models.CharField(max_length=200, blank=True, null=True)
+    cargo_length = models.IntegerField()
+    cargo_width = models.IntegerField()
+    cargo_height = models.IntegerField()
+    country_origin = models.CharField(max_length=100,blank=True,null=True)
+    collection_address = models.CharField(max_length=1000,blank=True,null=True)
+    cargo_description = models.CharField(max_length=500)
+    goods_category = models.CharField(max_length=20,choices=category,default="no")
+    special_instructions = models.CharField(max_length=1000, blank=True, null=True)
+
+class Quotation_Warehouse(models.Model):
+    incoterms = models.CharField(max_length=20,choices=Incoterms,default="EX",blank=True,null=True)
+    other_vas = models.CharField(max_length=1000,blank=True,null=True)
+    cargo_weight = models.CharField(max_length=200, blank=True, null=True)
+    cargo_length = models.IntegerField()
+    cargo_width = models.IntegerField()
+    cargo_height = models.IntegerField()
+    country_origin = models.CharField(max_length=100,blank=True,null=True)
+    collection_address = models.CharField(max_length=1000,blank=True,null=True)
+    cargo_description = models.CharField(max_length=500)
+    goods_category = models.CharField(max_length=20,choices=category,default="no")
+    special_instructions = models.CharField(max_length=1000, blank=True, null=True)
+    
 
 class Quotation_Staff(models.Model):
     staff = models.ForeignKey(Account,

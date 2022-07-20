@@ -1,8 +1,9 @@
 from multiprocessing.dummy import current_process
 from django.shortcuts import render
 from urllib3 import HTTPResponse
-from .models import Quotation,Quotation_Staff,Staff_Quotation,Admin_Quotation
-from .forms import QuotationForm,StaffQuotationForm,AdminQuotationForm,ClientQuotationPricing
+from .models import Quotation,Quotation_Staff,Staff_Quotation,Admin_Quotation, Quotation_Air
+from .forms import QuotationForm,StaffQuotationForm,AdminQuotationForm,ClientQuotationPricing,Quotation_Air
+
 import random
 from django.urls import reverse
 from django.http import HttpResponseRedirect,HttpResponse
@@ -28,8 +29,7 @@ def quote_staff_owner(request):
     return str(staff_owner[0])
 
 # Create your views here.
-@snoop
-def quote_home(request):
+def quote_type(request):
     current_user = request.user
     if request.method == "POST":
         quote_staff_owner(request)
@@ -60,7 +60,23 @@ def quote_home(request):
     else:
         random_number = random.randint(10,10000)
         quote_form = QuotationForm(initial={'quote_number':random_number})
-        return render(request,"quote_home.html",{"form":quote_form})
+        return render(request,"quote_type.html",{"form":quote_form})
+
+#quote air
+def quote_air(request):
+    if request.method == "POST":
+        quote_form = Quotation_Air(request.POST)
+        if quote_form.is_valid():
+            record = quote_form.save(commit=False)
+            record.owner = request.user
+            record.save()
+            return HttpResponseRedirect(reverse('quotation:quote_list'))
+        else:
+            print(quote_form.errors)
+            return render(request,"quotation_wizard_air.html",{"form":quote_form})
+    else:
+        quote_form = Quotation_Air()
+        return render(request,"quotation_wizard_air.html",{"form":quote_form})
 
 #client list quotations
 def quote_list(request):

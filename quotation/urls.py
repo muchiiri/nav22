@@ -10,7 +10,7 @@ app_name = 'quotation'
 
 urlpatterns = [
     #client url
-    path('',quote_home ,name='quote_home'),
+    path('',quote_type ,name='quote_type'),
     path('list',quote_list,name='quote_list'),
     path('detailed/<int:id>/',quote_detailed,name='quote_detail'),
     path('client_pricing/<int:quote_id>/<str:quote_incoterms>/',quote_pricing,name='quote_pricing'),
@@ -22,6 +22,9 @@ urlpatterns = [
     path('staff_detailed/<int:id>/',staff_quote_detailed,name='staff_quote_detail'),
     path('staff_pricing_approval/',admin_review,name='admin_review'),
 
+    #form url air,sea,road,warehouse
+    path('air_form/',quote_air,name='air_form'),
     #wizard form
-    path('quotation_wizard/',QuotationWizard.as_view(),name='quotation_wizard'),
+    #path('quotation_wizard/',QuotationWizard.as_view(),name='quotation_wizard'),
+    
 ]
