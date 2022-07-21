@@ -20,7 +20,7 @@
             {{ form.errors }}
         {% endif %}
 
-        <form method="post" action="{% url 'quotation:quote_home' %}" id="quotation-form">
+        <form method="post" action="{% url 'quotation:air_form' %}" id="quotation-form">
             {% csrf_token %}
             
             {{ form.owner | as_crispy_field }}
