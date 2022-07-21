@@ -31,6 +31,6 @@ urlpatterns = [
     path('fielduser/', include('fielduser.urls')),
     path('shipments/', include('shipments.urls')),
     path('reports/', include('reports.urls')),
-    path('quotation/',include('quotation.urls')),
+    path('quotation/',include('quote.urls')),
 
 ]

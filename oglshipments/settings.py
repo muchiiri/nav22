@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_countries',
     'client',
     'accounts',
     'crispy_forms',
@@ -53,7 +54,7 @@ INSTALLED_APPS = [
     'fielduser',
     'keyuser',
     'reports',
-    'quotation',
+    'quote',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

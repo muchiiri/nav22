@@ -10,7 +10,6 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
 import datetime
-from quotation.models import *
 
 # Create your views here.
 def not_in_oglstaff_group(user):
@@ -33,7 +32,7 @@ def home(request):
 
     #query Quotation model
     staff_id = request.user.id
-    quotation = Quotation.objects.filter(staff_owner=staff_id)
+    # quotation = Quotation.objects.filter(staff_owner=staff_id)
 
     return render(request,"index_fielduser.html",{"group":"staff","context":roadfreight,"context2":seafreight,"context3":airfreight,"airno":airno,"sno":sno,"rno":rno,"allno":allno,"sidebar":"true","allocated_quotations":quotation})
 
