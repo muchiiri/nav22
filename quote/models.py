@@ -31,6 +31,14 @@ class Quote(models.Model):
     goods_category = models.CharField(max_length=30, choices=category, default="No")
     special_delivery = models.CharField(max_length=300, blank=True, null=True)
 
+class QuoteType(models.Model):
+    user = settings.AUTH_USER_MODEL
+    owner = models.ForeignKey(user, on_delete=models.CASCADE)
+    type = models.CharField(max_length=30)
+    date = models.DateField()
+    def __str__(self):
+        return self.type
+
 class Quote_Air(Quote):
     cargo_weight = models.FloatField()
     cargo_dimension_length = models.CharField(max_length=100)
