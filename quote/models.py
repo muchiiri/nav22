@@ -32,9 +32,15 @@ class Quote(models.Model):
     special_delivery = models.CharField(max_length=300, blank=True, null=True)
 
 class QuoteType(models.Model):
+    type_choices = (
+        ("Air","Air"),
+        ("Sea","Sea"),
+        ("Road","Road"),
+        ("Warehouse","Warehouse"),
+    )
     user = settings.AUTH_USER_MODEL
     owner = models.ForeignKey(user, on_delete=models.CASCADE)
-    type = models.CharField(max_length=30)
+    type = models.CharField(max_length=30, choices=type_choices, default="Air")
     date = models.DateField()
     def __str__(self):
         return self.type

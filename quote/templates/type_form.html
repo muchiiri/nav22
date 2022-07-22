@@ -1,0 +1,50 @@
+{% extends "base_client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block stylesheets %}
+
+    <style>
+        
+    </style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ _('Create a new quote') }}</h3>
+        </div>
+    </div>
+
+    <form method="post" action="{% url 'quote:type' %}">
+        {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form|crispy }}
+            <input type="submit" name="submit" class="btn btn-primary" value="{{ _('Create') }}">
+        </div>
+    </div>
+    </form>
+
+</div>
+{% endblock content %}
+
+{% block javascripts %}
+<script>
+    // today date
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10) {
+        dd='0'+dd
+    }
+    if(mm<10) {
+        mm='0'+mm
+    }
+    today = yyyy+'-'+mm+'-'+dd;
+    document.getElementById("id_date").value = today;
+    document.getElementById("id_date").setAttribute("readonly", "readonly");
+
+</script>
+{% endblock javascripts %}
