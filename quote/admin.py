@@ -1,7 +1,13 @@
 from django.contrib import admin
 from .models import Quote, Quote_Air, Quote_Sea, Quote_Road, Quote_Warehouse, QuoteType
 # Register your models here.
-admin.site.register(Quote)
+class QuoteAdmin(admin.ModelAdmin):
+    list_display = ('id','owner','created_at','updated_at')
+    list_filter = ('created_at','owner')
+    # search_fields = ('id','owner','created_at','updated_at')
+    ordering = ('-created_at',)
+
+admin.site.register(Quote,QuoteAdmin)
 admin.site.register(Quote_Air)
 admin.site.register(Quote_Sea)
 admin.site.register(Quote_Road)

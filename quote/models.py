@@ -1,9 +1,7 @@
-from cProfile import label
-from statistics import mode
-from tokenize import Special
 from django.db import models
 from django.conf import settings
 from django_countries.fields import CountryField
+from django.urls import reverse
 
 # Create your models here.
 class Quote(models.Model):
@@ -30,6 +28,14 @@ class Quote(models.Model):
     cargo_description = models.CharField(max_length=1000, blank=True, null=True)
     goods_category = models.CharField(max_length=30, choices=category, default="No")
     special_delivery = models.CharField(max_length=300, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.owner
+
+    # def get_absolute_url(self):
+    #     return reverse("quote:list")
 
 class QuoteType(models.Model):
     type_choices = (
@@ -50,6 +56,9 @@ class Quote_Air(Quote):
     cargo_dimension_length = models.CharField(max_length=100)
     cargo_dimension_width = models.CharField(max_length=100)
     cargo_dimension_height = models.CharField(max_length=100)
+
+    def get_absolute_url(self):
+        return reverse('quotation:detail', kwargs={'pk': self.pk})
 
 class Quote_Sea(Quote):
     container_size = models.FloatField(max_length=100)

@@ -17,9 +17,8 @@
         </div>
     </div>
 
-    <form method="post" action="{% url 'quote:type' %}">
+    <form method="post" action="{% url request.session.type %}">
         {% csrf_token %}
-        {{ context.type }}
     <div class="row">
         <div class="col-md-6">
             {{ form|crispy }}
@@ -30,5 +29,7 @@
     
 {% endblock content %}
 {% block javascripts %}
-
+<script>
+    
+</script>
 {% endblock javascripts %}

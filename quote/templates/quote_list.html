@@ -1,0 +1,61 @@
+{% extends "base_client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load countries %}
+
+{% block stylesheets %}
+
+{% endblock stylesheets %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 card">
+            <h3>{{ _('List quotes') }}</h3>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>{{ _('No') }}</th>
+                        <th>{{ _('Incoterms') }}</th>
+                        <th>{{ _('Origin') }}</th>
+                        <th>{{ _('Destination') }}</th>
+                        <th>{{ _('Created') }}</th>
+                        <th>{{ _('Actions') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for quote in object_list %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ quote.incoterm }}</td>
+
+                        {% get_countries as countries %}
+                        {% get_country quote.county_origin as country %}
+                        <td>{{ country.name }}</td>
+                        
+                        {% get_country quote.county_destination as country %}
+                        <td>{{ country.name }}</td>
+
+                        <td>{{ quote.created_at }}</td>
+                        <td>
+                            <a href="{{ quote.get_absolute_url }}" class="btn btn-primary">{{ _('View') }}</a>
+                            <a href="{{ quote.get_edit_url }}" class="btn btn-primary">{{ _('Edit') }}</a>
+                            <a href="{{ quote.get_delete_url }}" class="btn btn-danger">{{ _('Delete') }}</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock content %}
+{% block javascripts %}
+<script>
+    
+</script>
+{% endblock javascripts %}
