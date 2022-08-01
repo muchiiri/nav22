@@ -1,0 +1,105 @@
+{% extends "base_client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load countries %}
+
+{% block stylesheets %}
+    <style>
+        .form-group {
+            margin-bottom: 0px;
+        }
+    </style>
+{% endblock stylesheets %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>{{ _('Details on quote') }}</h3>
+            </div>
+        </div>
+
+        <form method="post" action="">
+            {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <label>Incoterms</label>
+                <input type="text" name="incoterms" value="{{ quote.incoterm }}" class="form-control">
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <label>Other VAS/Document Processing</label>
+                <input type="text" name="origin" value="{{ quote.other_vas }}" class="form-control">
+           </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <label>Cargo weight(Tonnes)</label>
+                <input type="text" name="weight" value="{{ quote_detail.cargo_weight }}" class="form-control">
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <label>Cargo Dimension(Length)</label>
+                <input type="text" name="cargo_len" value="{{ quote_detail.cargo_dimension_length }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <label>Cargo Dimension(Width)</label>
+                <input type="text" name="cargo_wid" value="{{ quote_detail.cargo_dimension_width }}" class="form-control">
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <label>Cargo Dimension(Height)</label>
+                <input type="text" name="cargo_hei" value="{{ quote_detail.cargo_dimension_height }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <label>Country of Origin</label>
+                {% get_countries as countries %}
+                {% get_country quote.county_origin as country %}
+                <input type="text" name="origin" value="{{ country.name }}" class="form-control">
+            </div>
+            <div class="col-md-6 col-sm-12">
+
+                <label>Country of Destination</label>
+                {% get_countries as countries %}
+                {% get_country quote.county_destination as country %}
+                <input type="text" name="destination" value="{{ country.name }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <label>Collection address</label>
+                <input type="text" name="address" value="{{ quote_detail.collection_address }}" class="form-control">
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <label>Cargo Description</label>
+                <input type="text" name="description" value="{{ quote.cargo_description }}" class="form-control">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <label>Are goods categorized as dangerous</label>
+                <input type="text" name="goods_category" value="{{ quote.goods_category }}" class="form-control">
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <label>Special Delivery Instructions</label>
+                <input type="text" name="delivery_date" value="{{ quote.special_delivery }}" class="form-control">
+            </div>
+        </div>
+
+        </form>
+
+{% endblock content %}
+{% block javascripts %}
+
+    <script>
+
+    </script>
+
+{% endblock javascripts %}

@@ -6,8 +6,11 @@ from shipments.models import *
 
 from oglshipments.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
+# from birdseye import eye
+# import heartrate
 
-
+# heartrate.trace(browser=True)
+# @eye
 def not_in_oglclients_group(user):
 	if user.groups.filter(name='Ogl Clients').exists():
 		return True
@@ -28,6 +31,7 @@ def sendmail(request):
 
 @login_required
 #@user_passes_test(not_in_oglclients_group,login_url='/accounts/login')
+# @eye
 def home(request):
 	#sendmail(request)
 	usergroup = request.user.groups.values_list('name', flat=True).first()

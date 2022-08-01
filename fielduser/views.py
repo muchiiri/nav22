@@ -1,4 +1,6 @@
 from django.shortcuts import render,redirect
+
+from quote.models import Quote_App
 from .forms import *
 from accounts.models import *
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -32,9 +34,9 @@ def home(request):
 
     #query Quotation model
     staff_id = request.user.id
-    # quotation = Quotation.objects.filter(staff_owner=staff_id)
+    # quotation = Quote_App.objects.filter(staff_owner=staff_id)
 
-    return render(request,"index_fielduser.html",{"group":"staff","context":roadfreight,"context2":seafreight,"context3":airfreight,"airno":airno,"sno":sno,"rno":rno,"allno":allno,"sidebar":"true","allocated_quotations":quotation})
+    return render(request,"index_fielduser.html",{"group":"staff","context":roadfreight,"context2":seafreight,"context3":airfreight,"airno":airno,"sno":sno,"rno":rno,"allno":allno,"sidebar":"true"})
 
 def home2(request):
     # roadfreight = RoadFreightShip.objects.all()
