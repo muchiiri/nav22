@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Quote, Quote_Air, Quote_Sea, Quote_Road, Quote_Warehouse, QuoteType, Quote_App
+from .models import Quote, Quote_Air, Quote_Sea, Quote_Road, Quote_Warehouse, QuoteType, Quote_App,Staff_Pricing_Quotation
 
 
 # Register your models here.
@@ -16,3 +16,4 @@ admin.site.register(Quote_Road)
 admin.site.register(Quote_Warehouse)
 admin.site.register(QuoteType)
 admin.site.register(Quote_App)
+admin.site.register(Staff_Pricing_Quotation)

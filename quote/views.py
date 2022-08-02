@@ -1,9 +1,10 @@
+from venv import create
 from django.shortcuts import render,HttpResponseRedirect
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from requests import request
-from .models import Quote, Quote_Air, Quote_App, Quote_Sea, Quote_Road, Quote_Warehouse, QuoteType
+from .models import Quote, Quote_Air, Quote_App, Quote_Sea, Quote_Road, Quote_Warehouse, QuoteType, Staff_Pricing_Quotation
 from datetime import date
 # import heartrate
 from birdseye import eye
@@ -179,26 +180,42 @@ class QuoteEditView(ListView):
 
 #detailed quotation
 @eye
-def detailed_quote(request, quote_serial,quote_type):
+def detailed_quote(request, quote_serial,quote_type,pk):
+    
+    #check group session
+    current_group = request.session['currentgroup']
     if quote_type == 'Sea':
         quote = Quote.objects.get(quote_serial_no=quote_serial)
         quote_sea_detail = Quote_Sea.objects.get(quote_serial_no=quote_serial)
-        return render(request, 'quote_detailed_sea.html', {'quote':quote,'quote_detail':quote_sea_detail})
+
+        
+        if current_group == "client":
+            return render(request, 'quote_detailed_sea.html', {'quote':quote,'quote_detail':quote_sea_detail})
+        else:
+            return render(request, 'quote_detailed_sea_staff.html', {'pk':pk,'quote':quote,'quote_detail':quote_sea_detail})
 
     elif quote_type == 'Air':
         quote = Quote.objects.get(quote_serial_no=quote_serial)
         quote_air_detail = Quote_Air.objects.get(quote_serial_no=quote_serial)
-        return render(request, 'quote_detailed_air.html', {'quote':quote,'quote_detail':quote_air_detail})
+        if current_group == "client":
+            return render(request, 'quote_detailed_air.html', {'quote':quote,'quote_detail':quote_air_detail})
+        else:
+            return render(request, 'quote_detailed_air_staff.html', {'quote':quote,'quote_detail':quote_air_detail})
 
     elif quote_type == 'Road':
         quote = Quote.objects.get(quote_serial_no=quote_serial)
         quote_road_detail = Quote_Road.objects.get(quote_serial_no=quote_serial)
-        return render(request, 'quote_detailed_road.html', {'quote':quote,'quote_detail':quote_road_detail})
+        if current_group == "client":
+            return render(request, 'quote_detailed_road.html', {'quote':quote,'quote_detail':quote_road_detail})
+        else:
+            return render(request, 'quote_detailed_road_staff.html', {'quote':quote,'quote_detail':quote_road_detail})
 
     elif quote_type == 'Warehouse':
-        # quote = Quote.objects.get(quote_serial_no=quote_serial)
         quote_warehouse_detail = Quote_Warehouse.objects.get(quote_serial_no=quote_serial)
-        return render(request, 'quote_detailed_warehouse.html', {'quote_detail':quote_warehouse_detail})
+        if current_group == "client":
+            return render(request, 'quote_detailed_warehouse.html', {'quote_detail':quote_warehouse_detail})
+        else:
+            return render(request, 'quote_detailed_warehouse_staff.html', {'quote_detail':quote_warehouse_detail})
 
 
 #staff quote list
@@ -213,3 +230,20 @@ class StaffQuoteListView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'List Quotation'
         return context
+
+#staff add pricing
+@eye
+def staff_add_pricing(request):
+
+    section = request.POST.get("section")
+    if section == 'ex':
+        agent_name = request.POST.get("agent_name")
+        quote_app_id = request.POST.get("quote_app_id")
+        quote_app_pk = Quote_App.objects.get(id=quote_app_id)
+        return render(request, 'sections/ex_A.html')
+    elif section == 'DAP':
+        return render(request, 'sections/dap.html')
+    elif section == 'CRF': 
+        return render(request, 'sections/crf.html')
+    elif section == 'FOB':
+        return render(request, 'sections/fob.html')

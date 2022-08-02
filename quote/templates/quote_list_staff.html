@@ -43,7 +43,7 @@
                         
                         <td>
                             
-                            <a href="{% url 'quote:detail' quote.quote_serial_no quote.quote_type %}" class="btn btn-primary">{{ _('View') }}</a>
+                            <a href="{% url 'quote:detail' quote.quote_serial_no quote.quote_type quote.id %}" class="btn btn-primary">{{ _('View') }}</a>
                             
                            {% comment %}
                             <a href="{{ quote.get_delete_url }}" class="btn btn-danger">{{ _('Delete') }}</a>

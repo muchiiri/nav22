@@ -14,9 +14,10 @@ urlpatterns = [
     path('list/',QuoteListView.as_view(),name="list"),
 
     path('edit/<int:pk>/',QuoteEditView.as_view(),name="edit"),
-    path('detail/<str:quote_serial>/<str:quote_type>/',detailed_quote,name="detail"),
+    path('detail/<str:quote_serial>/<str:quote_type>/<int:pk>/',detailed_quote,name="detail"),
     # path('delete/<int:pk>/',QuoteDeleteView.as_view(),name="delete"),
 
     #staff urls
     path('staff/list/',StaffQuoteListView.as_view(),name="staff_list"),
+    path('staff/ex1/',staff_add_pricing,name="staff_add_pricing_ex"),
 ]

@@ -33,30 +33,33 @@ def sendmail(request):
 #@user_passes_test(not_in_oglclients_group,login_url='/accounts/login')
 # @eye
 def home(request):
-	#sendmail(request)
+	
 	usergroup = request.user.groups.values_list('name', flat=True).first()
 	print(usergroup)
-	#import pdb;pdb.set_trace()
+	currentuser = request.user
+
 	if usergroup == "Ogl Clients":
-		currentuser = request.user
+		request.session['currentgroup'] = "client"
 		road_list = RoadFreightShip.objects.filter(owner=currentuser)
 		sea_list = SeaFreightShip.objects.filter(owner=currentuser)
 		air_list = AirFreightShip.objects.filter(owner=currentuser)
-		# import pdb;pdb.set_trace()
-		# allfreightformward = FreightForwarding.objects.all()
 		
 
 		number_road = len(road_list)
 		number_sea = len(sea_list)
 		number_air = len(air_list)		
-		
 		return render(request,"index.html",{"context":road_list,"context2":sea_list,"context3":air_list,"rno":number_road,"sno":number_sea,"airno":number_air})
+
 	elif usergroup == "Ogl_fielduser":
-		#return render(request,"index_fielduser.html")
+		request.session['currentgroup'] = "fielduser"
 		return redirect("/fielduser/")
+
 	elif usergroup == "Ogl_keyuser":
+		request.session['currentgroup'] = "keyuser"
 		return redirect("/keyuser/")
+
 	else:
+		request.session['currentgroup'] = "client"
 		return render(request,"index.html")
 
 def homecomplete(request):
