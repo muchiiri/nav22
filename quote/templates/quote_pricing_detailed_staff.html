@@ -1,0 +1,402 @@
+{% extends 'components/base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load countries %}
+
+{% block styles %}
+
+{% endblock %}
+
+    {% block content %}
+      <!-- Page Header -->
+                <div class="page-header">
+                    <div>
+                        <h2 class="main-content-title tx-24 mg-b-5">Reviewed Quotation List</h2>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="javascript:void(0);">Quotations</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Active Quotations</li>
+                        </ol>
+                    </div>
+                    <div class="d-flex">
+                        <div class="justify-content-center">
+                            <button type="button" class="btn btn-white btn-icon-text my-2 me-2">
+                                <i class="fe fe-settings"></i>
+                                <span>Settings</span>
+                            </button>
+                            <button type="button" class="btn btn-primary my-2 btn-icon-text">
+                                <i class="fe fe-download-cloud bg-white-transparent text-white"></i>
+                                <span>Reports</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Page Header -->
+
+                <!-- Row -->
+                <div class="row row-sm">
+                    <div class="col-lg-12">
+                        <div class="card custom-card overflow-hidden">
+                            <div class="card-body">
+                                <div>
+                                    <h6 class="main-content-label mb-1">My Quotations</h6>
+                                    <p class="text-muted card-sub-title">List of reviewed quotations</p>
+                                </div>
+
+                                <div class="d-md-flex">
+                                    <div class="">
+                                        <div class="panel panel-primary tabs-style-4">
+                                            <div class="tab-menu-heading">
+                                                <ul class="nav panel-tabs">
+                                                    <li class=""><a href="#tab21" class="active" data-bs-toggle="tab">Section A</a></li>
+                                                    <li><a href="#tab22" data-bs-toggle="tab">Section B</a></li>
+                                                    <li><a href="#tab23" data-bs-toggle="tab">Section C</a></li>
+                                                    <li><a href="#tab24" data-bs-toggle="tab">Section D</a></li>
+                                                    <li><a href="#tab25" data-bs-toggle="tab">Section E</a></li>
+                                                    {% if request.session.is_admin == True %}
+                                                    <li><a href="#tab26" data-bs-toggle="tab">Approval</a></li>
+                                                    {% endif %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="tabs-style-4">
+                                        <div class="panel-body tabs-menu-body">
+                                            <div class="tab-content">
+                                                <h5>Agent name : {{ data.agent_name }} </h5>
+                                                <h5>Incoterms : {{ data.quotation.incoterm }} </h5>
+                                                
+                                                <div class="tab-pane active" id="tab21">
+                                                   <div class="table-responsive">
+                                                        <table class="table table-bordered text-nowrap">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="wd-15p border-bottom-0">Item</th>
+                                                                    <th class="wd-15p border-bottom-0">Buying</th>
+                                                                    <th class="wd-15p border-bottom-0">Selling</th>
+                                                                    <th class="wd-15p border-bottom-0">Margin</th>
+                                                                    
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Origin Haulage</td>
+                                                                    <td>{{ data.buying_origin_haulage }}</td>
+                                                                    <td>{{ data.selling_origin_haulage }}</td>
+                                                                    <td>{{ data.margin_origin_haulage }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Customs Documentation</td>
+                                                                    <td>{{ data.buying_customs_documentation }}</td>
+                                                                    <td>{{ data.selling_customs_documentation }}</td>
+                                                                    <td>{{ data.margin_customs_documentation }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Terminal Handling</td>
+                                                                    <td>{{ data.buying_origin_terminal_handling }}</td>
+                                                                    <td>{{ data.selling_origin_terminal_handling }}</td>
+                                                                    <td>{{ data.margin_origin_terminal_handling }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Airport Charges</td>
+                                                                    <td>{{ data.buying_airport_charges }}</td>
+                                                                    <td>{{ data.selling_airport_charges }}</td>
+                                                                    <td>{{ data.margin_airport_charges }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Total Charges</td>
+                                                                    <td>{{ data.buying_other_charges_A }}</td>
+                                                                    <td>{{ data.selling_other_charges_A }}</td>
+                                                                    <td>{{ data.margin_other_charges_A }}</td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                     
+                                                   </div>                 
+                                                </div>
+
+                                                <div class="tab-pane" id="tab22">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered text-nowrap">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="wd-15p border-bottom-0">Item</th>
+                                                                    <th class="wd-15p border-bottom-0">Buying</th>
+                                                                    <th class="wd-15p border-bottom-0">Selling</th>
+                                                                    <th class="wd-15p border-bottom-0">Margin</th>
+                                                                    
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Air Freight</td>
+                                                                    <td>{{ data.buying_freight_cost }}</td>
+                                                                    <td>{{ data.selling_freight_cost }}</td>
+                                                                    <td>{{ data.margin_freight_cost }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Other Charges</td>
+                                                                    <td>{{ data.buying_other_freight_charges }}</td>
+                                                                    <td>{{ data.selling_other_freight_charges }}</td>
+                                                                    <td>{{ data.margin_other_freight_charges }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Total Charges</td>
+                                                                    <td>{{ data.buying_total_B }}</td>
+                                                                    <td>{{ data.selling_total_B }}</td>
+                                                                    <td>{{ data.margin_total_B }}</td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                   </div>               
+                                                </div>
+                                                
+                                                <div class="tab-pane" id="tab23">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered text-nowrap">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="wd-15p border-bottom-0">Item</th>
+                                                                    <th class="wd-15p border-bottom-0">Buying</th>
+                                                                    <th class="wd-15p border-bottom-0">Selling</th>
+                                                                    <th class="wd-15p border-bottom-0">Margin</th>
+                                                                    
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Terminal Handling</td>
+                                                                    <td>{{ data.buying_terminal_handling }}</td>
+                                                                    <td>{{ data.selling_terminal_handling }}</td>
+                                                                    <td>{{ data.margin_terminal_handling }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Agency Fee</td>
+                                                                    <td>{{ data.buying_agency_fee }}</td>
+                                                                    <td>{{ data.selling_agency_fee }}</td>
+                                                                    <td>{{ data.margin_agency_fee }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Transport Delivery Point</td>
+                                                                    <td>{{ data.buying_transport_delivery }}</td>
+                                                                    <td>{{ data.selling_transport_delivery }}</td>
+                                                                    <td>{{ data.margin_transport_delivery }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Other Destination Charges</td>
+                                                                    <td>{{ data.buying_other_destination_charges }}</td>
+                                                                    <td>{{ data.selling_other_destination_charges }}</td>
+                                                                    <td>{{ data.margin_other_destination_charges }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Total C</td>
+                                                                    <td>{{ data.buying_total_C }}</td>
+                                                                    <td>{{ data.selling_total_C }}</td>
+                                                                    <td>{{ data.margin_total_C }}</td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                   </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="tab24">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered text-nowrap">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="wd-15p border-bottom-0">Item</th>
+                                                                    <th class="wd-15p border-bottom-0">Amount</th>
+                                                                    <!-- <th class="wd-15p border-bottom-0">Selling</th>
+                                                                    <th class="wd-15p border-bottom-0">Margin</th> -->
+                                                                    
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>HS Code</td>
+                                                                    <td>{{ data.hs_code_bp }}</td>
+                                                                    <!-- <td>{{ data.hs_code_sp }}</td>
+                                                                    <td>{{ data.hs_code_margin }}</td> -->
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>FOB code</td>
+                                                                    <td>{{ data.fob_value_bp }}</td>
+                                                                    <!-- <td>{{ data.fob_value_sp }}</td>
+                                                                    <td>{{ data.fob_value_margin }}</td> -->
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Freight Charges</td>
+                                                                    <td>{{ data.freight_charges_bp }}</td>
+                                                                    <!-- <td>{{ data.freight_charges_sp }}</td>
+                                                                    <td>{{ data.freight_charges_margin }}</td> -->
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Insurance</td>
+                                                                    <td>{{ data.insurance_bp }}</td>
+                                                                    <!-- <td>{{ data.insurance_sp }}</td>
+                                                                    <td>{{ data.insurance_margin }}</td> -->
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Customs</td>
+                                                                    <td>{{ data.customs_value_bp }}</td>
+                                                                    <!-- <td>{{ data.customs_value_sp }}</td>
+                                                                    <td>{{ data.customs_value_margin }}</td> -->
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Total Charges</td>
+                                                                    <td>{{ data.buying_total_D }}</td>
+                                                                    <!-- <td>{{ data.selling_total_D }}</td>
+                                                                    <td>{{ data.margin_total_D }}</td> -->
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                   </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="tab25">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered text-nowrap">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="wd-15p border-bottom-0">Item</th>
+                                                                    <th class="wd-15p border-bottom-0">Amount</th>
+                                                                    
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>Import Duty</td>
+                                                                    <td>{{ data.import_duty }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Excise Duty</td>
+                                                                    <td>{{ data.excise_duty }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>VAT</td>
+                                                                    <td>{{ data.vat }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Railway Levy</td>
+                                                                    <td>{{ data.railway_levy }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>IDF Fee</td>
+                                                                    <td>{{ data.idf_fee }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Levies</td>
+                                                                    <td>{{ data.levies }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Total Tax</td>
+                                                                    <td>{{ data.total_tax }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Grand Total(Buying)</td>
+                                                                    <td>{{ data.grand_total_bp }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Grand Total(Selling)</td>
+                                                                    <td>{{ data.grand_total_sp }}</td>
+                                                                </tr>
+
+                                                                <tr>
+                                                                    <td>Grand Total(Margin)</td>
+                                                                    <td>{{ data.grand_total_margin }}</td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                   </div>
+                                                </div>
+
+                                                <div class="tab-pane" id="tab26">
+                                                    <h5>Approval Form</h5>
+                                                    <!-- Approval form -->
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <form action="{% url 'quote:admin_approval' %}" method="POST">
+                                                                {% csrf_token %}
+                                                                <input type="hidden" name="staff_pricing_id" value="{{ data.id }}">
+                                                                <input type="hidden" name="quote_id" value="{{ data.quotation }}">
+                                                                <div class="form-group">
+                                                                    <label for="exampleFormControlSelect1">Select Approval Status</label>
+                                                                    <select class="form-control" id="exampleFormControlSelect1" name="approval_status">
+                                                                        <option value="approved">Approved</option>
+                                                                        <option value="rejected">Rejected</option>
+                                                                    </select>
+                                                                </div>
+                                                                <!-- <div class="form-group">
+                                                                    <label for="exampleFormControlTextarea1">Comment</label>
+                                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="comment"></textarea>
+                                                                </div> -->
+                                                                <input type="submit" class="btn btn-primary" value="Approve Pricing">
+                                                            </form>
+                                                        </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Row -->
+
+    {% endblock %}
+
+{% block scripts %}
+
+<!-- Internal Data Table js -->
+<script src=" {% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/js/dataTables.bootstrap5.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/js/buttons.bootstrap5.min.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/js/jszip.min.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/pdfmake/pdfmake.min.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/pdfmake/vfs_fonts.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/js/buttons.html5.min.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/js/buttons.print.min.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/dataTables.responsive.min.js' %} "></script>
+<script src=" {% static 'assets/plugins/datatable/responsive.bootstrap5.min.js' %} "></script>
+<script src=" {% static 'assets/js/table-dataroad.js' %} "></script>
+<script src=" {% static 'assets/js/table-datasea.js' %} "></script>
+<script src=" {% static 'assets/js/table-dataair.js' %} "></script>
+
+{% endblock %}

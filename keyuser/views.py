@@ -66,7 +66,7 @@ def RoadFreightShip_view(request):
             [str(currentowner)]
         )
 
-        email.fail_silently = False
+        email.fail_silently = True
         email.send()
 
         messages.success(request,"Shipment created successfully, email has been sent to customer.")
@@ -116,7 +116,7 @@ def AirFreightShip_view(request):
             [str(currentowner)]
         )
 
-        email.fail_silently = False
+        email.fail_silently = True
         email.send()
         messages.success(request,"Shipment created successfully, email has been sent to customer.")
 
@@ -150,7 +150,6 @@ def SeaFreightShip_view(request):
     #form = RoadFreightShipForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         form = SeaFreightShipForm(request.POST)
-        # import pdb; pdb.set_trace()
         form = form.save(commit=False)
         print(request.user)
         form.staff = request.user
@@ -159,16 +158,16 @@ def SeaFreightShip_view(request):
 
         currentowner = request.POST['owner']
         
-        email = EmailMessage(
-            'Sea Freight Shipment created',
-            'Dear Customer, A new sea freightship shipment has been created for you. Kindly login to Navicus360 system to view it. Thank you.',
-            settings.EMAIL_HOST_USER,
-            [str(currentowner)]
-        )
+        # email = EmailMessage(
+        #     'Sea Freight Shipment created',
+        #     'Dear Customer, A new sea freightship shipment has been created for you. Kindly login to Navicus360 system to view it. Thank you.',
+        #     settings.EMAIL_HOST_USER,
+        #     [str(currentowner)]
+        # )
 
-        email.fail_silently = False
-        email.send()
-        messages.success(request,"Shipment created successfully, email has been sent to customer.")
+        # email.fail_silently = True
+        # email.send()
+        # messages.success(request,"Shipment created successfully, email has been sent to customer.")
 
         response = redirect('/keyuser')
         return response
@@ -329,7 +328,7 @@ def FreightForwardingView(request):
             [str(currentowner)]
         )
 
-        email.fail_silently = False
+        email.fail_silently = True
         email.send()
         #return render(request,'index_fielduser.html',{'success':'success'})
         response = redirect('/keyuser')

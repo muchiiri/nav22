@@ -17,13 +17,13 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path,include
 # from .views import indexHome,profileView
-from .views import Home,profileView
+from .views import Home, handler404, profileView
 
 urlpatterns = [
     # path("",indexHome),
     path("",Home),
     path("profile/",profileView),
-    path('admin/clearcache/', include('clearcache.urls')),
+    # path('admin/clearcache/', include('clearcache.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('client/', include('client.urls')),
@@ -32,5 +32,8 @@ urlpatterns = [
     path('shipments/', include('shipments.urls')),
     path('reports/', include('reports.urls')),
     path('quotation/',include('quote.urls')),
+    path('quote/',include('quote.urls')),
 
 ]
+
+handler404 = 'oglshipments.views.handler404'

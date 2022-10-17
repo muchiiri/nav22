@@ -1,0 +1,260 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load countries %}
+{% block stylesheets %}
+<style>
+.form-group {
+margin-bottom: 0px;
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ _('Section C - Destination Charges') }}</h3>
+        </div>
+    </div>
+
+        <!-- Nav tabs --> 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#home">Quote Details</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#agent">Agent</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionA">Section A</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionB">Section B</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link active" data-toggle="tab" href="#sectionC">Section C</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionD">Section D</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionE">Section E</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionF">Section F</a>
+    </li>
+ </ul>
+
+    <form method="post" action="{% url 'quote:staff_add_pricing' %}">
+        {% csrf_token %}
+        <input type="hidden" name="quote_app_id" value="{{ pk }}" />
+        <input type="hidden" name="section" value="sectionD" />
+        <div class="table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>{{ _('Item') }}</th>
+                        <th>{{ _('Buying') }}</th>
+                        <th>{{ _('Selling') }}</th>
+                        <th>{{ _('Margin') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr class="form-group">
+                        <td>1</td>
+                        <td>Terminal Handling Charges</td>
+                        <td><input type="number" name="handling_bp" class="form-control" id="handling_bp_id" required /></td>
+                        <td><input type="number" name="handling_sp" class="form-control" id="handling_sp_id" required /></td>
+                        <td><input type="text" name="handling_margin" class="form-control" id="handling_margin_id" readonly /></td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>2</td>
+                        <td>Agency Fee</td>
+                        <td><input type="number" name="agency_fee_bp" class="form-control" id="agency_bp_id" required /></td>
+                        <td><input type="number" name="agency_fee_sp" class="form-control" id="agency_sp_id" required /></td>
+                        <td><input type="text" name="agency_fee_margin" class="form-control" id="agency_margin_id" readonly /></td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>3</td>
+                        <td>Transport to Delivery Point</td>
+                        <td><input type="number" name="transport_delivery_fee_bp" class="form-control" id="delivery_bp_id" required /></td>
+                        <td><input type="number" name="transport_delivery_fee_sp" class="form-control" id="delivery_sp_id" required /></td>
+                        <td><input type="text" name="transport_delivery_margin" class="form-control" id="delivery_margin_id" readonly /></td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>4</td>
+                        <td>Other Charges</td>
+                        <td><input type="number" name="other_delivery_fee_bp" class="form-control" id="other_bp_id2" required /></td>
+                        <td><input type="number" name="other_delivery_fee_sp" class="form-control" id="other_sp_id2" required /></td>
+                        <td><input type="text" name="other_margin" class="form-control" id="other_margin_id2" readonly /></td>
+                    </tr>
+
+                   <tr class="form-group">
+                    <td>5</td>
+                    <td>Totals</td>
+                    <td><input type="number" name="total_bp_C" class="form-control" id="total_bp_C" readonly /></td>
+                    <td><input type="number" name="total_sp_C" class="form-control" id="total_sp_C" readonly /></td>
+                    <td><input type="number" name="total_margin_C" class="form-control" id="total_margin_C" readonly /></td>
+                   </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container text-right m-3">
+            <!-- back button to go to last location-->
+            <button class="float-left btn-back btn btn-primary" type="button">Back</button>
+            <input type="submit" class="btn btn-primary subD" value="Next" style="float: right;margin-right: 45px;" />
+        </div>
+    </form>
+
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<script>
+    
+</script>
+<script>
+    //function to get the difference  between bp and sp
+    function getMargin(bp, sp) {
+        var margin = (sp - bp);
+        return margin;
+    }
+
+    //get id of handling bp and sp
+    var handling_bp = document.getElementById('handling_bp_id');
+    var handling_sp = document.getElementById('handling_sp_id');
+    var handling_margin = document.getElementById('handling_margin_id');
+
+    handling_bp.onchange = function() {
+        handling_margin.value = getMargin(handling_bp.value, handling_sp.value);
+        
+          }
+    handling_sp.onchange = function() {
+        handling_margin.value = getMargin(handling_bp.value, handling_sp.value);
+        
+          }
+
+    //get id of agency bp and sp
+    var agency_bp = document.getElementById('agency_bp_id');
+    var agency_sp = document.getElementById('agency_sp_id');
+    var agency_margin = document.getElementById('agency_margin_id');
+    agency_bp.onchange = function() {
+        agency_margin.value = getMargin(agency_bp.value, agency_sp.value);
+        
+          }
+    agency_sp.onchange = function() {
+        agency_margin.value = getMargin(agency_bp.value, agency_sp.value);
+        
+          }
+    //get id of delivery bp and sp
+    var delivery_bp = document.getElementById('delivery_bp_id');
+    var delivery_sp = document.getElementById('delivery_sp_id');
+    var delivery_margin = document.getElementById('delivery_margin_id');
+    delivery_bp.onchange = function() {
+        delivery_margin.value = getMargin(delivery_bp.value, delivery_sp.value);
+        
+          }
+    delivery_sp.onchange = function() {
+        delivery_margin.value = getMargin(delivery_bp.value, delivery_sp.value);
+        
+          }
+          
+    //get id of other bp and sp
+    var other_bp2 = document.getElementById('other_bp_id2');
+    var other_sp2 = document.getElementById('other_sp_id2');
+    var other_margin2 = document.getElementById('other_margin_id2');
+    other_bp2.onchange = function() {
+        other_margin2.value = getMargin(other_bp2.value, other_sp2.value);
+          }
+    other_sp2.onchange = function() {
+        other_margin2.value = getMargin(other_bp2.value, other_sp2.value);
+          }
+
+    //get id of total bp and sp
+    var sum_bp = 0;
+    var sum_sp = 0;
+    var sum_margin = 0;
+
+    var total_bp = document.getElementById('total_bp_C');
+    var total_sp = document.getElementById('total_sp_C');
+    var total_margin = document.getElementById('total_margin_C');
+    total_bp.onchange = function() {
+        total_margin.value = getMargin(total_bp.value, total_sp.value);
+          }
+    total_sp.onchange = function() {
+        total_margin.value = getMargin(total_bp.value, total_sp.value);    
+          }
+
+    // onchange form control
+    $('.form-control').on('change',function(){
+        sum_bp = parseInt(handling_bp.value) + parseInt(agency_bp.value) + parseInt(delivery_bp.value) + parseInt(other_bp2.value);
+        sum_sp = parseInt(handling_sp.value) + parseInt(agency_sp.value) + parseInt(delivery_sp.value) + parseInt(other_sp2.value);
+        sum_margin = parseInt(handling_margin.value) + parseInt(agency_margin.value) + parseInt(delivery_margin.value) + parseInt(other_margin2.value);
+    
+        total_bp = sum_bp;
+        total_sp.value = sum_sp;
+        total_margin.value = sum_margin;
+        
+        document.getElementById('total_bp_C').value = sum_bp;
+        document.getElementById('total_sp_C').value = sum_sp;
+        document.getElementById('total_margin_C').value = sum_margin;
+
+    }       
+    );
+</script>
+
+<script>
+//fill in context data
+var initial_buying_terminal_handling ="{{ initial.buying_terminal_handling }}";
+var initial_selling_terminal_handling ="{{ initial.selling_terminal_handling }}";
+var initial_margin_terminal_handling ="{{ initial.margin_terminal_handling }}";
+$("#handling_bp_id").val(initial_buying_terminal_handling);
+$("#handling_sp_id").val(initial_selling_terminal_handling);
+$("#handling_margin_id").val(initial_margin_terminal_handling);
+
+var initial_buying_agency_fee ="{{ initial.buying_agency_fee }}";
+var initial_selling_agency_fee ="{{ initial.selling_agency_fee }}";
+var initial_margin_agency_fee ="{{ initial.margin_agency_fee }}";
+$("#agency_bp_id").val(initial_buying_agency_fee);
+$("#agency_sp_id").val(initial_selling_agency_fee);
+$("#agency_margin_id").val(initial_margin_agency_fee);
+
+var initial_buying_transport_delivery ="{{ initial.buying_transport_delivery }}";
+var initial_selling_transport_delivery ="{{ initial.selling_transport_delivery }}";
+var initial_margin_transport_delivery ="{{ initial.margin_transport_delivery }}";
+$("#delivery_bp_id").val(initial_buying_transport_delivery);
+$("#delivery_sp_id").val(initial_selling_transport_delivery);
+$("#delivery_margin_id").val(initial_margin_transport_delivery);
+
+var initial_buying_other_destination_charges ="{{ initial.buying_other_destination_charges }}";
+var initial_selling_other_destination_charges ="{{ initial.selling_other_destination_charges }}";
+var initial_margin_other_destination_charges ="{{ initial.margin_other_destination_charges }}";
+$("#other_bp_id2").val(initial_buying_other_destination_charges);
+$("#other_sp_id2").val(initial_selling_other_destination_charges);
+$("#other_margin_id2").val(initial_margin_other_destination_charges);
+
+var initial_buying_total_C ="{{ initial.buying_total_C }}";
+var initial_selling_total_C ="{{ initial.selling_total_C }}";
+var initial_margin_total_C ="{{ initial.margin_total_C }}";
+$("#total_bp_C").val(initial_buying_total_C);
+$("#total_sp_C").val(initial_selling_total_C);
+$("#total_margin_C").val(initial_margin_total_C);
+</script>
+
+<script>
+    //go back to previous history
+    $('.btn-back').on('click', function() {
+        window.history.back();
+    });
+</script>
+{% endblock %}

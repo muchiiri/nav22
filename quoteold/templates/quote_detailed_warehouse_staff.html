@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block stylesheets %}
+    <style>
+        .form-group {
+            margin-bottom: 0px;
+        }
+    </style>
+{% endblock stylesheets %}
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>{{ _('Details on quote') }}</h3>
+            </div>
+        </div>
+
+        <form method="post" action="">
+            {% csrf_token %}
+
+        
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <label>Quote Serial Number</label>
+                <input type="text" class="form-control" name="quote_serial_number" value="{{ quote_detail.quote_serial_no }}" readonly>
+            </div>
+
+            <div class="col-sm-12 col-md-6">
+                <label>Quote Type</label>
+                <input type="text" class="form-control" name="quote_type" value="Warehouse" readonly>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="quote_description_id">{{ _('Cargo description') }}</label>
+                    <input type="text" class="form-control" id="quote_description_id" name="quote_description" value="{{ quote_detail.cargo_description }}" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="cargo_weight_id">{{ _('Cargo weight') }}</label>
+                    <input type="text" class="form-control" id="cargo_weight_id" name="cargo_weight" value="{{ quote_detail.cargo_weight }}" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="cargo_length_id">{{ _('Cargo Dimension Length') }}</label>
+                    <input type="text" class="form-control" id="cargo_length_id" name="cargo_length" value="{{ quote_detail.cargo_dimension_length }}" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="cargo_width_id">{{ _('Cargo Dimension Width') }}</label>
+                    <input type="text" class="form-control" id="cargo_width_id" name="cargo_width" value="{{ quote_detail.cargo_dimension_width }}" readonly>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="cargo_height_id">{{ _('Cargo Dimension Height') }}</label>
+                    <input type="text" class="form-control" id="cargo_height_id" name="cargo_height" value="{{ quote_detail.cargo_dimension_height }}" readonly>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                    <label for="cargo_special_id">{{ _('Cargo Special Delivery Instructions') }}</label>
+                    <input type="text" class="form-control" id="cargo_special_id" name="cargo_special" value="{{ quote_detail.special_delivery }}" readonly>
+                </div>
+            </div>
+        </div>
+
+        </form>
+
+{% endblock content %}
+{% block javascripts %}
+
+    <script>
+
+    </script>
+
+{% endblock javascripts %}

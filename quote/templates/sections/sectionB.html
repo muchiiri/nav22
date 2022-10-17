@@ -1,0 +1,212 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load countries %}
+{% block stylesheets %}
+<style>
+.form-group {
+margin-bottom: 0px;
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ _('Section B - Freight Elements') }}</h3>
+        </div>
+    </div>
+
+
+    <!-- Nav tabs --> 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#home">Quote Details</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#agent">Agent</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionA">Section A</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link active" data-toggle="tab" href="#sectionB">Section B</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionC">Section C</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionD">Section D</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionE">Section E</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionF">Section F</a>
+    </li>
+ </ul>
+
+    <form method="post" action="{% url 'quote:staff_add_pricing' %}">
+        {% csrf_token %}
+        <input type="hidden" name="section" value="sectionC" />
+        <input type="hidden" name="quote_app_id" value="{{ request.session.pk }}" />
+        <div class="table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>{{ _('Item') }}</th>
+                        <th>{{ _('Buying') }}</th>
+                        <th>{{ _('Selling') }}</th>
+                        <th>{{ _('Margin') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr class="form-group">
+                        <td>1</td>
+                        <td>Air Freight Cost</td>
+                        <td><input type="number" name="freight_bp" id="freight_bp" class="form-control" value="0" required /></td>
+                        <td><input type="number" name="freight_sp" id="freight_sp" class="form-control" value="0" required /></td>
+                        <td><input type="number" name="freight_margin" id="freight_margin" class="form-control" value="0" readonly /></td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>2</td>
+                        <td>Other Charges</td>
+                        <td><input type="number" name="other_freight_bp" id="other_freight_bp" class="form-control" value="0" required /></td>
+                        <td><input type="number" name="other_freight_sp" id="other_freight_sp" class="form-control" value="0" required /></td>
+                        <td><input type="number" name="other_freight_margin" id="other_freight_margin" class="form-control" readonly value="0" readonly/></td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>3</td>
+                        <td>Totals</td>
+                        <td><input type="number" name="total_bp_B" id="total_bp_B" class="form-control" value="0" required readonly /></td>
+                        <td><input type="number" name="total_sp_B" id="total_sp_B" class="form-control" value="0" required readonly /></td>
+                        <td><input type="number" name="total_margin_B" id="total_margin_B" class="form-control" value="0" readonly /></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container text-right m-3">
+            <!-- back button to go to last location-->
+            <button class="float-left btn-back btn btn-primary" type="button">Back</button>
+            <input type="submit" class="btn btn-primary subC" style="float: right;margin-right: 45px;" value="Next" />
+        </div>
+
+    </form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    //function to get the difference between bp and sp
+        function getMargin(bp, sp) {
+            var margin = sp - bp;
+            return margin;
+        }
+
+        //select bp and sp values by id
+        var freight_bp = document.getElementById('freight_bp');
+        var freight_sp = document.getElementById('freight_sp');
+        var freight_margin = document.getElementById('freight_margin');
+
+        //get the margin value
+        freight_bp.value = getMargin(freight_bp.value, freight_sp.value);
+        //get the margin value on change of bp and sp
+        freight_bp.onchange = function() {
+            freight_margin.value = getMargin(freight_bp.value, freight_sp.value);
+        }
+        freight_sp.onchange = function() {
+            freight_margin.value = getMargin(freight_bp.value, freight_sp.value);
+        }
+
+        //select bp and sp values by id
+        var other_freight_bp = document.getElementById('other_freight_bp');
+        var other_freight_sp = document.getElementById('other_freight_sp');
+        var other_freight_margin = document.getElementById('other_freight_margin');
+
+        //get the margin value
+        other_freight_bp.value = getMargin(other_freight_bp.value, other_freight_sp.value);
+        //get the margin value on change of bp and sp
+        other_freight_bp.onchange = function() {
+            other_freight_margin.value = getMargin(other_freight_bp.value, other_freight_sp.value);
+        }
+        other_freight_sp.onchange = function() {
+            other_freight_margin.value = getMargin(other_freight_bp.value, other_freight_sp.value);
+        }
+
+        //select bp and sp values by id
+        var total_bp = document.getElementById('total_bp_B').value;
+        var total_sp = document.getElementById('total_sp_B').value;
+        var total_margin = document.getElementById('total_margin_B').value;
+
+        //get the margin value
+        total_bp.value = getMargin(total_bp.value, total_sp.value);
+        //get the margin value on change of bp and sp
+        total_bp.onchange = function() {
+            totals_margin.value = getMargin(total_bp.value, total_sp.value);
+        }
+        total_sp.onchange = function() {
+            total_margin.value = getMargin(total_bp.value, total_sp.value);
+        }
+
+        //sum of all bp and sp values
+        var sum_bp = 0;
+        var sum_sp = 0;
+        var sum_margin = 0;
+        
+        var total_bp = document.getElementById('total_bp_B');
+        var total_sp = document.getElementById('total_sp_B');
+        var totals_margin = document.getElementById('total_margin_B');
+
+        $('.form-control').on('change',function(){
+            console.log('changed');
+            sum_bp = parseInt(freight_bp.value) + parseInt(other_freight_bp.value);
+            sum_sp = parseInt(freight_sp.value) + parseInt(other_freight_sp.value);
+            sum_margin = parseInt(freight_margin.value) + parseInt(other_freight_margin.value);
+
+            
+            document.getElementById('total_bp_B').value = sum_bp;
+            document.getElementById('total_sp_B').value = sum_sp;
+            document.getElementById('total_margin_B').value = sum_margin;
+
+        });
+</script>
+
+<script>
+//fill in context data
+var initial_buying_freight_cost ="{{ initial.buying_freight_cost }}";
+var initial_selling_freight_cost ="{{ initial.selling_freight_cost }}";
+var initial_margin_freight_cost ="{{ initial.margin_freight_cost }}";
+$("#freight_bp").val(initial_buying_freight_cost);
+$("#freight_sp").val(initial_selling_freight_cost);
+$("#freight_margin").val(initial_margin_freight_cost);
+
+var initial_buying_other_freight_charges ="{{ initial.buying_other_freight_charges }}";
+var initial_selling_other_freight_charges ="{{ initial.selling_other_freight_charges }}";
+var initial_margin_other_freight_charges ="{{ initial.margin_other_freight_charges }}";
+$("#other_freight_bp").val(initial_buying_other_freight_charges);
+$("#other_freight_sp").val(initial_selling_other_freight_charges);
+$("#other_freight_margin").val(initial_margin_other_freight_charges);
+
+var initial_buying_total_B ="{{ initial.buying_total_B }}";
+var initial_selling_total_B ="{{ initial.selling_total_B }}";
+var initial_margin_total_B ="{{ initial.margin_total_B }}";
+$("#total_bp_B").val(initial_buying_total_B);
+$("#total_sp_B").val(initial_selling_total_B);
+$("#total_margin_B").val(initial_margin_total_B);
+</script>
+
+<script>
+    //go back to previous history
+    $('.btn-back').on('click', function() {
+        window.history.back();
+    });
+</script>
+{% endblock %}

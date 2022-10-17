@@ -77,7 +77,7 @@ def RoadFreightShip_view(request):
             [str(currentowner)]
         )
 
-        email.fail_silently = False
+        email.fail_silently = True
         email.send()
         response = redirect('/fielduser')
         return response
@@ -131,7 +131,7 @@ def AirFreightShip_view(request):
             [str(currentowner)]
         )
 
-        email.fail_silently = False
+        email.fail_silently = True
         email.send()
         response = redirect('/fielduser')
         return response
@@ -178,7 +178,7 @@ def SeaFreightShip_view(request):
             [str(currentowner)]
         )
 
-        email.fail_silently = False
+        email.fail_silently = True
         email.send()
 
         response = redirect('/fielduser')

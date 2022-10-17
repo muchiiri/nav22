@@ -1,0 +1,74 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load countries %}
+{% block stylesheets %}
+<style>
+.form-group {
+margin-bottom: 0px;
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ _('section A - Origin Charges') }}</h3>
+        </div>
+    </div>
+
+    <!-- Nav tabs --> 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#home">Quote Details</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link active" data-toggle="tab" href="#agent">Agent</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionA">Section A</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionB">Section B</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionC">Section C</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionD">Section D</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionE">Section E</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionF">Section F</a>
+    </li>
+ </ul>
+ 
+    <form method="post" action="{% url 'quote:staff_add_pricing' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="hidden" name="quote_app_id" value="{{ request.session.pk }}" />
+            <input type="hidden" name="section" value="sectionA" />
+            
+            <label>Agent name</label>
+            <input type="text" name="agent_name" class="form-control" value="{{ initial.agent_name }}" />
+            <div class="container text-right m-3">
+                <!-- back button to go to last location-->
+                <button class="float-left btn-back btn btn-primary" type="button">Back</button>
+                <input type="submit" class="btn btn-primary" style="float: right;margin-right: 45px;" value="Next" />
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    //go back to previous history
+    $('.btn-back').on('click', function() {
+        window.history.back();
+    });
+ </script>
+{% endblock %}

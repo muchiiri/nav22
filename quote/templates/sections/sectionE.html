@@ -1,0 +1,211 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load countries %}
+{% block stylesheets %}
+<style>
+.form-group {
+margin-bottom: 0px;
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ _('Section D - Import Duties and Taxes') }}</h3>
+        </div>
+    </div>
+
+
+    <!-- Nav tabs --> 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#home">Quote Details</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#agent">Agent</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionA">Section A</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionB">Section B</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionC">Section C</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionD">Section D</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#sectionE">Section E</a>
+   </li>
+   <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#sectionF">Section F</a>
+   </li>
+ </ul>
+ 
+    <form method="post" action="{% url 'quote:staff_add_pricing' %}">
+         {% csrf_token %}
+        <input type="hidden" name="quote_app_id" value="{{ request.session.pk }}" />
+        <input type="hidden" name="section" value="sectionF" />
+
+        <h5>Summary</h5>
+        
+        <table class="table mb-0 table-vcenter table-hover text-nowrap border">
+         <thead>
+            <th>No</th>
+            <th>{{ _('Item') }}</th>
+            <th>{{ _('Buying') }}</th>
+            <th>{{ _('Selling') }}</th>
+            <th>{{ _('Margin') }}</th>
+         </thead>
+         <tbody>
+            
+            <tr>
+               <td class="d-flex">
+                  <div class="mt-2"> 
+                  <h5 class="font-weight-bold mb-0">1</h5> 
+                  </div>
+                </td>
+                <td>
+                   <h5 class="font-weight-bold mb-0">Section A</h5>
+                   </td><td> <h5 class="font-weight-bold mb-0">{{ data.buying_total_A }}</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.selling_total_A }}</h5>
+                   </td>
+                   <td>
+                     <h5 class="font-weight-bold mb-0">{{ data.margin_total_A}}</h5>
+                  </td>
+            </tr>
+
+            <tr>
+               <td class="d-flex">
+                  <div class="mt-2"> 
+                  <h5 class="font-weight-bold mb-0">2</h5> 
+                  </div>
+                </td>
+                  <td>
+                   <h5 class="font-weight-bold mb-0">Section B</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.buying_total_B }}</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.selling_total_B }}</h5>
+                   </td>
+                   <td>
+                     <h5 class="font-weight-bold mb-0">{{ data.margin_total_B }}</h5>
+                  </td>
+            </tr>
+
+            <tr>
+               <td class="d-flex">
+                  <div class="mt-2"> 
+                  <h5 class="font-weight-bold mb-0">3</h5> 
+                  </div>
+                </td>
+                  <td>
+                   <h5 class="font-weight-bold mb-0">Section C</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.buying_total_C }}</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.selling_total_C }}</h5>
+                   </td>
+                   <td>
+                     <h5 class="font-weight-bold mb-0">{{ data.margin_total_C }}</h5>
+                  </td>
+            </tr>
+
+            <tr>
+               <td class="d-flex">
+                  <div class="mt-2"> 
+                  <h5 class="font-weight-bold mb-0">4</h5> 
+                  </div>
+                </td>
+                  <td>
+                   <h5 class="font-weight-bold mb-0">Section D</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.buying_total_D }}</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.selling_total_D }}</h5>
+                   </td>
+                   <td>
+                     <h5 class="font-weight-bold mb-0">{{ data.margin_total_D }}</h5>
+                  </td>
+            </tr>
+
+         </tbody>
+        </table>
+
+        <br /><br /><br />
+        <!-- <table class="table mb-0 table-vcenter table-hover text-nowrap border">
+         <thead>
+            <th>No</th>
+            <th>{{ _('Item') }}</th>
+            <th>{{ _('Amount') }}</th>
+         </thead>
+         <tbody>
+
+            <tr>
+               <td class="d-flex">
+                  <div class="mt-2"> 
+                  <h5 class="font-weight-bold mb-0">1</h5> 
+                  </div>
+                </td>
+                <td>
+                   <h5 class="font-weight-bold mb-0">Total Tax</h5>
+                   </td><td> <h5 class="font-weight-bold mb-0">{{ data.total_tax }}</h5>
+                   </td>
+            </tr>
+
+         </tbody>
+         </table> -->
+
+         <br /><br /><br />
+        <table class="table mb-0 table-vcenter table-hover text-nowrap border">
+         <thead>
+            <th>No</th>
+            <th>{{ _('Item') }}</th>
+            <th>{{ _('Buying') }}</th>
+            <th>{{ _('Selling') }}</th>
+            <th>{{ _('Margin') }}</th>
+         </thead>
+         <tbody>
+
+            <tr>
+               <td class="d-flex">
+                  <div class="mt-2"> 
+                  <h5 class="font-weight-bold mb-0">1</h5> 
+                  </div>
+                </td>
+                <td>
+                   <h5 class="font-weight-bold mb-0">Grand Total</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.grand_total_bp }}</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.grand_total_sp }}</h5>
+                   </td>
+                   <td> <h5 class="font-weight-bold mb-0">{{ data.grand_total_margin }}</h5>
+                   </td>
+            </tr>
+
+         </tbody>
+         </table>
+
+        <div class="container text-right m-3">
+            <!-- back button to go to last location-->
+            <button class="float-left btn-back btn btn-primary" type="button">Back</button>
+            <input type="submit" class="btn btn-primary subF" value="Submit" />
+        </div>
+    </form>
+</div>
+{% endblock content %}
+{% block scripts %}
+<script>
+   //go back to previous history
+   $('.btn-back').on('click', function() {
+       window.history.back();
+   });
+</script>
+{% endblock %}

@@ -1,0 +1,352 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load countries %}
+{% block stylesheets %}
+<style>
+.form-group {
+margin-bottom: 0px;
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ _('Section D - Import Duties and Taxes') }}</h3>
+        </div>
+    </div>
+
+
+    <!-- Nav tabs --> 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#home">Quote Details</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#agent">Agent</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionA">Section A</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionB">Section B</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionC">Section C</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link active" data-toggle="tab" href="#sectionD">Section D</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionE">Section E</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionF">Section F</a>
+    </li>
+ </ul>
+ 
+    <form method="post" action="{% url 'quote:staff_add_pricing' %}">
+        {% csrf_token %}
+        <input type="hidden" name="quote_app_id" value="{{ request.session.pk }}" />
+        <input type="hidden" name="section" value="sectionE" />
+
+        <div class="table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>{{ _('Item') }}</th>
+                        <th>{{ _('Amount') }}</th>
+                        <!-- <th>{{ _('Selling') }}</th>
+                        <th>{{ _('Margin') }}</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr class="form-group">
+                        
+                        <td>1</td>
+                        <td>HS Code</td>
+                        <td><input type="text" name="hs_bp" class="form-control" id="hs_code_bp" required /></td>
+                        <!-- <td><input type="number" name="hs_sp" class="form-control" id="hs_code_sp" required /></td>
+                        <td><input type="number" name="hs_tax" class="form-control" id="hs_code_tax" readonly /></td> -->
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>2</td>
+                        <td>FOB Value</td>
+                        <td><input type="text" name="fob_bp" id="fob_bp" class="form-control" required /></td>
+                        <!-- <td><input type="number" name="fob_sp" id="fob_sp" class="form-control" required /></td>
+                        <td><input type="number" name="fob_tax" id="fob_tax" class="form-control" readonly /></td> -->
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>3</td>
+                        <td>Freight</td>
+                        <td><input type="number" name="freight_fee_bp" id="freight_fee_bp" class="form-control" required /></td>
+                        <!-- <td><input type="number" name="freight_fee_sp" id="freight_fee_sp" class="form-control" required /></td>
+                        <td><input type="number" name="freight_tax" id="freight_fee_tax" class="form-control" readonly /></td> -->
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>4</td>
+                        <td>Insurance</td>
+                        <td><input type="number" name="insurance_fee_bp" id="insurance_fee_bp" class="form-control" required /></td>
+                        <!-- <td><input type="number" name="insurance_fee_sp" id="insurance_fee_sp" class="form-control" required /></td>
+                        <td><input type="number" name="insurance_margin" id="insurance_fee_tax" class="form-control" readonly /></td> -->
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>5</td>
+                        <td>Custom value</td>
+                        <td><input type="number" name="customs_fee_bp" id="customs_fee_bp" class="form-control" required /></td>
+                        <!-- <td><input type="number" name="customs_fee_sp" id="customs_fee_sp" class="form-control" required /></td>
+                        <td><input type="number" name="customs_fee_margin" id="customs_fee_tax" class="form-control" readonly /></td> -->
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>6</td>
+                        <td>Totals(Freight + Insurance + Custom value)</td>
+                        <td><input type="number" name="total_bp_d" id="total_bp_d" class="form-control" readonly /></td>
+                        <!-- <td><input type="number" name="total_sp_d" id="total_sp_d" class="form-control" readonly /></td>
+                        <td><input type="number" name="total_margin_d" id="total_margin_d" class="form-control" readonly /></td> -->
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>{{ _('Tax Name') }}</th>
+                        <th>{{ _('Tax Rate') }}</th>
+                        <th>{{ _('Pricipal') }}</th>
+                        <th>{{ _('Tax Amount') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="form-group">
+                        <td>1</td>
+                        <td>Import Duty</td>
+                        <td>
+                            <select class="form-control" id="import_duty_rate_id">
+                                <option value="25">25%</option>
+                                <option value="30">30%</option>
+                            </select>
+                        </td>
+                        <td><input type="number" name="import_duty_principal" id="import_duty_principal_id" class="form-control" value="0" /></td>
+                        <td><input type="number" name="import_duty" id="import_duty_id" class="form-control" value="0" required readonly/></td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>2</td>
+                        <td>Excise Duty</td>
+                        <td>
+                            <select class="form-control" id="excise_duty_rate_id">
+                                <option value="10">10%</option>
+                                <option value="15">15%</option>
+                                <option value="20">20%</option>
+                            </select>
+                        </td>
+                        <td><input type="number" name="excise_duty_principal" id="excise_duty_principal_id" class="form-control" readonly/></td>
+                        <td><input type="number" name="excise_duty" class="form-control" id="excise_duty_id" required readonly/></td>
+                    </tr>
+                    <tr class="form-group">
+                        <td>3</td>
+                        <td>VAT</td>
+                        <td>
+                            <select class="form-control" id="vat_rate_id">
+                                <!-- <option value="15">15%</option> -->
+                                <option value="16">16%</option>
+                                <!-- <option value="17">17%</option>
+                                <option value="18">18%</option>
+                                <option value="19">19%</option>
+                                <option value="20">20%</option> -->
+                            </select>
+                        </td>
+                        <td><input type="number" name="vat_principal" id="vat_principal_id" class="form-control" readonly/></td>
+                        <td><input type="number" name="vat" id="vat_id" class="form-control" required readonly/></td>
+                    </tr>
+                    <tr class="form-group">
+                        <td>4</td>
+                        <td>Railway Development Levy</td>
+                        <td>
+                            <input type="text" name="" class="form-control" value="0%" readonly/>
+                        </td>
+                        <td><input type="text" name="railway_principal" id="railway_principal_id" class="form-control" /> </td>
+                        <td><input type="number" name="railway_levy" id="railway_levy_id" class="form-control" value="0" required readonly/></td>
+                    </tr>
+                    <tr class="form-group">
+                        <td>5</td>
+                        <td>IDF Fee</td>
+                        <td><input type="text" name="" class="form-control" value="0%" readonly/></td>
+                        <td><input type="text" name="idf_principal" id="idf_principal_id" class="form-control" /> </td>
+                        <td><input type="number" name="idf_duty" id="idf_id" class="form-control" value="0" required readonly/></td>
+                    </tr>
+                    <tr class="form-group">
+                        <td>6</td>
+                        <td>Levies</td>
+                        <td><input type="text" name="customs_duty" class="form-control" value="0%" readonly /></td>
+                        <td><input type="text" name="levies_principal" id="levies_principal_id" class="form-control" /> </td>
+                        <td><input type="number" name="levies" id="levies_id" class="form-control" value="0" required readonly/></td>
+                    </tr>
+                    
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container text-right m-3">
+            <!-- back button to go to last location-->
+            <button class="float-left btn-back btn btn-primary" type="button">Back</button>
+            <input type="submit" class="btn btn-primary subE" style="float: right;margin-right: 45px;" value="Next" />
+        </div>
+    </form>
+</div>
+{% endblock content %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+
+<script>
+        //select bp and sp values by id
+        var hs_bp = document.getElementById('hs_code_bp');
+        hs_bp.value = 0;
+        
+
+        //select bp and sp values by id
+        var fob_bp = document.getElementById('fob_bp');
+        fob_bp.value = 0;
+
+        //select bp and sp values by id
+        var freight_fee_bp = document.getElementById('freight_fee_bp');
+        freight_fee_bp.value = 0;
+
+        //select bp and sp values by id
+        var insurance_fee_bp = document.getElementById('insurance_fee_bp');
+        insurance_fee_bp.value = 0;
+        
+
+        //select bp and sp values by id
+        var customs_fee_bp = document.getElementById('customs_fee_bp');
+        customs_fee_bp.value = 0;
+
+        var sum_bp = 0;
+        var sum_sp = 0;
+        var sum_margin = 0;
+        var totals_bp = 0;
+        var totals_sp = 0; 
+        var totals_margin = 0;
+
+        // onchange form control
+        $('.form-control').on('change',function(){
+            sum_bp = parseInt($('#freight_fee_bp').val()) + parseInt($('#insurance_fee_bp').val()) + parseInt($('#customs_fee_bp').val());
+            
+            totals_bp = sum_bp;
+            //totals_sp = sum_sp;
+            //totals_margin = sum_margin;
+            document.getElementById('total_bp_d').value = sum_bp;
+            //document.getElementById('customs_fee_bp').value = parseInt($('#fob_bp').val()) + parseInt($('#insurance_fee_bp').val());
+            
+        });
+
+        //onchange import duty principal id
+        $('#import_duty_principal_id,#import_duty_rate_id').on('change keypress keyup',function(){
+            var import_duty_principal = document.getElementById('import_duty_principal_id').value;
+            
+            var import_duty_rate = document.getElementById('import_duty_rate_id').value;
+            var import_duty_total = import_duty_principal/100 * import_duty_rate;
+            document.getElementById('import_duty_id').value = parseInt(import_duty_total);
+
+            //autofill excise duty principal
+            //get customs value 
+            var customs_fee_bp = document.getElementById('customs_fee_bp').value;
+            document.getElementById('excise_duty_principal_id').value = parseInt(import_duty_total) + parseInt(customs_fee_bp);
+        });
+
+        //excise duty
+        $('#customs_fee_bp,#excise_duty_principal_id,#import_duty_id,#import_duty_principal_id,#excise_duty_rate_id').on('change keypress keyup',function(){
+            
+            var customs_fee_principal = document.getElementById('customs_fee_bp').value;
+            var import_duty = document.getElementById('import_duty_id').value;
+            document.getElementById('excise_duty_principal_id').value = parseInt(customs_fee_principal) + parseInt(import_duty);
+
+            //% of rate of excise duty principal
+            var excise_duty_rate = document.getElementById('excise_duty_rate_id').value;
+            var excise_duty_principal = document.getElementById('excise_duty_principal_id').value;
+            var excise_duty_total = excise_duty_rate/100 * excise_duty_principal;
+            console.log(excise_duty_rate);
+            document.getElementById('excise_duty_id').value = parseInt(excise_duty_total);
+        });
+
+        //vat
+        $('#customs_fee_bp,#import_duty_id,#excise_duty_id,#import_duty_principal_id,#import_duty_rate_id,#excise_duty_rate_id,#vat_rate_id')
+        .on('change keypress keyup',function(){
+            var customs_fee = document.getElementById('customs_fee_bp').value;
+            var import_duty = document.getElementById('import_duty_id').value;
+            var excise_duty = document.getElementById('excise_duty_id').value;
+            var vat_principal = parseInt(customs_fee) + parseInt(import_duty) + parseInt(excise_duty);
+            
+            document.getElementById("vat_principal_id").value = vat_principal;
+
+            var vat_rate = document.getElementById('vat_rate_id').value;
+            var vat_pricipal = document.getElementById('vat_principal_id').value;
+            var vat_total = vat_rate/100 * vat_pricipal;
+            document.getElementById('vat_id').value = parseInt(vat_total)
+        });
+
+</script>
+
+<script>
+    //fill in context data
+    var initial_hs_code ="{{ initial.hs_code_bp }}";
+    var initial_fob ="{{ initial.fob_value_bp }}";
+    var initial_freight ="{{ initial.freight_charges_bp }}";
+    var initial_insurance_bp ="{{ initial.insurance_bp }}";
+    var initial_customs_value_bp ="{{ initial.customs_value_bp }}";
+    var initial_buying_total_D ="{{ initial.buying_total_D }}";
+
+    $("#hs_code_bp").val(initial_hs_code);
+    $("#fob_bp").val(initial_fob);
+    $("#freight_fee_bp").val(initial_freight);
+    $("#insurance_fee_bp").val(initial_insurance_bp);
+    $("#customs_fee_bp").val(initial_customs_value_bp);
+    $("#total_bp_d").val(initial_buying_total_D);
+
+    var initial_import_duty_principal ="{{ initial.import_duty_principal }}";
+    var initial_import_duty ="{{ initial.import_duty }}";
+    var initial_excise_duty_principal ="{{ initial.excise_duty_principal }}";
+    var initial_excise_duty ="{{ initial.excise_duty }}";
+    var initial_vat_principal ="{{ initial.vat_principal }}";
+    var initial_vat ="{{ initial.vat }}";
+    var initial_railway_levy_principal ="{{ initial.railway_levy_principal }}";
+    var initial_railway_levy ="{{ initial.railway_levy }}";
+    var initial_idf_fee_principal ="{{ initial.idf_fee_principal }}";
+    var initial_idf_fee ="{{ initial.idf_fee }}";
+    var initial_levies_principal ="{{ initial.levies_principal }}";
+    var initial_levies ="{{ initial.levies }}";
+
+    $("#import_duty_principal_id").val(initial_import_duty_principal);
+    $("#import_duty_id").val(initial_import_duty);
+    $("#excise_duty_principal_id").val(initial_excise_duty_principal);
+    $("#excise_duty_id").val(initial_excise_duty);
+    $("#vat_principal_id").val(initial_vat_principal);
+    $("#vat_id").val(initial_vat);
+    $("#railway_principal_id").val(initial_railway_levy_principal);
+    $("#railway_levy_id").val(initial_railway_levy);
+    $("#idf_principal_id").val(initial_idf_fee_principal);
+    $("#idf_fee_id").val(initial_idf_fee);
+    $("#levies_principal_id").val(initial_levies_principal);
+    $("#levies_id").val(initial_levies);
+
+</script>
+
+<script>
+    //go back to previous history
+    $('.btn-back').on('click', function() {
+        window.history.back();
+    });
+</script>
+{% endblock %}

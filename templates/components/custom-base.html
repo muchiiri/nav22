@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+		<meta name="description" content="Navicus 360">
+		<meta name="author" content="Spruko Technologies Private Limited">
+		<meta name="keywords" content="admin, admin dashboard, admin dashboard template, bootstrap 5 admin, bootstrap 5 dashboard template, bootstrap admin template, bootstrap django, dashboard, dashboard template, django admin dashboard, django admin template, django bootstrap admin template, django bootstrap template, django dashboard, django template">
+
+		<!-- Title -->
+		<title> Navicus 360</title>
+
+		<!-- Styles -->
+		{% include 'components/layouts/custom-styles.html'%}
+		{% block styles %}{% endblock %}
+
+	</head>
+
+	<body class="main-body leftmenu ltr light-theme">
+
+		<!-- Loader -->
+		<div id="global-loader">
+			<img src="{% static 'assets/img/loader.svg' %}" class="loader-img" alt="Loader">
+		</div>
+		<!-- End Loader -->
+
+		<!-- Page -->
+		{% block class %}{% endblock %}
+		<div class="page main-signin-wrapper">
+
+				{% block content %} {% endblock %}
+
+		</div>
+
+		<!-- Scripts -->
+		{% include 'components/layouts/custom-scripts.html'%}
+		{% block scripts %}{% endblock %}
+
+	</body>
+
+</html>

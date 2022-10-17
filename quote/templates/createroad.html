@@ -1,0 +1,66 @@
+{% extends "components/base-client.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% block stylesheets %}
+    <style>
+        .form-group {
+            margin-bottom: 0px;
+        }
+    </style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ _('Create a new quote') }}</h3>
+        </div>
+    </div>
+
+    <form method="post" action="{% url request.session.type %}">
+        {% csrf_token %}
+    <div class="row">
+        <div class="col-md-6">
+            {{ form.truck_type|as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+            {{ form.cargo_weight|as_crispy_field }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form.cargo_dimension_length|as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+            {{ form.cargo_dimension_width|as_crispy_field }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form.cargo_dimension_height|as_crispy_field }}
+        </div>
+        <div class="col-md-6">
+            {{ form.collection_address|as_crispy_field }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            {{ form.delivery_address|as_crispy_field }}
+        </div>
+        
+    </div>
+
+            <input type="submit" name="submit" class="btn btn-primary" value="{{ _('Create') }}">
+        
+    </div>
+    </form>
+    
+{% endblock content %}
+{% block javascripts %}
+<script>
+    
+</script>
+{% endblock javascripts %}

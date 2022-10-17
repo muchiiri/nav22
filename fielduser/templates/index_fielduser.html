@@ -1,571 +1,210 @@
-{% extends "base.html" %}
+{% extends 'components/base.html'%}
 {% load static %}
 {% load crispy_forms_tags %}
-{% block stylesheets %}
-<style>
-  .table th{
-    padding-left: 10px !important;
-    border-bottom: 1px solid black;
-  }
 
-.table td{
-border: 1px solid black !important;
-}
+    {% block styles %}
 
-.table> :not(:last-child)> :last-child>*{
-  border: 1px solid black;
-  border-bottom: unset;
-}
+    {% endblock %}
 
-.alert-primary{
-  background-image: linear-gradient(310deg, #284bca 0%, #051ecd 100%);
-  border: none;
-  color: white;
-  font-weight: bold;
-}
-</style>
-{% endblock stylesheets %}
+        {% block content %}
 
-<link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css"/>
-<link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css"/>
-{% block content %}
+					<!-- Page Header -->
+					<div class="page-header">
+						<div>
+							<h2 class="main-content-title tx-24 mg-b-5">Active Shipments Lists</h2>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="javascript:void(0);">Shipments</a></li>
+								<li class="breadcrumb-item active" aria-current="page">Active Shipments</li>
+							</ol>
+						</div>
+						<div class="d-flex">
+							<div class="justify-content-center">
+								<button type="button" class="btn btn-white btn-icon-text my-2 me-2">
+									<i class="fe fe-settings"></i>
+									<span>Settings</span>
+								</button>
+								<button type="button" class="btn btn-primary my-2 btn-icon-text">
+									<i class="fe fe-download-cloud bg-white-transparent text-white"></i>
+									<span>Reports</span>
+								</button>
+							</div>
+						</div>
+					</div>
+					<!-- End Page Header -->
 
-{% if allocated_quotations %}
-    <p class="alert alert-primary"><i class="fa fa-bell"></i> You have pending quotes</p>
-{% endif %}
+					<!-- Row -->
+					<div class="row row-sm">
+						<div class="col-lg-12">
+							<div class="card custom-card overflow-hidden">
+								<div class="card-body">
+									<div>
+										<h6 class="main-content-label mb-1">Road Shipments Active</h6>
+										<p class="text-muted card-sub-title">These are road shipments that have been completed</p>
+									</div>
+									<div class="table-responsive">
+										<table id="file-datatableroad" class="table table-bordered text-nowrap key-buttons border-bottom">
+											<thead>
+												<tr>
+													<th class="border-bottom-0">Client#</th>
+													<th class="border-bottom-0">CustomerRef</th>
+													<th class="border-bottom-0">Place of Delivery</th>
+													<th class="border-bottom-0">ETA</th>
+													<th class="border-bottom-0">ETD</th>
+													<th class="border-bottom-0">Status Update</th>
+													<th class="border-bottom-0">View</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for item in context %}
+                        {% if item.shippingstatus != 'Completed' %}
+												<tr>
+													<td>{{ item.owner }}</td>
+													<td>{{item.customerref|wordwrap:25|linebreaks}}</td>
+													<td>{{item.placeofdelivery|wordwrap:25|linebreaks}}</td>
+													<td>{{item.current_eta|wordwrap:25|linebreaks}}</td>
+													<td>{{item.current_etd|wordwrap:25|linebreaks}}</td>
+													<td>{{item.current_sailingstatus|wordwrap:25|linebreaks}}</td>
+                          <td>
+                          <a href="view/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
+                          <a href="edit/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
+                          <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
+                          </td>
+												</tr>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Row -->
 
-<div class="container-fluid py-4">
-  <div class="row mt-4">
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-7">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Road Freight</p>
-                <h5 class="font-weight-bolder">{{rno}}</h5>
-                <span class="text-success text-sm font-weight-bolder">on road</span>
-                <!-- <span class="text-sm">more</span> -->
-              </div>
-            </div>
-            <div class="col-5 text-end my-auto">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <!-- <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i> -->
-                <i class="fa fa-road"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-7">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Sea Freight</p>
-                <h5 class="font-weight-bolder">{{sno}}</h5>
-                <span class="text-success text-sm font-weight-bolder">on sea</span>
-              </div>
-            </div>
-            <div class="col-5 text-end my-auto">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <!-- <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i> -->
-                <i class="fa fa-ship"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-7">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">Air Freight</p>
-                <h5 class="font-weight-bolder">{{airno}}</h5>
-                <span class="text-success text-sm font-weight-bolder">on air</span>
-                
-              </div>
-            </div>
-            <div class="col-5 text-end my-auto">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <!-- <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i> -->
-                <i class="fa fa-plane"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-xl-3 col-sm-6">
-      <div class="card">
-        <div class="card-body p-3">
-          <div class="row">
-            <div class="col-7">
-              <div class="numbers">
-                <p class="text-sm mb-0 text-capitalize font-weight-bold">All</p>
-                <h5 class="font-weight-bolder">{{allno}}</h5>
-                <span class="text-success text-sm font-weight-bolder">all</span>
-              </div>
-            </div>
-            <div class="col-5 text-end my-auto">
-              <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                <i class="ni ni-world text-lg opacity-10" aria-hidden="true" aria-hidden="true"></i>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
- 
-
-
-  <div class="row my-4">
-    <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header pb-0">
-          <div class="row">
-            <div class="col-lg-6 col-7">
-              <h6>Road Shipments</h6>
-              <!-- <p class="text-sm mb-0">
-                <i class="fa fa-check text-info" aria-hidden="true"></i>
-                <span class="font-weight-bold ms-1">30 done</span> this month
-              </p> -->
-            </div>
-            <div class="col-lg-6 col-5 my-auto text-end">
-              <div class="dropdown float-lg-end pe-4">
-                <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fa fa-ellipsis-v text-secondary"></i>
-                </a>
-                <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body px-0 pb-2">
-          <div class="table-responsive">
-            <table class="table align-items-center mb-0" id="roadtable">
-              <thead>
-                <tr>
-                    <th>Client</th>
-                    <th><b>Ref No.</th>
-                    <th>Place of Loading</th>
-                    <th>Place of Destination</th>
-                    <th>Incoterms</th>
-                    <th>Action</b></th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-              {% for item in context %}
-              {% if item.shippingstatus != 'Completed' %}
-              <tr>
-                <td>
-                  {{ item.owner }} 
-                  </td>
-
-                <td>
-                {{ item.refno }} 
-                </td>
-                <td>
-                {{item.placeofloading|wordwrap:25|linebreaks}}
-                </td>
-                <td>
-                {{item.placeofdelivery|wordwrap:25|linebreaks}}
-                </td>
-                <td>
-                  {{item.incoterms}}
-                </td>
-                <td><a href="view/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
-                  <a href="edit/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
-                  <!-- <a href="editshipment/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a> -->
-                  <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
-                </td>
-                
-              </tr>
-              {% endif %}
-              {% endfor %}
-            </tbody>
-
-            <tfoot>
-              <tr>
-                <th>Client</th>
-                <th><b>Ref No.</b></th>
-                <th>Place of Loading</th>
-                <th>Place of Destination</th>
-                <th>Incoterms</th>
-                <th>Action</b></th>
-              </tr>
-          </tfoot>
-
-            </table>
-          </div>
-        </div>
+          <!-- Sea Shipments -->
+					<!-- Row -->
+					<div class="row row-sm">
+						<div class="col-lg-12">
+							<div class="card custom-card overflow-hidden">
+								<div class="card-body">
+									<div>
+										<h6 class="main-content-label mb-1">Sea Shipments Active</h6>
+										<p class="text-muted card-sub-title">These are sea shipments that have been completed</p>
+									</div>
+									<div class="table-responsive">
+										<table id="file-datatablesea" class="table table-bordered text-nowrap key-buttons border-bottom">
+											<thead>
+												<tr>
+													<th class="border-bottom-0">Client#</th>
+													<th class="border-bottom-0">CustomerRef</th>
+													<th class="border-bottom-0">Place of Delivery</th>
+													<th class="border-bottom-0">ETA</th>
+													<th class="border-bottom-0">ETD</th>
+													<th class="border-bottom-0">Status Update</th>
+													<th class="border-bottom-0">View</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for item in context %}
+                        {% if item.shippingstatus != 'Completed' %}
+												<tr>
+													<td>{{ item.owner }}</td>
+													<td>{{item.customerref|wordwrap:25|linebreaks}}</td>
+													<td>{{item.placeofdelivery|wordwrap:25|linebreaks}}</td>
+													<td>{{item.current_eta|wordwrap:25|linebreaks}}</td>
+													<td>{{item.current_etd|wordwrap:25|linebreaks}}</td>
+													<td>{{item.current_sailingstatus|wordwrap:25|linebreaks}}</td>
+                          <td>
+                          <a href="view2/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
+                          <a href="edit2/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
+                          <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
+                          </td>
+												</tr>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Row -->
 
 
-      </div>
-    </div>
+          <!-- Air Shipments -->
+					<!-- Row -->
+					<div class="row row-sm">
+						<div class="col-lg-12">
+							<div class="card custom-card overflow-hidden">
+								<div class="card-body">
+									<div>
+										<h6 class="main-content-label mb-1">Air Shipments Active</h6>
+										<p class="text-muted card-sub-title">These are air shipments that have been completed</p>
+									</div>
+									<div class="table-responsive">
+										<table id="file-datatableair" class="table table-bordered text-nowrap key-buttons border-bottom">
+											<thead>
+												<tr>
+													<th class="border-bottom-0">Client#</th>
+													<th class="border-bottom-0">CustomerRef</th>
+													<th class="border-bottom-0">Place of Delivery</th>
+													<th class="border-bottom-0">ETA</th>
+													<th class="border-bottom-0">ETD</th>
+													<th class="border-bottom-0">Status Update</th>
+													<th class="border-bottom-0">View</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% for item in context %}
+                        {% if item.shippingstatus != 'Completed' %}
+												<tr>
+													<td>{{ item.owner }}</td>
+													<td>{{item.customerref|wordwrap:25|linebreaks}}</td>
+													<td>{{item.placeofdelivery|wordwrap:25|linebreaks}}</td>
+													<td>{{item.current_eta|wordwrap:25|linebreaks}}</td>
+													<td>{{item.current_etd|wordwrap:25|linebreaks}}</td>
+													<td>{{item.current_sailingstatus|wordwrap:25|linebreaks}}</td>
+                          <td>
+                          <a href="view3/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
+                          <a href="edit3/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
+                          <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
+                          </td>
+												</tr>
+												{% endif %}
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Row -->
+
+        {% endblock %}
+
+    {% block scripts %}
+
+	<!-- Internal Data Table js -->
+	<script src=" {% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/dataTables.bootstrap5.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/buttons.bootstrap5.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/jszip.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/pdfmake/pdfmake.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/pdfmake/vfs_fonts.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/buttons.html5.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/buttons.print.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/dataTables.responsive.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/responsive.bootstrap5.min.js' %} "></script>
+	<script src=" {% static 'assets/js/table-dataroad.js' %} "></script>
+	<script src=" {% static 'assets/js/table-datasea.js' %} "></script>
+	<script src=" {% static 'assets/js/table-dataair.js' %} "></script>
+
+    {% endblock %}
 
 
-  </div>
 
 
-  <div class="row my-4">
-    <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header pb-0">
-          <div class="row">
-            <div class="col-lg-6 col-7">
-              <h6>Sea Shipments</h6>
-              <!-- <p class="text-sm mb-0">
-                <i class="fa fa-check text-info" aria-hidden="true"></i>
-                <span class="font-weight-bold ms-1">30 done</span> this month
-              </p> -->
-            </div>
-            <div class="col-lg-6 col-5 my-auto text-end">
-              <div class="dropdown float-lg-end pe-4">
-                <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fa fa-ellipsis-v text-secondary"></i>
-                </a>
-                <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body px-0 pb-2">
-          <div class="table-responsive">
-            <table class="table align-items-center mb-0" id="seatable">
-              <thead>
-                <tr>
-                  <th>Client</th>
-                    <th><b>Ref No.</th>
-                    <th>Place of Loading</th>
-                    <th>Place of Destination</th>
-                    <th>Incoterms</th>
-                    <th>Action</b></th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-              {% for item in context2 %}
-              {% if item.shippingstatus != 'Completed' %}
-              <tr>
-                <td>
-                  {{ item.owner }} 
-                  </td>
-
-                <td>
-                {{ item.refno }} 
-                </td>
-                <td>
-                {{item.placeofloading|wordwrap:25|linebreaks}}
-                </td>
-                <td>
-                {{item.placeofdelivery|wordwrap:25|linebreaks}}
-                </td>
-                <td>
-                  {{item.incoterms}}
-                </td>
-                <td><a href="view2/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
-                  <a href="edit2/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
-                  <!-- <a href="editshipment/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a> -->
-                  <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
-                </td>
-              </tr>
-              {% endif %}
-              {% endfor %}
-            </tbody>
-            </table>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-
-
-    
-
-      
-    </div> 
-  </div>
-
-  <div class="row my-4">
-    <div class="col-sm-12">
-      <div class="card">
-        <div class="card-header pb-0">
-          <div class="row">
-            <div class="col-lg-6 col-7">
-              <h6>Air Shipments</h6>
-              <!-- <p class="text-sm mb-0">
-                <i class="fa fa-check text-info" aria-hidden="true"></i>
-                <span class="font-weight-bold ms-1">30 done</span> this month
-              </p> -->
-            </div>
-            <div class="col-lg-6 col-5 my-auto text-end">
-              <div class="dropdown float-lg-end pe-4">
-                <a class="cursor-pointer" id="dropdownTable" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fa fa-ellipsis-v text-secondary"></i>
-                </a>
-                <ul class="dropdown-menu px-2 py-3 ms-sm-n4 ms-n5" aria-labelledby="dropdownTable">
-                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Action</a></li>
-                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Another action</a></li>
-                  <li><a class="dropdown-item border-radius-md" href="javascript:;">Something else here</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body px-0 pb-2">
-          <div class="table-responsive">
-            <table class="table align-items-center mb-0 id" id="airtable">
-              <thead>
-                <tr>
-                  <th>Client</th>
-                    <th><b>Ref No.</th>
-                    <th>Place of Loading</th>
-                    <th>Place of Destination</th>
-                    <th>Incoterms</th>
-                    <th>Action</b></th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-              {% for item in context3 %}
-              <!-- {{ item.shippingstatus}} -->
-              {% if item.shippingstatus != 'Completed' %}
-              <tr>
-                <td>
-                  {{ item.owner }}  
-                </td>
-                <td>
-                {{ item.refno }} 
-                </td>
-                <td>
-                {{item.placeofloading|wordwrap:25|linebreaks}}
-                </td>
-                <td>
-                {{item.placeofdelivery|wordwrap:25|linebreaks}}
-                </td>
-                <td>
-                  {{item.incoterms}}
-                </td>
-                <td><a href="view3/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
-                  <a href="edit3/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
-                  <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
-                </td>
-              </tr>
-              {% endif %}
-              {% endfor %}
-            </tbody>
-            </table>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-
-
-    
-  
-  </div>
-  {% include "includes/footer.html" %}
-
-</div>
-
-{% endblock content %}
-
-<!-- Specific JS goes HERE --> 
-{% block javascripts %}
-
-<script src="/static/assets/js/plugins/chartjs.min.js"></script>
-<script src="/static/assets/js/plugins/Chart.extension.js"></script>
-<script>
-var ctx = document.getElementById("chart-bars").getContext("2d");
-
-new Chart(ctx, {
-  type: "bar",
-  data: {
-    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: [{
-      label: "Sales",
-      tension: 0.4,
-      borderWidth: 0,
-      pointRadius: 0,
-      backgroundColor: "#fff",
-      data: [450, 200, 100, 220, 500, 100, 400, 230, 500],
-      maxBarThickness: 6
-    }, ],
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: {
-      display: false,
-    },
-    tooltips: {
-      enabled: true,
-      mode: "index",
-      intersect: false,
-    },
-    scales: {
-      yAxes: [{
-        gridLines: {
-          display: false,
-        },
-        ticks: {
-          suggestedMin: 0,
-          suggestedMax: 500,
-          beginAtZero: true,
-          padding: 0,
-          fontSize: 14,
-          lineHeight: 3,
-          fontColor: "#fff",
-          fontStyle: 'normal',
-          fontFamily: "Open Sans",
-        },
-      }, ],
-      xAxes: [{
-        gridLines: {
-          display: false,
-        },
-        ticks: {
-          display: false,
-          padding: 20,
-        },
-      }, ],
-    },
-  },
-});
-
-var ctx2 = document.getElementById("chart-line").getContext("2d");
-
-var gradientStroke1 = ctx2.createLinearGradient(0, 230, 0, 50);
-
-gradientStroke1.addColorStop(1, 'rgba(203,12,159,0.2)');
-gradientStroke1.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-gradientStroke1.addColorStop(0, 'rgba(203,12,159,0)'); //purple colors
-
-var gradientStroke2 = ctx2.createLinearGradient(0, 230, 0, 50);
-
-gradientStroke2.addColorStop(1, 'rgba(20,23,39,0.2)');
-gradientStroke2.addColorStop(0.2, 'rgba(72,72,176,0.0)');
-gradientStroke2.addColorStop(0, 'rgba(20,23,39,0)'); //purple colors
-
-
-new Chart(ctx2, {
-  type: "line",
-  data: {
-    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    datasets: [{
-        label: "Mobile apps",
-        tension: 0.4,
-        borderWidth: 0,
-        pointRadius: 0,
-        borderColor: "#cb0c9f",
-        borderWidth: 3,
-        backgroundColor: gradientStroke1,
-        data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-        maxBarThickness: 6
-
-      },
-      {
-        label: "Websites",
-        tension: 0.4,
-        borderWidth: 0,
-        pointRadius: 0,
-        borderColor: "#3A416F",
-        borderWidth: 3,
-        backgroundColor: gradientStroke2,
-        data: [30, 90, 40, 140, 290, 290, 340, 230, 400],
-        maxBarThickness: 6
-
-      },
-    ],
-  },
-  options: {
-    responsive: true,
-    maintainAspectRatio: false,
-    legend: {
-      display: false,
-    },
-    tooltips: {
-      enabled: true,
-      mode: "index",
-      intersect: false,
-    },
-    scales: {
-      yAxes: [{
-        gridLines: {
-          borderDash: [2],
-          borderDashOffset: [2],
-          color: '#dee2e6',
-          zeroLineColor: '#dee2e6',
-          zeroLineWidth: 1,
-          zeroLineBorderDash: [2],
-          drawBorder: false,
-        },
-        ticks: {
-          suggestedMin: 0,
-          suggestedMax: 500,
-          beginAtZero: true,
-          padding: 10,
-          fontSize: 11,
-          fontColor: '#adb5bd',
-          lineHeight: 3,
-          fontStyle: 'normal',
-          fontFamily: "Open Sans",
-        },
-      }, ],
-      xAxes: [{
-        gridLines: {
-          zeroLineColor: 'rgba(0,0,0,0)',
-          display: false,
-        },
-        ticks: {
-          padding: 10,
-          fontSize: 11,
-          fontColor: '#adb5bd',
-          lineHeight: 3,
-          fontStyle: 'normal',
-          fontFamily: "Open Sans",
-        },
-      }, ],
-    },
-  },
-});
-</script>
-<script>
-var win = navigator.platform.indexOf('Win') > -1;
-if (win && document.querySelector('#sidenav-scrollbar')) {
-  var options = {
-    damping: '0.5'
-  }
-  Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-}
-</script>
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-<script>
-  $(document).ready( function () {
-    $('#roadtable').DataTable();
-    $('#seatable').DataTable();
-    $('#airtable').DataTable();
-} )
-</script>
-
-{% endblock javascripts %}

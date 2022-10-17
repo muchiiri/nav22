@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.conf import settings
 from django_countries.fields import CountryField
@@ -157,6 +158,15 @@ class Quote_Warehouse(models.Model):
 
 
 class Quote_App(models.Model):
+    status_choices = (
+        ("pending","Pending"),
+        ("review","Review"),
+        ("approved_admin","Approved_Admin"),
+        ("approved_client","Approved_Client"),
+        ("rejected_client","Rejected_Client"),
+        ("rejected","Rejected"),
+    )
+
     user = settings.AUTH_USER_MODEL
     owner = models.ForeignKey(user, on_delete=models.CASCADE)
     quote_type = models.CharField(max_length=200)
@@ -165,10 +175,10 @@ class Quote_App(models.Model):
     country_destination = models.CharField(max_length=100)
     quote_serial_no = models.CharField(max_length=30,default="000")
     created_at = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=30, choices=status_choices, default="pending")
 
     def __str__(self):
         return str(self.owner)
-
 
 class Staff_Pricing_Quotation(models.Model):
     status_choices = (
@@ -178,10 +188,7 @@ class Staff_Pricing_Quotation(models.Model):
         ("rejected","Rejected"),
     )
 
-    quotation = models.ForeignKey(Quote_App,
-                            on_delete=models.CASCADE,
-                            related_name='quote_app')
-
+    quotation = models.ForeignKey(Quote_App, on_delete=models.CASCADE)
     agent_name = models.CharField(max_length=1000)
     
     #origin charges
@@ -197,14 +204,19 @@ class Staff_Pricing_Quotation(models.Model):
     selling_origin_terminal_handling = models.IntegerField(null=True,blank=True)
     margin_origin_terminal_handling = models.IntegerField(null=True,blank=True)
 
-    buying_port_charges = models.IntegerField(null=True,blank=True)
-    selling_port_charges = models.IntegerField(null=True,blank=True)
-    margin_port_charges = models.IntegerField(null=True,blank=True)
+    buying_airport_charges = models.IntegerField(null=True,blank=True)
+    selling_airport_charges = models.IntegerField(null=True,blank=True)
+    margin_airport_charges = models.IntegerField(null=True,blank=True)
 
-    buying_other_charges = models.IntegerField(null=True,blank=True)
-    selling_other_charges = models.IntegerField(null=True,blank=True)
-    margin_other_charges = models.IntegerField(null=True,blank=True)
+    buying_other_charges_A = models.IntegerField(null=True,blank=True)
+    selling_other_charges_A = models.IntegerField(null=True,blank=True)
+    margin_other_charges_A = models.IntegerField(null=True,blank=True)
     
+    #totals of section A
+    buying_total_A = models.IntegerField(null=True,blank=True,default=0)
+    selling_total_A = models.IntegerField(null=True,blank=True,default=0)
+    margin_total_A = models.IntegerField(null=True,blank=True,default=0)
+
     #freight elements
     buying_freight_cost = models.IntegerField(null=True,blank=True)
     selling_freight_cost = models.IntegerField(null=True,blank=True)
@@ -213,20 +225,17 @@ class Staff_Pricing_Quotation(models.Model):
     buying_other_freight_charges = models.IntegerField(null=True,blank=True)
     selling_other_freight_charges = models.IntegerField(null=True,blank=True)
     margin_other_freight_charges = models.IntegerField(null=True,blank=True)
+    
+    #totals of section B
+    buying_total_B = models.IntegerField(null=True,blank=True,default=0)
+    selling_total_B = models.IntegerField(null=True,blank=True,default=0)
+    margin_total_B = models.IntegerField(null=True,blank=True,default=0)
 
-    buying_total_origin = models.IntegerField(null=True,blank=True)
-    selling_total_origin = models.IntegerField(null=True,blank=True)
-    margin_total_origin = models.IntegerField(null=True,blank=True)
-
-    #destination charges
     buying_terminal_handling = models.IntegerField(null=True,blank=True)
     selling_terminal_handling = models.IntegerField(null=True,blank=True)
     margin_terminal_handling = models.IntegerField(null=True,blank=True)
 
-    buying_port_charges_dest = models.IntegerField(null=True,blank=True)
-    selling_port_charges_dest = models.IntegerField(null=True,blank=True)
-    margin_port_charges_dest = models.IntegerField(null=True,blank=True)
-
+    
     buying_agency_fee = models.IntegerField(null=True,blank=True)
     selling_agency_fee = models.IntegerField(null=True,blank=True)
     margin_agency_fee = models.IntegerField(null=True,blank=True)
@@ -239,29 +248,80 @@ class Staff_Pricing_Quotation(models.Model):
     selling_other_destination_charges = models.IntegerField(null=True,blank=True)
     margin_other_destination_charges = models.IntegerField(null=True,blank=True)
 
-    buying_total_destination = models.IntegerField(null=True,blank=True)
-    selling_total_destination = models.IntegerField(null=True,blank=True)
-    margin_total_destination = models.IntegerField(null=True,blank=True)
+    #totals of section C
+    buying_total_C = models.IntegerField(null=True,blank=True,default=0)
+    selling_total_C = models.IntegerField(null=True,blank=True,default=0)
+    margin_total_C = models.IntegerField(null=True,blank=True,default=0)
 
     #import duties
-    hs_code = models.IntegerField(null=True,blank=True)
-    fob_value = models.IntegerField(null=True,blank=True)
-    freight_charges = models.IntegerField(null=True,blank=True)
-    insurance = models.IntegerField(null=True,blank=True)
-    customs_value = models.IntegerField(null=True,blank=True)
-    sub_total_duties = models.IntegerField(null=True,blank=True)
+    hs_code_bp = models.IntegerField(null=True,blank=True)
+    hs_code_sp = models.IntegerField(null=True,blank=True)
+    hs_code_margin = models.IntegerField(null=True,blank=True)
+
+    fob_value_bp = models.IntegerField(null=True,blank=True)
+    fob_value_sp = models.IntegerField(null=True,blank=True)
+    fob_value_margin = models.IntegerField(null=True,blank=True)
+
+    freight_charges_bp = models.IntegerField(null=True,blank=True)
+    freight_charges_sp = models.IntegerField(null=True,blank=True)
+    freight_charges_margin = models.IntegerField(null=True,blank=True)
+
+    insurance_bp = models.IntegerField(null=True,blank=True)
+    insurance_sp = models.IntegerField(null=True,blank=True)
+    insurance_margin = models.IntegerField(null=True,blank=True)
+
+    customs_value_bp = models.IntegerField(null=True,blank=True)
+    customs_value_sp = models.IntegerField(null=True,blank=True)
+    customs_value_margin = models.IntegerField(null=True,blank=True)
+
+    #total D
+    buying_total_D = models.IntegerField(null=True,blank=True,default=0)
+    selling_total_D = models.IntegerField(null=True,blank=True,default=0)
+    margin_total_D = models.IntegerField(null=True,blank=True,default=0)
 
     #tax name
-    import_duty = models.IntegerField(null=True,blank=True)
-    excise_duty = models.IntegerField(null=True,blank=True)
-    vat = models.IntegerField(null=True,blank=True)
-    railway_levy = models.IntegerField(null=True,blank=True)
-    idf_fee = models.IntegerField(null=True,blank=True)
-    levies = models.IntegerField(null=True,blank=True)
-    sub_total_taxes = models.IntegerField(null=True,blank=True)
+    import_duty_principal = models.CharField(max_length=1000,null=True,blank=True)
+    import_duty = models.IntegerField(null=True,blank=True,default=0)
 
-    total_tax = models.IntegerField(null=True,blank=True)
+    excise_duty_principal = models.CharField(max_length=1000,null=True,blank=True)
+    excise_duty = models.IntegerField(null=True,blank=True,default=0)
+
+    vat_principal = models.CharField(max_length=1000,null=True,blank=True)
+    vat = models.IntegerField(null=True,blank=True,default=0)
+
+    railway_levy_principal = models.CharField(max_length=1000,null=True,blank=True)
+    railway_levy = models.IntegerField(null=True,blank=True,default=0)
+
+    idf_fee_principal = models.CharField(max_length=1000,null=True,blank=True)
+    idf_fee = models.IntegerField(null=True,blank=True,default=0)
+
+    levies_principal = models.CharField(max_length=1000,null=True,blank=True)
+    levies = models.IntegerField(null=True,blank=True,default=0)
+    total_tax = models.IntegerField(null=True,blank=True,default=0)
 
     #grand total
-    grand_total = models.IntegerField(blank=True)
+    grand_total_bp = models.IntegerField(null=True,blank=True,default=0)
+    grand_total_sp = models.IntegerField(null=True,blank=True,default=0)
+    grand_total_margin = models.IntegerField(null=True,blank=True,default=0)
     status = models.CharField(max_length=20,choices=status_choices,default="pending")
+
+    def __str__(self):
+        return str(self.agent_name)
+    
+    #save total taxes
+    def save(self,*args,**kwargs):
+        self.total_tax = int(self.import_duty) + int(self.excise_duty) + int(self.vat) + int(self.railway_levy) + int(self.idf_fee) + int(self.levies)
+        super().save(*args,**kwargs)
+
+class Taxes(models.Model):
+    name = models.CharField(max_length=1000)
+    percentage = models.IntegerField(default=0)
+    amount = models.IntegerField(null=True,blank=True)
+    value = models.IntegerField(null=True,blank=True,default=0)
+
+    def __str__(self):
+        return str(self.name)
+
+    def save(self,*args,**kwargs):
+        self.value = int(self.amount) * int(self.percentage) / 100
+        super(Taxes,self).save(*args,**kwargs)

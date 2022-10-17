@@ -1,0 +1,115 @@
+{% load static %}
+		<!-- Sidemenu -->
+		<div class="sticky">
+			<div class="main-menu main-sidebar main-sidebar-sticky side-menu">
+				<div class="main-sidebar-header main-container-1 active">
+					<div class="sidemenu-logo">
+						<a class="main-logo" href="index">
+							<img src=" {% static 'assets/img/brand/logolight.png' %} " class="header-brand-img desktop-logo-dark" alt="logo">
+							<img src=" {% static 'assets/img/brand/nav-light.png' %} " class="header-brand-img icon-logo-dark" alt="logo">
+							<img src=" {% static 'assets/img/brand/logodark.png' %} " class="header-brand-img desktop-logo" alt="logo">
+							<img src=" {% static 'assets/img/brand/icon.png' %} " class="header-brand-img icon-logo" alt="logo">
+						</a>
+					</div>
+					<div class="main-sidebar-body main-body-1">
+						<div class="slide-left disabled" id="slide-left"><svg xmlns="http://www.w3.org/2000/svg" fill="#c9bebe" width="24" height="24" viewBox="0 0 24 24"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"/></svg></div>
+						<ul class="menu-nav nav">
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="{% url 'client_home' %}">
+									<svg class="sidemenu-icon menu-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M21.5,13h-8.0005493C13.2234497,13.0001831,12.9998169,13.223999,13,13.5v8.0005493C13.0001831,21.7765503,13.223999,22.0001831,13.5,22h8.0006104C21.7765503,21.9998169,22.0001831,21.776001,22,21.5v-8.0006104C21.9998169,13.2234497,21.776001,12.9998169,21.5,13z M21,21h-7v-7h7V21z M10.5,2H2.4993896C2.2234497,2.0001831,1.9998169,2.223999,2,2.5v8.0005493C2.0001831,10.7765503,2.223999,11.0001831,2.5,11h8.0006104C10.7765503,10.9998169,11.0001831,10.776001,11,10.5V2.4993896C10.9998169,2.2234497,10.776001,1.9998169,10.5,2z M10,10H3V3h7V10z M10.5,13H2.4993896C2.2234497,13.0001831,1.9998169,13.223999,2,13.5v8.0005493C2.0001831,21.7765503,2.223999,22.0001831,2.5,22h8.0006104C10.7765503,21.9998169,11.0001831,21.776001,11,21.5v-8.0006104C10.9998169,13.2234497,10.776001,12.9998169,10.5,13z M10,21H3v-7h7V21z M21.5,2h-8.0005493C13.2234497,2.0001831,12.9998169,2.223999,13,2.5v8.0005493C13.0001831,10.7765503,13.223999,11.0001831,13.5,11h8.0006104C21.7765503,10.9998169,22.0001831,10.776001,22,10.5V2.4993896C21.9998169,2.2234497,21.776001,1.9998169,21.5,2z M21,10h-7V3h7V10z"/></svg>
+									<span class="sidemenu-label">Dashboard</span>
+								</a>
+							<li class="nav-header"><span class="nav-label">Quotes</span></li>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="javascript:void(0);">
+									<svg class="sidemenu-icon menu-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M10.5,13h-7C3.2,13,3,13.2,3,13.5v7C3,20.8,3.2,21,3.5,21h7c0.3,0,0.5-0.2,0.5-0.5v-7C11,13.2,10.8,13,10.5,13z M10,20H4v-6h6V20z M10.5,3h-7C3.2,3,3,3.2,3,3.5v7C3,10.8,3.2,11,3.5,11h7c0.3,0,0.5-0.2,0.5-0.5v-7C11,3.2,10.8,3,10.5,3z M10,10H4V4h6V10z M20.5,3h-7C13.2,3,13,3.2,13,3.5v7c0,0.3,0.2,0.5,0.5,0.5h7c0.3,0,0.5-0.2,0.5-0.5v-7C21,3.2,20.8,3,20.5,3z M20,10h-6V4h6V10z M20.5,16.5h-3v-3c0-0.3-0.2-0.5-0.5-0.5s-0.5,0.2-0.5,0.5v3h-3c-0.3,0-0.5,0.2-0.5,0.5s0.2,0.5,0.5,0.5h3v3c0,0.3,0.2,0.5,0.5,0.5h0c0.3,0,0.5-0.2,0.5-0.5v-3h3c0.3,0,0.5-0.2,0.5-0.5S20.8,16.5,20.5,16.5z"/></svg>
+									<span class="sidemenu-label">Quotations</span>
+									<i class="angle fe fe-chevron-right"></i>
+								</a>
+								<ul class="nav-sub">
+									<li class="side-menu-label1"><a href="javascript:void(0);">Quotations</a></li>
+									<!-- <li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'quote:type' %}">My Quotations</a>
+									</li> -->
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'quote:staff_list' %}">Pending Quotations</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'quote:staff_view_pricing' %}">Completed Pricing</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="#">New Menu Item</a>
+									</li>
+								</ul>
+							</li>
+							<!-- View Shipments -->
+							<li class="nav-header"><span class="nav-label">Shipments</span></li>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="javascript:void(0);">
+									<svg class="sidemenu-icon menu-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M6.5,11h5c0.276123,0,0.5-0.223877,0.5-0.5S11.776123,10,11.5,10h-5C6.223877,10,6,10.223877,6,10.5S6.223877,11,6.5,11z M6,14.5C6,14.776123,6.223877,15,6.5,15h11c0.276123,0,0.5-0.223877,0.5-0.5S17.776123,14,17.5,14h-11C6.223877,14,6,14.223877,6,14.5z M21.8535156,10.1464844l-6-6C15.7597656,4.0526733,15.6326294,4,15.5,4H5C3.3438721,4.0018311,2.0018311,5.3438721,2,7v10c0.0018311,1.6561279,1.3438721,2.9981689,3,3h14c1.6561279-0.0018311,2.9981689-1.3438721,3-3v-6.5C22,10.3673706,21.9473267,10.2402344,21.8535156,10.1464844z M16,5.7069702L20.2930298,10h-2.960022C16.5970459,9.9993896,16.0006104,9.4029541,16,8.6669922V5.7069702z M21,17c-0.0014038,1.1040039-0.8959961,1.9985962-2,2H5c-1.1040039-0.0014038-1.9985962-0.8959961-2-2V7c0.0014038-1.1040039,0.8959961-1.9985962,2-2h10v3.6669922C15.0016479,9.9547729,16.0452271,10.9983521,17.3330078,11H21V17z"/></svg>
+									<span class="sidemenu-label">My Shipments</span>
+									<i class="angle fe fe-chevron-right"></i>
+								</a>
+								<ul class="nav-sub">
+									<li class="side-menu-label1"><a href="javascript:void(0);">My Shipments</a></li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'client_home' %}">Active</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'indexcomplete' %}">Completed</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="ecommerce-product-details">New Menu Item</a>
+									</li>
+								</ul>
+							</li>
+							<!-- Staff Create Shipments -->
+							{% if group == 'staff' %}
+							<li class="nav-header"><span class="nav-label"> Create Shipments</span></li>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="javascript:void(0);">
+									<svg class="sidemenu-icon menu-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M19,3H5C3.3431396,3,2,4.3431396,2,6c0,1.3043213,0.8374634,2.4030151,2,2.8162842V18.5c0.0012817,1.380188,1.119812,2.4987183,2.5,2.5h11c1.380188-0.0012817,2.4987183-1.119812,2.5-2.5V8.8162842C21.1625366,8.4030151,22,7.3043213,22,6C22,4.3431396,20.6568604,3,19,3z M19,18.5c-0.0009155,0.828064-0.671936,1.4990845-1.5,1.5h-11c-0.828064-0.0009155-1.4990845-0.671936-1.5-1.5V9h14V18.5z M19,8H5C3.8954468,8,3,7.1045532,3,6s0.8954468-2,2-2h14c1.1045532,0,2,0.8954468,2,2S20.1045532,8,19,8z M9.5,13h5c0.276123,0,0.5-0.223877,0.5-0.5S14.776123,12,14.5,12h-5C9.223877,12,9,12.223877,9,12.5S9.223877,13,9.5,13z"/></svg>
+									<span class="sidemenu-label">Create a Shipment</span>
+									<i class="angle fe fe-chevron-right"></i>
+								</a>
+								<ul class="nav-sub">
+									<li class="side-menu-label1"><a href="javascript:void(0);">Create a Shipment</a></li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'road' %}">Create a Road Shipment</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'sea' %}">Create a Sea Shipment</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'air' %}">Create an Air Shipment</a>
+									</li>
+								</ul>
+							</li>
+							{% endif %}
+							<li class="nav-header"><span class="nav-label">Reports</span></li>
+							<li class="nav-item">
+								<a class="nav-link with-sub" href="javascript:void(0);">
+									<svg class="sidemenu-icon menu-icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" viewBox="0 0 24 24"><path d="M9.5,2C9.223877,2,9,2.223877,9,2.5v19c0,0.0001831,0,0.0003662,0,0.0005493C9.0001831,21.7765503,9.223999,22.0001831,9.5,22c0.0001831,0,0.0003662,0,0.0006104,0C9.7765503,21.9998169,10.0001831,21.776001,10,21.5v-19C10,2.223877,9.776123,2,9.5,2z M4.5,12C4.223877,12,4,12.223877,4,12.5v9c0,0.0001831,0,0.0003662,0,0.0005493C4.0001831,21.7765503,4.223999,22.0001831,4.5,22c0.0001831,0,0.0003662,0,0.0006104,0C4.7765503,21.9998169,5.0001831,21.776001,5,21.5v-9C5,12.223877,4.776123,12,4.5,12z M19.5,16c-0.276123,0-0.5,0.223877-0.5,0.5v5c0,0.0001831,0,0.0003662,0,0.0005493C19.0001831,21.7765503,19.223999,22.0001831,19.5,22c0.0001831,0,0.0003662,0,0.0006104,0C19.7765503,21.9998169,20.0001831,21.776001,20,21.5v-5C20,16.223877,19.776123,16,19.5,16z M14.5,8C14.223877,8,14,8.223877,14,8.5v13c0,0.0001831,0,0.0003662,0,0.0005493C14.0001831,21.7765503,14.223999,22.0001831,14.5,22c0.0001831,0,0.0003662,0,0.0006104,0C14.7765503,21.9998169,15.0001831,21.776001,15,21.5v-13C15,8.223877,14.776123,8,14.5,8z"/></svg>
+									<span class="sidemenu-label">My Reports</span>
+									<i class="angle fe fe-chevron-right"></i>
+								</a>
+								<ul class="nav-sub">
+									<li class="side-menu-label1"><a href="javascript:void(0);">My Reports</a></li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'reports:report' %}">New Report</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="{% url 'reports:report_summary' %}">Summary Reports</a>
+									</li>
+									<li class="nav-sub-item">
+										<a class="nav-sub-link" href="ecommerce-product-details">New Menu Item</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+						<div class="slide-right" id="slide-right"><svg xmlns="http://www.w3.org/2000/svg" fill="#c9bebe" width="24" height="24" viewBox="0 0 24 24"><path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"/></svg></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End Sidemenu -->

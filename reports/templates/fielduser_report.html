@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "components/base.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 {% block stylesheets %}
@@ -423,7 +423,7 @@
 {% endblock content %}
 
 <!-- Specific JS goes HERE --> 
-{% block javascripts %}
+{% block scripts %}
 
 <script src="/static/assets/js/plugins/chartjs.min.js"></script>
 <script src="/static/assets/js/plugins/Chart.extension.js"></script>
@@ -459,4 +459,4 @@
 }
 pageScroll();
 </script>
-{% endblock javascripts %}
+{% endblock scripts %}

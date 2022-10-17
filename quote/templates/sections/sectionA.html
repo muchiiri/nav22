@@ -1,0 +1,294 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load countries %}
+{% block stylesheets %}
+<style>
+.form-group {
+margin-bottom: 0px;
+}
+</style>
+{% endblock stylesheets %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>{{ _('section A - Origin Charges') }}</h3>
+        </div>
+    </div>
+
+    <!-- Nav tabs --> 
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#home">Quote Details</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#agent">Agent</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link active" data-toggle="tab" href="#sectionA">Section A</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionB">Section B</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionC">Section C</a>
+    </li>
+    <li class="nav-item">
+       <a class="nav-link" data-toggle="tab" href="#sectionD">Section D</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionE">Section E</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#sectionF">Section F</a>
+    </li>
+ </ul>
+  
+    <form method="post" action="{% url 'quote:staff_add_pricing' %}">
+        {% csrf_token %}
+        <input type="hidden" name="quote_app_id" value="{{ pk }}" />
+        <input type="hidden" name="section" value="sectionB" />
+        <div class="table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>{{ _('Item') }}</th>
+                        <th>{{ _('Buying') }}</th>
+                        <th>{{ _('Selling') }}</th>
+                        <th>{{ _('Margin') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr class="form-group">
+                        <td>1</td>
+                        <td>Origin Haulage</td>
+                        <td><input type="number" name="origin_haulage_bp" id="origin_haulage_bp_id" class="form-control" min="1" value="{{ initial.buying_origin_haulage }}" required /></td>
+                        <td><input type="number" name="origin_haulage_sp" id="origin_haulage_sp_id" class="form-control" min="1" value="{{ initial.selling_origin_haulage }}" required /></td>
+                        <td><input type="text" name="origin_haulage_margin" id="origin_haulage_margin_id" class="form-control" value="{{ initial.margin_origin_haulage }}" readonly /> </td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>2</td>
+                        <td>Customs Documentation</td>
+                        <td><input type="number" name="customs_bp" id="customs_bp_id" class="form-control" min="1" value="" required /></td>
+                        <td><input type="number" name="customs_sp" id="customs_sp_id" class="form-control" min="1" required /></td>
+                        <td><input type="text" name="customs_margin" id="customs_margin_id" class="form-control" value="{{ initial.margin_customs_documentation }}" readonly /> </td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>3</td>
+                        <td>Terminal Handling Charges</td>
+                        <td><input type="number" name="terminal_bp" id="terminal_bp_id" class="form-control" min="1" required /></td>
+                        <td><input type="number" name="terminal_sp" id="terminal_sp_id" class="form-control" min="1" required /></td>
+                        <td><input type="number" name="terminal_margin" id="terminal_margin_id" class="form-control" readonly /> </td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>4</td>
+                        <td>Airport Charges</td>
+                        <td><input type="number" name="airport_bp" id="airport_bp_id" class="form-control" min="1" required /></td>
+                        <td><input type="number" name="airport_sp" id="airport_sp_id" class="form-control" min="1" required /></td>
+                        <td><input type="text" name="airport_margin" id="airport_margin_id" class="form-control" readonly /></td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>5</td>
+                        <td>Other Charges</td>
+                        <td><input type="number" name="other_bp" id="other_bp_id" class="form-control" /></td>
+                        <td><input type="number" name="other_sp" id="other_sp_id" class="form-control" /></td>
+                        <td><input type="text" name="other_margin" id="other_margin_id" class="form-control" readonly /> </td>
+                    </tr>
+
+                    <tr class="form-group">
+                        <td>6</td>
+                        <td>Totals</td>
+                        <td><input type="text" name="totals_bp_A" id="totals_bp" class="form-control" readonly/></td>
+                        <td><input type="number" name="totals_sp_A" id="totals_sp" class="form-control" readonly/></td>
+                        <td><input type="number" name="totals_margin_A" id="totals" class="form-control" readonly /></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="container text-right m-3">
+            <!-- back button to go to last location-->
+            <button class="float-left btn-back btn btn-primary" type="button">Back</button>
+            <input type="submit" class="btn btn-primary subB" style="float: right;margin-right: 45px;" value="Next" />
+        </div>
+    </form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+    //function to get the difference between bp and sp
+        function getMargin(bp, sp) {
+            var margin = sp - bp;
+            return margin;
+        }
+
+        //select bp and sp values by id
+        var origin_bp = document.getElementById('origin_haulage_bp_id');
+        var origin_sp = document.getElementById('origin_haulage_sp_id');
+        var origin_margin = document.getElementById('origin_haulage_margin_id');
+        //get the margin value
+        origin_margin.value = getMargin(origin_bp.value, origin_sp.value);
+        //get the margin value on change of bp and sp
+        origin_bp.onchange = function() {
+            origin_margin.value = getMargin(origin_bp.value, origin_sp.value);
+        }
+        origin_sp.onchange = function() {
+            origin_margin.value = getMargin(origin_bp.value, origin_sp.value);
+        }
+
+        var customs_bp = document.getElementById('customs_bp_id');
+        var customs_sp = document.getElementById('customs_sp_id');
+        var customs_margin = document.getElementById('customs_margin_id');
+        customs_margin.value = getMargin(customs_bp.value, customs_sp.value);
+        customs_bp.onchange = function() {
+            customs_margin.value = getMargin(customs_bp.value, customs_sp.value);
+        }
+        customs_sp.onchange = function() {
+            customs_margin.value = getMargin(customs_bp.value, customs_sp.value);
+        }
+
+        var terminal_bp = document.getElementById('terminal_bp_id');
+        var terminal_sp = document.getElementById('terminal_sp_id');
+        var terminal_margin = document.getElementById('terminal_margin_id');
+        // console.log(terminal_margin.value);
+        // terminal_margin.value = getMargin(terminal_bp.value, terminal_sp.value);
+
+        terminal_bp.onchange = function() {
+            terminal_bp = document.getElementById('terminal_bp_id');
+            terminal_sp = document.getElementById('terminal_sp_id');
+            terminal_margin.value = getMargin(terminal_bp.value, terminal_sp.value);
+        }
+        terminal_sp.onchange = function() {
+            terminal_bp = document.getElementById('terminal_bp_id');
+            terminal_sp = document.getElementById('terminal_sp_id');
+            terminal_margin.value = getMargin(terminal_bp.value, terminal_sp.value);
+        }
+
+        var airport_bp = document.getElementById('airport_bp_id');
+        var airport_sp = document.getElementById('airport_sp_id');
+        var airport_margin = document.getElementById('airport_margin_id');
+        airport_margin.value = getMargin(airport_bp.value, airport_sp.value);
+        airport_bp.onchange = function() {
+            airport_margin.value = getMargin(airport_bp.value, airport_sp.value);
+        }
+        airport_sp.onchange = function() {
+            airport_margin.value = getMargin(airport_bp.value, airport_sp.value);
+        }
+
+        var other_bp = document.getElementById('other_bp_id');
+        var other_sp = document.getElementById('other_sp_id');
+        var other_margin = document.getElementById('other_margin_id');
+        other_margin.value = getMargin(other_bp.value, other_sp.value);
+        other_bp.onchange = function() {
+            console.log("other_bp: " + other_bp);
+            other_margin.value = getMargin(other_bp.value, other_sp.value);
+        }
+        other_sp.onchange = function() {
+            other_margin.value = getMargin(other_bp.value, other_sp.value);
+        }
+
+        //sum of all bp values
+        var sum_bp = 0;
+        var sum_sp = 0;
+        var sum_margin = 0;
+
+        var totals_bp = document.getElementById('totals_bp').value;
+        var totals_sp = document.getElementById('totals_sp').value;
+        var totals = document.getElementById('totals').value;
+
+        //set all .form-control values to 0
+        origin_bp.value = 0;
+        origin_sp.value = 0;
+        customs_bp.value = 0;
+        customs_sp.value = 0;
+        terminal_bp.value = 0;
+        terminal_sp.value = 0;
+        airport_bp.value = 0;
+        airport_sp.value = 0;
+        other_bp.value = 0;
+        other_sp.value = 0;
+
+        //set onchange event for all .form-control
+        
+        $(".form-control").on('change',function(){
+            console.log("changed");
+            sum_bp = parseInt(origin_bp.value) + parseInt(customs_bp.value) + parseInt(terminal_bp.value) + parseInt(airport_bp.value) + parseInt(other_bp.value);
+            sum_sp = parseInt(origin_sp.value) + parseInt(customs_sp.value) + parseInt(terminal_sp.value) + parseInt(airport_sp.value) + parseInt(other_sp.value);
+            sum_margin = parseInt(origin_margin.value) + parseInt(customs_margin.value) + parseInt(terminal_margin.value) + parseInt(airport_margin.value) + parseInt(other_margin.value);
+
+            // console.log("totals_bp: " + other_bp.value);
+            totals_bp = sum_bp;
+            totals_sp.value = sum_sp;
+            totals.value = sum_margin;
+            document.getElementById('totals_bp').value = sum_bp;
+            document.getElementById('totals_sp').value = sum_sp;
+            document.getElementById('totals').value = sum_margin;
+        });  
+         
+</script>
+
+<script>
+//fill in context data
+var initial_buying_origin_haulage = "{{ initial.buying_origin_haulage }}";
+var initial_selling_origin_haulage = "{{ initial.selling_origin_haulage }}";
+var initial_margin_origin_haulage = "{{ initial.margin_origin_haulage }}";
+$("#origin_haulage_bp_id").val(initial_buying_origin_haulage);
+$("#origin_haulage_sp_id").val(initial_selling_origin_haulage);
+$("#origin_haulage_margin_id").val(initial_margin_origin_haulage);
+
+var initial_buying_customs_documentation = "{{ initial.buying_customs_documentation }}";
+var initial_selling_customs_documentation = "{{ initial.selling_customs_documentation }}";
+var initial_margin_customs_documentation = "{{ initial.margin_customs_documentation }}";
+$("#customs_bp_id").val(initial_buying_customs_documentation);
+$("#customs_sp_id").val(initial_selling_customs_documentation);
+$("#customs_margin_id").val(initial_margin_customs_documentation);
+
+var initial_buying_origin_terminal_handling = "{{ initial.buying_origin_terminal_handling }}";
+var initial_selling_origin_terminal_handling = "{{ initial.selling_origin_terminal_handling }}";
+var initial_margin_origin_terminal_handling = "{{ initial.margin_origin_terminal_handling }}";
+$("#terminal_bp_id").val(initial_buying_origin_terminal_handling);
+$("#terminal_sp_id").val(initial_selling_origin_terminal_handling);
+$("#terminal_margin_id").val(initial_margin_origin_terminal_handling);
+
+var initial_buying_airport_charges = "{{ initial.buying_airport_charges }}";
+var initial_selling_airport_charges = "{{ initial.selling_airport_charges }}";
+var initial_margin_airport_charges = "{{ initial.margin_airport_charges }}";
+$("#airport_bp_id").val(initial_buying_airport_charges);
+$("#airport_sp_id").val(initial_selling_airport_charges);
+$("#airport_margin_id").val(initial_margin_airport_charges);
+
+var initial_buying_other_charges_A = "{{ initial.buying_other_charges_A }}";
+var initial_selling_other_charges_A = "{{ initial.selling_other_charges_A }}";
+var initial_margin_other_charges_A = "{{ initial.margin_other_charges_A }}";
+$("#other_bp_id").val(initial_buying_other_charges_A);
+$("#other_sp_id").val(initial_selling_other_charges_A);
+$("#other_margin_id").val(initial_margin_other_charges_A);
+
+var initial_buying_total_A = "{{ initial.buying_total_A }}";
+var initial_selling_total_A = "{{ initial.selling_total_A }}";
+var initial_margin_total_A = "{{ initial.margin_total_A }}";
+$("#totals_bp").val(initial_buying_total_A);
+$("#totals_sp").val(initial_selling_total_A);
+$("#totals").val(initial_margin_total_A);
+
+
+</script>
+
+<script>
+    //go back to previous history
+    $('.btn-back').on('click', function() {
+        window.history.back();
+    });
+</script>
+{% endblock %}
