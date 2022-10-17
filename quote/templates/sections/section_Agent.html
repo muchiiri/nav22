@@ -53,7 +53,22 @@ margin-bottom: 0px;
             <input type="hidden" name="section" value="sectionA" />
             
             <label>Agent name</label>
-            <input type="text" name="agent_name" class="form-control" value="{{ initial.agent_name }}" />
+            <select name="agent_name"  value="{{ initial.agent_name }}" class="form-control">
+                <option value="">---</option>
+                <option value="Afrigistics South Africa">Afrigistics South Africa </option>
+                <option value="Cargo Partners">Cargo Partners</option>
+                <option value="Central Oceans">Central Oceans</option>
+                <option value="CMACGM">CMACGM</option>
+                <option value="Gruber Logistics">Gruber Logistics</option>
+                <option value="Hannational Shipping Company">Hannational Shipping Company</option>
+                <option value="Maersk"> Maersk</option>
+                <option value="Magellan Logistics">Magellan Logistics</option>
+                <option value="Maurice Ward">Maurice Ward</option>
+                <option value="MSC Line">MSC Line</option>
+                <option value="Perdana Transline">Perdana Transline</option>
+                <option value="Seahorse logistics">Seahorse logistics</option>
+                <option value="Wabco Uganda">Wabco Uganda</option>
+            </select>
             <div class="container text-right m-3">
                 <!-- back button to go to last location-->
                 <button class="float-left btn-back btn btn-primary" type="button">Back</button>
