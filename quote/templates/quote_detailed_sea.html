@@ -26,7 +26,7 @@
        <a data-toggle="tab" class="nav-link active" data-toggle="tab" href="#home">Quote Details</a>
     </li>
 
-    {% if quote_app.status == 'approved_admin' %}
+    {% if quote_app.status == 'approved_admin' or quote_app.status == 'approved_client' %}
     <li class="nav-item">
        <a data-toggle="tab" class="nav-link" data-toggle="tab" href="#pricing">Quote Pricing</a>
     </li>

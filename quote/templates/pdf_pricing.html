@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Quote</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 12px;
+            line-height: 1.42857143;
+            color: #333;
+            background-color: #fff;
+        }
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+        .table > thead > tr > th,
+        .table > tbody > tr > th,
+        .table > tfoot > tr > th,
+        .table > thead > tr > td,
+        .table > tbody > tr > td,
+        .table > tfoot > tr > td {
+            padding: 8px;
+            line-height: 1.42857143;
+            vertical-align: top;
+            border-top: 1px solid #ddd;
+        }
+        .table > thead > tr > th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #ddd;
+        }
+        .table > caption + thead > tr:first-child > th,
+        .table > colgroup + thead > tr:first-child > th,
+        .table > thead:first-child > tr:first-child > th,
+        .table > caption + thead > tr:first-child > td,
+        .table > colgroup + thead > tr:first-child > td,
+        .table > thead:first-child > tr:first-child > td {
+            border-top: 0;
+        }
+        .table > tbody + tbody {
+            border-top: 2px solid #ddd;
+        }
+        .table .table {
+            background-color: #fff;
+        }
+        .table-condensed > thead > tr > th,
+        .table-condensed > tbody > tr > th,
+        .table-condensed > tfoot > tr > th,
+        .table-condensed > thead > tr > td,
+        .table-condensed > tbody > tr > td,
+        .table-condensed > tfoot > tr > td {
+            padding: 5px;
+        }
+        .table-bordered {
+            border: 1px solid #ddd;
+        }
+        .table-bordered > thead > tr > th,
+        .table-bordered > tbody > tr > th,
+        .table-bordered > tfoot > tr > th,
+        .table-bordered > thead > tr > td,
+        .table-bordered > tbody > tr > td,
+        .table-bordered > tfoot > tr > td {
+            border: 1px solid #ddd;
+        }
+        .table-bordered > thead > tr > th,
+        .table-bordered > thead > tr > td {
+            border-bottom-width: 2px;
+        }
+        .table-striped > tbody > tr:nth-of-type(odd) {
+            background-color: #f9f9f9;
+        }
+        .table-hover > tbody > tr:hover {
+            background-color: #f5f5f5;
+        }
+        table col[class*="col-"] {
+            position: static;
+            display: table-column;
+            float: none;
+        }
+        table td[class*="col-"],
+        table th[class*="col-"] {
+            position: static;
+            display: table-cell;
+            float: none;
+        }
+        .table > thead > tr > td.active,
+        .table > tbody > tr > td.active,
+        .table > tfoot > tr > td.active,
+        .table > thead > tr > th.active,
+        .table > tbody > tr > th.active,
+        .table > tfoot > tr > th.active,
+        .table > thead > tr.active > td,
+        .table > tbody > tr.active > td,
+        .table > tfoot > tr.active > td,
+        .table > thead > tr.active > th,
+        .table > tbody > tr.active > th,
+        .table > tfoot > tr.active > th {
+            background-color: #f5f5f5;
+        }
+        .table-hover > tbody > tr > td.active:hover,
+        .table-hover > tbody > tr > th.active:hover,
+        .table-hover > tbody > tr.active:hover > td,
+        .table-hover > tbody > tr:hover > .active,
+        .table-hover > tbody > tr.active:hover > th {
+            background-color: #e8e8e8;
+        }
+        .table > thead > tr > td.success,
+        .table > tbody > tr > td.success,
+        .table > tfoot > tr > td.success,
+        .table > thead > tr > th.success,
+        .table > tbody > tr > th.success,
+        .table > tfoot > tr > th.success,
+        .table > thead > tr.success > td,
+        .table > tbody > tr.success > td,
+        .table > tfoot > tr.success > td,
+        .table > thead > tr.success > th,
+        .table > tbody > tr.success > th,
+        .table > tfoot > tr.success > th {
+            background-color: #dff0d8;
+        }
+
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h1>Quote</h1>
+                    <div class="tab-pane container" id="pricing">
+                        <div class="row">
+                          <div class="col">
+                
+                            <div>
+                            <span style="font-size: 1.53rem;">
+                                Origin Charges
+                            </span>
+                
+                            <span>
+                            <a type="button" href="{% url 'quote:download_pricing' data.quotation.id %}" class="btn btn-primary" style="position:absolute;right:0;margin-right: 17px;">Download Pricing</a>
+                            </span>
+                            </div>
+                
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th class="wd-15p border-bottom-0">Item</th>
+                                            <th class="wd-15p border-bottom-0">Pricing</th>
+                
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Origin Haulage</td>
+                                          
+                                            <td>{{ data.selling_origin_haulage }}</td>
+                                           
+                                        </tr>
+                
+                                        <tr>
+                                            <td>Customs Documentation</td>
+                                          
+                                            <td>{{ data.selling_customs_documentation }}</td>
+                                          
+                                        </tr>
+                
+                                        <tr>
+                                            <td>Terminal Handling</td>
+                                          
+                                            <td>{{ data.selling_origin_terminal_handling }}</td>
+                                          
+                                        </tr>
+                
+                                        <tr>
+                                            <td>Airport Charges</td>
+                                          
+                                            <td>{{ data.selling_airport_charges }}</td>
+                                          
+                                        </tr>
+                
+                                        <tr>
+                                            <td>Total Charges</td>
+                                          
+                                            <td>{{ data.selling_other_charges_A }}</td>
+                                          
+                                        </tr>
+                                    </tbody>
+                                </table>
+                           </div> 
+                
+                           <h3>Freight Elements</h3>
+                           <div class="table-responsive">
+                            <table class="table table-bordered text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="wd-15p border-bottom-0">Item</th>
+                                        <th class="wd-15p border-bottom-0">Pricing</th>                        
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Air Freight</td>
+                                       
+                                        <td>{{ data.selling_freight_cost }}</td>
+                                       
+                                    </tr>
+                
+                                    <tr>
+                                        <td>Other Charges</td>
+                                       
+                                        <td>{{ data.selling_other_freight_charges }}</td>
+                                       
+                                    </tr>
+                
+                                    <tr>
+                                        <td>Total Charges</td>
+                                       
+                                        <td>{{ data.selling_total_B }}</td>
+                                       
+                                    </tr>
+                
+                                </tbody>
+                            </table>
+                       </div> 
+                
+                         <h3>Destination Charges</h3>
+                       <div class="table-responsive">
+                        <table class="table table-bordered text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="wd-15p border-bottom-0">Item</th>
+                                    
+                                    <th class="wd-15p border-bottom-0">Pricing</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Terminal Handling</td>
+                                   
+                                    <td>{{ data.selling_terminal_handling }}</td>
+                                   
+                                </tr>
+                
+                                <tr>
+                                    <td>Agency Fee</td>
+                                    
+                                    <td>{{ data.selling_agency_fee }}</td>
+                                    
+                                </tr>
+                
+                                <tr>
+                                    <td>Transport Delivery Point</td>
+                                    
+                                    <td>{{ data.selling_transport_delivery }}</td>
+                                    
+                                </tr>
+                
+                                <tr>
+                                    <td>Other Destination Charges</td>
+                                    
+                                    <td>{{ data.selling_other_destination_charges }}</td>
+                                    
+                                </tr>
+                
+                                <tr>
+                                    <td>Total C</td>
+                                    <td>{{ data.selling_total_C }}</td>
+                                </tr>
+                
+                            </tbody>
+                        </table>
+                   </div>
+                
+                    <h3>Taxes</h3>
+                   <div class="table-responsive">
+                    <table class="table table-bordered text-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="wd-15p border-bottom-0">Item</th>
+                                <th class="wd-15p border-bottom-0">Amount</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>HS Code</td>
+                                <td>{{ data.hs_code_bp }}</td>
+                                
+                            </tr>
+                
+                            <tr>
+                                <td>FOB code</td>
+                                <td>{{ data.fob_value_bp }}</td>
+                                
+                            </tr>
+                
+                            <tr>
+                                <td>Freight Charges</td>
+                                <td>{{ data.freight_charges_bp }}</td>
+                                
+                            </tr>
+                
+                            <tr>
+                                <td>Insurance</td>
+                                <td>{{ data.insurance_bp }}</td>
+                                
+                            </tr>
+                
+                            <tr>
+                                <td>Customs</td>
+                                <td>{{ data.customs_value_bp }}</td>
+                                
+                            </tr>
+                
+                            <!-- <tr>
+                                <td>Total Charges</td>
+                                <td>{{ data.selling_total_D }}</td>
+                                
+                            </tr> -->
+                
+                        </tbody>
+                    </table>
+                </div>
+                        
+                          </div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
