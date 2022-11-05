@@ -33,7 +33,7 @@ def sendmail(request):
 @login_required
 #@user_passes_test(not_in_oglclients_group,login_url='/accounts/login')
 # @eye
-@snoop
+# @snoop
 def home(request):
 	
 	usergroup = request.user.groups.values_list('name', flat=True).first()

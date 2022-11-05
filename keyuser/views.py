@@ -59,15 +59,15 @@ def RoadFreightShip_view(request):
         print(form)
         currentowner = request.POST['owner']
         
-        email = EmailMessage(
-            'Road Freight Shipment created',
-            'Dear Customer, A new road freightship shipment has been created for you. Kindly login to Navicus360 system to view it. Thank you.',
-            settings.EMAIL_HOST_USER,
-            [str(currentowner)]
-        )
+        # email = EmailMessage(
+        #     'Road Freight Shipment created',
+        #     'Dear Customer, A new road freightship shipment has been created for you. Kindly login to Navicus360 system to view it. Thank you.',
+        #     settings.EMAIL_HOST_USER,
+        #     [str(currentowner)]
+        # )
 
-        email.fail_silently = True
-        email.send()
+        # email.fail_silently = True
+        # email.send()
 
         messages.success(request,"Shipment created successfully, email has been sent to customer.")
 
@@ -75,7 +75,7 @@ def RoadFreightShip_view(request):
         return response
         #return render(request,"index_fielduser.html")
     else:
-        #import pdb;pdb.set_trace()
+        
         currentDateTime = datetime.datetime.now()
         date = currentDateTime.date()
         year = date.strftime("%Y")
@@ -100,7 +100,6 @@ def AirFreightShip_view(request):
     #form = RoadFreightShipForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         form = AirFreightShipForm(request.POST)
-        # import pdb; pdb.set_trace()
         form = form.save(commit=False)
         print(request.user)
         form.staff = request.user
@@ -109,15 +108,15 @@ def AirFreightShip_view(request):
 
         currentowner = request.POST['owner']
         
-        email = EmailMessage(
-            'Air Freight Shipment created',
-            'Dear Customer, A new air freightship shipment has been created for you. Kindly login to Navicus360 system to view it. Thank you.',
-            settings.EMAIL_HOST_USER,
-            [str(currentowner)]
-        )
+        # email = EmailMessage(
+        #     'Air Freight Shipment created',
+        #     'Dear Customer, A new air freightship shipment has been created for you. Kindly login to Navicus360 system to view it. Thank you.',
+        #     settings.EMAIL_HOST_USER,
+        #     [str(currentowner)]
+        # )
 
-        email.fail_silently = True
-        email.send()
+        # email.fail_silently = True
+        # email.send()
         messages.success(request,"Shipment created successfully, email has been sent to customer.")
 
         response = redirect('/keyuser')
@@ -157,18 +156,6 @@ def SeaFreightShip_view(request):
         print(form)
 
         currentowner = request.POST['owner']
-        
-        # email = EmailMessage(
-        #     'Sea Freight Shipment created',
-        #     'Dear Customer, A new sea freightship shipment has been created for you. Kindly login to Navicus360 system to view it. Thank you.',
-        #     settings.EMAIL_HOST_USER,
-        #     [str(currentowner)]
-        # )
-
-        # email.fail_silently = True
-        # email.send()
-        # messages.success(request,"Shipment created successfully, email has been sent to customer.")
-
         response = redirect('/keyuser')
         return response
         #return render(request,"index_fielduser.html")
