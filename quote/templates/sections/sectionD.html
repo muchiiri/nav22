@@ -69,7 +69,7 @@ margin-bottom: 0px;
                         
                         <td>1</td>
                         <td>HS Code</td>
-                        <td><input type="text" name="hs_bp" class="form-control" id="hs_code_bp" required /></td>
+                        <td><input type="text" name="hs_bp" class="form-control" id="hs_code_bp" placeholder="Enter hs code" required /></td>
                         <!-- <td><input type="number" name="hs_sp" class="form-control" id="hs_code_sp" required /></td>
                         <td><input type="number" name="hs_tax" class="form-control" id="hs_code_tax" readonly /></td> -->
                     </tr>
@@ -176,7 +176,7 @@ margin-bottom: 0px;
                         <td>
                             <input type="text" name="" class="form-control" value="0%" readonly/>
                         </td>
-                        <td><input type="text" name="railway_principal" id="railway_principal_id" class="form-control" /> </td>
+                        <td><input type="number" name="railway_principal" id="railway_principal_id" class="form-control" /> </td>
                         <td><input type="number" name="railway_levy" id="railway_levy_id" class="form-control" value="0" required readonly/></td>
                     </tr>
                     <tr class="form-group">
@@ -277,7 +277,7 @@ margin-bottom: 0px;
             var excise_duty_rate = document.getElementById('excise_duty_rate_id').value;
             var excise_duty_principal = document.getElementById('excise_duty_principal_id').value;
             var excise_duty_total = excise_duty_rate/100 * excise_duty_principal;
-            console.log(excise_duty_rate);
+            
             document.getElementById('excise_duty_id').value = parseInt(excise_duty_total);
         });
 

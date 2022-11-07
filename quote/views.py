@@ -20,7 +20,6 @@ from birdseye import eye
 # Create your views here.
 
 #generate a random serial number
-# @eye
 def random_serial_no():
     import random
     import string
@@ -42,7 +41,6 @@ class QuoteTypeCreateView(CreateView):
         context['date'] = d1
         return context
 
-    # @eye
     def form_valid(self, form):
         if form.cleaned_data['type'] == 'Air':
             self.request.session['type'] = 'quote:create_air'
@@ -276,7 +274,7 @@ class StaffQuoteListView(ListView):
         return context
 
 #staff add pricing
-# @eye
+@eye
 # @login_required
 # @snoop
 def staff_Add_Pricing(request):
@@ -299,7 +297,6 @@ def staff_Add_Pricing(request):
 
     if section == "agent":
         return render(request, 'sections/section_Agent.html',{'initial':quote_pricing_initial})
-        
 
     if section == 'sectionA':
         if quote_pricing.exists():
@@ -598,6 +595,3 @@ def download_pdf_pricing(request, quote_app=None):
     response = HttpResponse(pdf, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="pricing.pdf"'
     return response
-    #pdfkit.from_file('pdf_pricing.html', 'pricing.pdf')
-    #return redirect('quote:staff_view_pricing')
-    #return render(request, 'pdf_pricing.html', {'data': staff_pricing})

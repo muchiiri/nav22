@@ -10,6 +10,11 @@
             line-height: 1.42857143;
             color: #333;
             background-color: #fff;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
         .table {
             width: 100%;
@@ -127,18 +132,17 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
+                    <div>
+                        <!-- logo -->
+                        <img src="https://navicus360.com/static/img/navicus100x100logo.jpg" class="img-fluid rounded mx-auto d-block" alt="Navicus" style="width: 100px; height: 100px;margin-left:50%">
+                    </div>
                     <h1>Quote</h1>
                     <div class="tab-pane container" id="pricing">
                         <div class="row">
                           <div class="col">
-                
                             <div>
                             <span style="font-size: 1.53rem;">
                                 Origin Charges
-                            </span>
-                
-                            <span>
-                            <a type="button" href="{% url 'quote:download_pricing' data.quotation.id %}" class="btn btn-primary" style="position:absolute;right:0;margin-right: 17px;">Download Pricing</a>
                             </span>
                             </div>
                 
