@@ -26,7 +26,7 @@
        <a data-toggle="tab" class="nav-link active" data-toggle="tab" href="#home">Quote Details</a>
     </li>
 
-    {% if quote_app.status == 'approved_admin' %}
+    {% if quote_app.status == 'approved_admin' or quote_app.status == 'approved_client' %}
     <li class="nav-item">
        <a data-toggle="tab" class="nav-link" data-toggle="tab" href="#pricing">Quote Pricing</a>
     </li>
@@ -120,7 +120,16 @@
         <div class="row">
           <div class="col">
 
-            <h3>Origin Charges</h3>
+            <div>
+                <span style="font-size: 1.53rem;">
+                    Origin Charges
+                </span>
+    
+                <span>
+                <a type="button" href="{% url 'quote:download_pricing' client_pricing.quotation.id %}" class="btn btn-primary" style="position:absolute;right:0;margin-right: 17px;">Download Pricing</a>
+                </span>
+            </div>
+
             <div class="table-responsive">
                 <table class="table table-bordered text-nowrap">
                     <thead>

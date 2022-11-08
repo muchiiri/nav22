@@ -1,7 +1,7 @@
 # from multiprocessing import popen_spawn_posix
 from http.client import HTTPResponse
 from venv import create
-from django.shortcuts import render,HttpResponseRedirect,redirect
+from django.shortcuts import render,HttpResponseRedirect,redirect,HttpResponse
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
@@ -10,6 +10,8 @@ from .models import Quote, Quote_Air, Quote_App, Quote_Sea, Quote_Road, Quote_Wa
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+import pdfkit
+from django.template.loader import render_to_string
 import snoop
 # import heartrate
 from birdseye import eye
@@ -18,7 +20,6 @@ from birdseye import eye
 # Create your views here.
 
 #generate a random serial number
-# @eye
 def random_serial_no():
     import random
     import string
@@ -40,7 +41,6 @@ class QuoteTypeCreateView(CreateView):
         context['date'] = d1
         return context
 
-    # @eye
     def form_valid(self, form):
         if form.cleaned_data['type'] == 'Air':
             self.request.session['type'] = 'quote:create_air'
@@ -297,7 +297,6 @@ def staff_Add_Pricing(request):
 
     if section == "agent":
         return render(request, 'sections/section_Agent.html',{'initial':quote_pricing_initial})
-        
 
     if section == 'sectionA':
         if quote_pricing.exists():
@@ -578,3 +577,21 @@ def clientApproval(request):
     else:
         messages.info(request, 'Quotation Rejected')
     return redirect('quote:list')
+
+#download pdf pricing using pdfkit
+def download_pdf_pricing(request, quote_app=None):
+    staff_pricing = Staff_Pricing_Quotation.objects.get(quotation=quote_app)
+    html = render_to_string('pdf_pricing.html', {'data': staff_pricing})
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+        'encoding': "UTF-8",
+        'no-outline': None
+    }
+    pdf = pdfkit.from_string(html, False, options=options)
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="pricing.pdf"'
+    return response

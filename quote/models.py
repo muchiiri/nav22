@@ -254,11 +254,11 @@ class Staff_Pricing_Quotation(models.Model):
     margin_total_C = models.IntegerField(null=True,blank=True,default=0)
 
     #import duties
-    hs_code_bp = models.IntegerField(null=True,blank=True)
+    hs_code_bp = models.CharField(null=True,max_length=100,blank=True)
     hs_code_sp = models.IntegerField(null=True,blank=True)
     hs_code_margin = models.IntegerField(null=True,blank=True)
 
-    fob_value_bp = models.IntegerField(null=True,blank=True)
+    fob_value_bp = models.CharField(null=True,max_length=100,blank=True)
     fob_value_sp = models.IntegerField(null=True,blank=True)
     fob_value_margin = models.IntegerField(null=True,blank=True)
 
