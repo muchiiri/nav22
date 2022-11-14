@@ -3,369 +3,356 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load countries %}
-
 {% block stylesheets %}
-    <style>
-        .form-group {
-            margin-bottom: 0px;
-        }
-    </style>
+<style>
+  .form-group {
+    margin-bottom: 0px;
+  }
+</style>
 {% endblock stylesheets %}
 {% block content %}
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h3>{{ _('Details on quote') }}</h3>
-            </div>
-        </div>
-        
-                <!-- Nav tabs --> 
-<ul class="nav nav-tabs">
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>{{ _('Details on quote') }}
+      </h3>
+    </div>
+  </div>
+  <!-- Nav tabs --> 
+  <ul class="nav nav-tabs">
     <li class="nav-item">
-       <a data-toggle="tab" class="nav-link active" data-toggle="tab" href="#home">Quote Details</a>
+      <a data-toggle="tab" class="nav-link active" data-toggle="tab" href="#home">Quote Details
+      </a>
     </li>
-
     {% if quote_app.status == 'approved_admin' %}
     <li class="nav-item">
-       <a data-toggle="tab" class="nav-link" data-toggle="tab" href="#pricing">Quote Pricing</a>
+      <a data-toggle="tab" class="nav-link" data-toggle="tab" href="#pricing">Quote Pricing
+      </a>
     </li>
     <li class="nav-item">
-       <a data-toggle="tab" class="nav-link" data-toggle="tab" href="#approval">Quote Approval</a>
+      <a data-toggle="tab" class="nav-link" data-toggle="tab" href="#approval">Quote Approval
+      </a>
     </li>
     {% endif %}
-    
- </ul>
-
- <!-- Tab panes -->
-<div class="tab-content">
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
     <div class="tab-pane container active" id="home">
-
-        <form method="post" action="">
-            {% csrf_token %}
+      <form method="post" action="">
+        {% csrf_token %}
         <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <label>Truck Size</label>
-                <input type="text" name="trucksize" value="{{ quote_detail.truck_type }}" class="form-control">
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <label>Cargo collection address</label>
-                <input type="text" name="address" value="{{ quote_detail.collection_address }}" class="form-control">
-           </div>
+          <div class="col-md-6 col-sm-12">
+            <label>Truck Size
+            </label>
+            <input type="text" name="trucksize" value="{{ quote_detail.truck_type }}" class="form-control">
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label>Cargo collection address
+            </label>
+            <input type="text" name="address" value="{{ quote_detail.collection_address }}" class="form-control">
+          </div>
         </div>
-
         <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <label>Delivery address</label>
-                <input type="text" name="address2" value="{{ quote_detail.delivery_address }}" class="form-control">
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <label>Description of goods</label>
-                <input type="text" name="cargo_des" value="{{ quote.cargo_description}}" class="form-control">
-            </div>
+          <div class="col-md-6 col-sm-12">
+            <label>Delivery address
+            </label>
+            <input type="text" name="address2" value="{{ quote_detail.delivery_address }}" class="form-control">
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label>Description of goods
+            </label>
+            <input type="text" name="cargo_des" value="{{ quote.cargo_description}}" class="form-control">
+          </div>
         </div>
-
         <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <label>Weight of goods</label>
-                <input type="text" name="cargo_w" value="{{ quote_detail.cargo_weight }}" class="form-control">
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <label>Cargo Dimension(Lenght)</label>
-                <input type="text" name="cargo_len" value="{{ quote_detail.cargo_dimension_length }}" class="form-control">
-            </div>
+          <div class="col-md-6 col-sm-12">
+            <label>Weight of goods
+            </label>
+            <input type="text" name="cargo_w" value="{{ quote_detail.cargo_weight }}" class="form-control">
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label>Cargo Dimension(Lenght)
+            </label>
+            <input type="text" name="cargo_len" value="{{ quote_detail.cargo_dimension_length }}" class="form-control">
+          </div>
         </div>
-
         <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <label>Cargo Dimension(Width)</label>
-                <input type="text" name="cargo_w" value="{{ quote_detail.cargo_dimension_width }}" class="form-control">
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <label>Cargo Dimension(Height)</label>
-                <input type="text" name="cargo_len" value="{{ quote_detail.cargo_dimension_height }}" class="form-control">
-            </div>
+          <div class="col-md-6 col-sm-12">
+            <label>Cargo Dimension(Width)
+            </label>
+            <input type="text" name="cargo_w" value="{{ quote_detail.cargo_dimension_width }}" class="form-control">
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label>Cargo Dimension(Height)
+            </label>
+            <input type="text" name="cargo_len" value="{{ quote_detail.cargo_dimension_height }}" class="form-control">
+          </div>
         </div>
-
         <!-- <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <label>Country of Origin</label>
-                {% get_countries as countries %}
-                {% get_country quote.county_origin as country %}
-                <input type="text" name="origin" value="{{ country.name }}" class="form-control">
-            </div>
-            <div class="col-md-6 col-sm-12">
-
-                <label>Country of Destination</label>
-                {% get_countries as countries %}
-                {% get_country quote.county_destination as country %}
-                <input type="text" name="destination" value="{{ country.name }}" class="form-control">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <label>Collection address</label>
-                <input type="text" name="address" value="{{ quote_detail.collection_address }}" class="form-control">
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <label>Cargo Description</label>
-                <input type="text" name="description" value="{{ quote.cargo_description }}" class="form-control">
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <label>Are goods categorized as dangerous</label>
-                <input type="text" name="goods_category" value="{{ quote.goods_category }}" class="form-control">
-            </div>
-            <div class="col-md-6 col-sm-12">
-                <label>Special Delivery Instructions</label>
-                <input type="text" name="delivery_date" value="{{ quote.special_delivery }}" class="form-control">
-            </div>
-        </div> -->
-
-        </form>
+<div class="col-md-6 col-sm-12">
+<label>Country of Origin</label>
+{% get_countries as countries %}
+{% get_country quote.county_origin as country %}
+<input type="text" name="origin" value="{{ country.name }}" class="form-control">
+</div>
+<div class="col-md-6 col-sm-12">
+<label>Country of Destination</label>
+{% get_countries as countries %}
+{% get_country quote.county_destination as country %}
+<input type="text" name="destination" value="{{ country.name }}" class="form-control">
+</div>
+</div>
+<div class="row">
+<div class="col-md-6 col-sm-12">
+<label>Collection address</label>
+<input type="text" name="address" value="{{ quote_detail.collection_address }}" class="form-control">
+</div>
+<div class="col-md-6 col-sm-12">
+<label>Cargo Description</label>
+<input type="text" name="description" value="{{ quote.cargo_description }}" class="form-control">
+</div>
+</div>
+<div class="row">
+<div class="col-md-6 col-sm-12">
+<label>Are goods categorized as dangerous</label>
+<input type="text" name="goods_category" value="{{ quote.goods_category }}" class="form-control">
+</div>
+<div class="col-md-6 col-sm-12">
+<label>Special Delivery Instructions</label>
+<input type="text" name="delivery_date" value="{{ quote.special_delivery }}" class="form-control">
+</div>
+</div> -->
+      </form>
     </div>
     <div class="tab-pane container" id="pricing">
-        <div class="row">
-          <div class="col">
-
-            <div>
-                <span style="font-size: 1.53rem;">
-                    Origin Charges
-                </span>
-    
-                <span>
-                <a type="button" href="{% url 'quote:download_pricing' client_pricing.quotation.id %}" class="btn btn-primary" style="position:absolute;right:0;margin-right: 17px;">Download Pricing</a>
-                </span>
-            </div>
-            
-            <div class="table-responsive">
-                <table class="table table-bordered text-nowrap">
-                    <thead>
-                        <tr>
-                            <th class="wd-15p border-bottom-0">Item</th>
-                            <th class="wd-15p border-bottom-0">Pricing</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Origin Haulage</td>
-                          
-                            <td>{{ client_pricing.selling_origin_haulage }}</td>
-                           
-                        </tr>
-
-                        <tr>
-                            <td>Customs Documentation</td>
-                          
-                            <td>{{ client_pricing.selling_customs_documentation }}</td>
-                          
-                        </tr>
-
-                        <tr>
-                            <td>Terminal Handling</td>
-                          
-                            <td>{{ client_pricing.selling_origin_terminal_handling }}</td>
-                          
-                        </tr>
-
-                        <tr>
-                            <td>Airport Charges</td>
-                          
-                            <td>{{ client_pricing.selling_airport_charges }}</td>
-                          
-                        </tr>
-
-                        <tr>
-                            <td>Total Charges</td>
-                          
-                            <td>{{ client_pricing.selling_other_charges_A }}</td>
-                          
-                        </tr>
-                    </tbody>
-                </table>
-           </div> 
-
-           <h3>Freight Elements</h3>
-           <div class="table-responsive">
+      <div class="row">
+        <div class="col">
+          <div>
+            <span style="font-size: 1.53rem;">
+              Origin Charges
+            </span>
+            <span>
+            {% if client_pricing %}
+              <a type="button" href="{% url 'quote:download_pricing' client_pricing.quotation.id %}" class="btn btn-primary" style="position:absolute;right:0;margin-right: 17px;">Download Pricing
+              </a>
+            {% endif %}
+            </span>
+          </div>
+          <div class="table-responsive">
             <table class="table table-bordered text-nowrap">
-                <thead>
-                    <tr>
-                        <th class="wd-15p border-bottom-0">Item</th>
-                        <th class="wd-15p border-bottom-0">Pricing</th>                        
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Air Freight</td>
-                       
-                        <td>{{ client_pricing.selling_freight_cost }}</td>
-                       
-                    </tr>
-
-                    <tr>
-                        <td>Other Charges</td>
-                       
-                        <td>{{ client_pricing.selling_other_freight_charges }}</td>
-                       
-                    </tr>
-
-                    <tr>
-                        <td>Total Charges</td>
-                       
-                        <td>{{ client_pricing.selling_total_B }}</td>
-                       
-                    </tr>
-
-                </tbody>
+              <thead>
+                <tr>
+                  <th class="wd-15p border-bottom-0">Item
+                  </th>
+                  <th class="wd-15p border-bottom-0">Pricing
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Origin Haulage
+                  </td>
+                  <td>{{ client_pricing.selling_origin_haulage }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Customs Documentation
+                  </td>
+                  <td>{{ client_pricing.selling_customs_documentation }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Terminal Handling
+                  </td>
+                  <td>{{ client_pricing.selling_origin_terminal_handling }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Airport Charges
+                  </td>
+                  <td>{{ client_pricing.selling_airport_charges }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total Charges
+                  </td>
+                  <td>{{ client_pricing.selling_other_charges_A }}
+                  </td>
+                </tr>
+              </tbody>
             </table>
-       </div> 
-
-         <h3>Destination Charges</h3>
-       <div class="table-responsive">
-        <table class="table table-bordered text-nowrap">
-            <thead>
+          </div> 
+          <h3>Freight Elements
+          </h3>
+          <div class="table-responsive">
+            <table class="table table-bordered text-nowrap">
+              <thead>
                 <tr>
-                    <th class="wd-15p border-bottom-0">Item</th>
-                    
-                    <th class="wd-15p border-bottom-0">Pricing</th>
-                   
+                  <th class="wd-15p border-bottom-0">Item
+                  </th>
+                  <th class="wd-15p border-bottom-0">Pricing
+                  </th>                        
                 </tr>
-            </thead>
-            <tbody>
+              </thead>
+              <tbody>
                 <tr>
-                    <td>Terminal Handling</td>
-                   
-                    <td>{{ client_pricing.selling_terminal_handling }}</td>
-                   
+                  <td>Air Freight
+                  </td>
+                  <td>{{ client_pricing.selling_freight_cost }}
+                  </td>
                 </tr>
-
                 <tr>
-                    <td>Agency Fee</td>
-                    
-                    <td>{{ client_pricing.selling_agency_fee }}</td>
-                    
+                  <td>Other Charges
+                  </td>
+                  <td>{{ client_pricing.selling_other_freight_charges }}
+                  </td>
                 </tr>
-
                 <tr>
-                    <td>Transport Delivery Point</td>
-                    
-                    <td>{{ client_pricing.selling_transport_delivery }}</td>
-                    
+                  <td>Total Charges
+                  </td>
+                  <td>{{ client_pricing.selling_total_B }}
+                  </td>
                 </tr>
-
+              </tbody>
+            </table>
+          </div> 
+          <h3>Destination Charges
+          </h3>
+          <div class="table-responsive">
+            <table class="table table-bordered text-nowrap">
+              <thead>
                 <tr>
-                    <td>Other Destination Charges</td>
-                    
-                    <td>{{ client_pricing.selling_other_destination_charges }}</td>
-                    
+                  <th class="wd-15p border-bottom-0">Item
+                  </th>
+                  <th class="wd-15p border-bottom-0">Pricing
+                  </th>
                 </tr>
-
+              </thead>
+              <tbody>
                 <tr>
-                    <td>Total C</td>
-                    <td>{{ client_pricing.selling_total_C }}</td>
+                  <td>Terminal Handling
+                  </td>
+                  <td>{{ client_pricing.selling_terminal_handling }}
+                  </td>
                 </tr>
-
-            </tbody>
-        </table>
-   </div>
-
-    <h3>Taxes</h3>
-   <div class="table-responsive">
-    <table class="table table-bordered text-nowrap">
-        <thead>
-            <tr>
-                <th class="wd-15p border-bottom-0">Item</th>
-                <th class="wd-15p border-bottom-0">Amount</th>
-                
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>HS Code</td>
-                <td>{{ client_pricing.hs_code_bp }}</td>
-                
-            </tr>
-
-            <tr>
-                <td>FOB code</td>
-                <td>{{ client_pricing.fob_value_bp }}</td>
-                
-            </tr>
-
-            <tr>
-                <td>Freight Charges</td>
-                <td>{{ client_pricing.freight_charges_bp }}</td>
-                
-            </tr>
-
-            <tr>
-                <td>Insurance</td>
-                <td>{{ client_pricing.insurance_bp }}</td>
-                
-            </tr>
-
-            <tr>
-                <td>Customs</td>
-                <td>{{ client_pricing.customs_value_bp }}</td>
-                
-            </tr>
-
-            <!-- <tr>
-                <td>Total Charges</td>
-                <td>{{ client_pricing.selling_total_D }}</td>
-                
-            </tr> -->
-
-        </tbody>
-    </table>
-</div>
-        
-          </div>  
-        </div>
+                <tr>
+                  <td>Agency Fee
+                  </td>
+                  <td>{{ client_pricing.selling_agency_fee }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Transport Delivery Point
+                  </td>
+                  <td>{{ client_pricing.selling_transport_delivery }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Other Destination Charges
+                  </td>
+                  <td>{{ client_pricing.selling_other_destination_charges }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Total C
+                  </td>
+                  <td>{{ client_pricing.selling_total_C }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <h3>Taxes
+          </h3>
+          <div class="table-responsive">
+            <table class="table table-bordered text-nowrap">
+              <thead>
+                <tr>
+                  <th class="wd-15p border-bottom-0">Item
+                  </th>
+                  <th class="wd-15p border-bottom-0">Amount
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>HS Code
+                  </td>
+                  <td>{{ client_pricing.hs_code_bp }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>FOB code
+                  </td>
+                  <td>{{ client_pricing.fob_value_bp }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Freight Charges
+                  </td>
+                  <td>{{ client_pricing.freight_charges_bp }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Insurance
+                  </td>
+                  <td>{{ client_pricing.insurance_bp }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Customs
+                  </td>
+                  <td>{{ client_pricing.customs_value_bp }}
+                  </td>
+                </tr>
+                <!-- <tr>
+<td>Total Charges</td>
+<td>{{ client_pricing.selling_total_D }}</td>
+</tr> -->
+              </tbody>
+            </table>
+          </div>
+        </div>  
+      </div>
     </div>
-
     <div class="tab-pane" id="approval">
-        {% if quote_app.status == 'approved_admin' %}
-        <form method="post" action="{% url 'quote:client_approval' %}">
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        
-                        <input type="hidden" name="quote_id" class="form-control" id="quote_id" value="{{ quote_app.id }}" readonly>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <div class="col-md-6 form-group">
-                     <label>Quote Approval</label>
-                      <select class="form-control" name="approval_status">
-                        <option value="approved_client">Approve Quote Pricing</option>
-                        <option value="rejected_client">Reject Quote Priving</option>
-                      </select>
-                      <input type="submit" name="submit" value="Submit" class="btn btn-primary">
-                    </div>
-        </form>
-        {% elif quote_app.status == 'approved_client'  %}
-        <p class="alert alert-success">
+      {% if quote_app.status == 'approved_admin' %}
+      <form method="post" action="{% url 'quote:client_approval' %}">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <input type="hidden" name="quote_id" class="form-control" id="quote_id" value="{{ quote_app.id }}" readonly>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6 form-group">
+              <label>Quote Approval
+              </label>
+              <select class="form-control" name="approval_status">
+                <option value="approved_client">Approve Quote Pricing
+                </option>
+                <option value="rejected_client">Reject Quote Priving
+                </option>
+              </select>
+              <input type="submit" name="submit" value="Submit" class="btn btn-primary">
+            </div>
+            </form>
+          {% elif quote_app.status == 'approved_client'  %}
+          <p class="alert alert-success">
             You have already approved this quote
-        </p>
-        {% elif quote_app.status == 'rejected_client'  %}
-        <p class="alert alert-danger">
+          </p>
+          {% elif quote_app.status == 'rejected_client'  %}
+          <p class="alert alert-danger">
             You have already rejected this quote
-        </p>
-        {% endif %}
-    </div> 
-</div>
-
-
-{% endblock content %}
-{% block scripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-{% endblock %}
+          </p>
+          {% endif %}
+        </div> 
+        </div>
+      {% endblock content %}
+      {% block scripts %}
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+      </script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
+      </script>
+      {% endblock %}

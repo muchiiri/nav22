@@ -66,9 +66,7 @@ AIRLINE_CHOICES= [
 
 choices = []
 class RoadFreightShipForm(forms.ModelForm):
-    # owner=forms.ChoiceField(choices=[(account.email,account) for account in Account.objects.filter(is_staff="False")])
-    
-    # owner=forms.ChoiceField(choices=[(account.email,account) for account in Account.objects.filter(groups__name="Ogl Clients")])
+    owner=forms.ChoiceField(choices=[(account.email,account) for account in Account.objects.filter(is_staff="False")])
     refno = forms.CharField(widget=forms.TextInput({"readonly":"True"}))
     incoterms =  forms.CharField(widget=forms.Select(choices=INCOTERMS_CHOICES))
     cargoload = forms.CharField(widget=forms.Select(choices=CARGOLOAD_CHOICES))
