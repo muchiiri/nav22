@@ -10,7 +10,7 @@ class Quote(models.Model):
     incoterm_choices = (
         ("EX","EX Works"),
         ("FOB","FOB"),
-        ("CRF","CRF"),
+        ("CFR","CFR"),
         ("DAP","DAP"),
         ("OTHER","Other"),
     )
