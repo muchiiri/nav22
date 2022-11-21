@@ -310,7 +310,7 @@ def staff_Add_Pricing(request):
 
         if incoterms == "FOB":
             return render(request,'sections/sectionB.html',{'initial':quote_pricing_initial})
-        elif incoterms == "CRF":
+        elif incoterms == "CFR":
             return render(request,'sections/sectionC.html',{'initial':quote_pricing_initial})
         elif incoterms == "EX" or incoterms == "DAP":
             return render(request, 'sections/sectionA.html',{'initial':quote_pricing_initial})
