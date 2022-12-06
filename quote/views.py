@@ -27,10 +27,27 @@ def random_serial_no():
     serial_no = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
     return serial_no
 
+# Client Select Quote Type
 class QuoteTypeCreateView(CreateView):
     model = QuoteType
     fields = ['type', 'date']
     template_name = 'type_form.html'
+    success_url = '/quotation/create/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+
+        #get today date
+        today = date.today()
+        d1 = today.strftime("%Y-%m-%d")
+        context['date'] = d1
+        return context
+
+# Staff Select Quote Type
+class QuoteTypeCreateViewStaff(CreateView):
+    model = QuoteType
+    fields = ['type', 'date', 'owner']
+    template_name = 'type_form_staff.html'
     success_url = '/quotation/create/'
 
     def get_context_data(self, **kwargs):
