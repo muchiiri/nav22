@@ -27,7 +27,7 @@ urlpatterns = [
     path('staff/approval',adminApproval,name="admin_approval"),
 
     #staff create quote for client
-    path('type/', QuoteTypeCreateView.as_view(), name='typestaff'),
+    path('type/', QuoteTypeCreateViewStaff.as_view(), name='typestaff'),
     #download urls
     path('download/<str:quote_app>/',download_pdf_pricing,name="download_pricing"),
 ]
