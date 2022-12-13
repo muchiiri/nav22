@@ -122,8 +122,8 @@ class Quote_Road(Quote):
             owner = self.owner,
             quote_type=self.quote_type,
             incoterm=self.incoterm,
-            country_origin=self.county_origin,
-            country_destination=self.county_destination,
+            # country_origin=self.county_origin,
+            # country_destination=self.county_destination,
             quote_serial_no=self.quote_serial_no,
         )
         super(Quote_Road,self).save(*args, **kwargs)
@@ -171,8 +171,8 @@ class Quote_App(models.Model):
     owner = models.ForeignKey(user, on_delete=models.CASCADE)
     quote_type = models.CharField(max_length=200)
     incoterm = models.CharField(max_length=300)
-    country_origin = models.CharField(max_length=100)
-    country_destination = models.CharField(max_length=100)
+    country_origin = models.CharField(max_length=100, null=True, blank=True)
+    country_destination = models.CharField(max_length=100, null=True, blank=True)
     quote_serial_no = models.CharField(max_length=30,default="000")
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=30, choices=status_choices, default="pending")
