@@ -7,6 +7,7 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from requests import request
 from .models import Quote, Quote_Air, Quote_App, Quote_Sea, Quote_Road, Quote_Warehouse, QuoteType, Staff_Pricing_Quotation,Taxes
+from .models import Account
 from datetime import date
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -27,6 +28,7 @@ def random_serial_no():
     serial_no = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
     return serial_no
 
+# Client Select Quote Type
 class QuoteTypeCreateView(CreateView):
     model = QuoteType
     fields = ['type', 'date']
@@ -78,7 +80,60 @@ class QuoteTypeCreateView(CreateView):
         # form.instance.owner = self.request.user
         # return super().form_valid(form)
 
-#create sea quote
+# Staff Select Quote Type
+class QuoteTypeCreateViewStaff(CreateView):
+    model = QuoteType
+    fields = ['type', 'date', 'owner']
+    template_name = 'type_form_staff.html'
+    success_url = '/quotation/create/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+
+        #get today date
+        today = date.today()
+        d1 = today.strftime("%Y-%m-%d")
+        context['date'] = d1
+        return context
+
+    def form_valid(self, form):
+        if form.cleaned_data['type'] == 'Air':
+            self.request.session['type'] = 'quote:create_air'
+            self.request.session['type_name'] = 'Air'
+            self.request.session['owner'] = form.cleaned_data['owner'].id
+            # form.instance.owner = self.request.session['owner']
+            form.instance.type = 'Quote_Air'
+            # super().form_valid(form)
+            return HttpResponseRedirect('/quotation/staff_air/create/')
+
+        elif form.cleaned_data['type'] == 'Sea':
+            self.request.session['type'] = 'quote:create_sea'
+            self.request.session['type_name'] = 'Sea'
+            self.request.session['owner'] = form.cleaned_data['owner'].id
+            form.instance.type = 'Quote_Sea'
+            # super().form_valid(form)
+            return HttpResponseRedirect('/quotation/staff_sea/create/')
+
+        elif form.cleaned_data['type'] == 'Road':
+            self.request.session['type'] = 'quote:create_road'
+            self.request.session['type_name'] = 'Road'
+            self.request.session['owner'] = form.cleaned_data['owner'].id
+            form.instance.type = 'Quote_Road'
+            # super().form_valid(form)
+            return HttpResponseRedirect('/quotation/staff_road/create/')
+
+        elif form.cleaned_data['type'] == 'Warehouse':
+            self.request.session['type'] = 'quote:create_warehouse'
+            self.request.session['type_name'] = 'Warehouse'
+            self.request.session['owner'] = form.cleaned_data['owner'].id
+            form.instance.type = 'Quote_Warehouse'
+            # super().form_valid(form)
+            return HttpResponseRedirect('/quotation/staff_warehouse/create/')
+            
+        # form.instance.owner = self.request.user
+        # return super().form_valid(form)
+
+#create sea quote client
 class QuoteCreateView_Sea(CreateView):
     model = Quote_Sea
     fields = ['incoterm','other_vas','county_origin','county_destination','cargo_description','container_size','container_dimension_length','container_dimension_width','container_dimension_height','goods_category','special_delivery']
@@ -94,12 +149,44 @@ class QuoteCreateView_Sea(CreateView):
 
     # @eye
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        if self.request.user.is_staff:
+            owner_id = self.request.session['owner']
+            form.instance.owner = Account.objects.get(id=owner_id)
+        else:
+            form.instance.owner = self.request.user
+        form.instance.quote_serial_no = random_serial_no()
+        form.instance.quote_type = self.request.session['type_name']
+        super().form_valid(form)
+        if self.request.user.is_staff:
+            return HttpResponseRedirect('/quotation/staff/list/')
+        else:
+            return HttpResponseRedirect('/quotation/list')
+
+#create sea quote staff
+class QuoteCreateViewStaff_Sea(CreateView):
+    model = Quote_Sea
+    fields = ['incoterm','other_vas','county_origin','county_destination','cargo_description','container_size','container_dimension_length','container_dimension_width','container_dimension_height','goods_category','special_delivery']
+    template_name = 'createsea_staff.html'
+    success_url = '/quotation/staff/list/'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Create Quote'
+        context['type'] = 'Sea'
+        print(context['type'])
+        return context
+
+    # @eye
+    def form_valid(self, form):
+        if self.request.user.is_staff:
+            owner_id = self.request.session['owner']
+            form.instance.owner = Account.objects.get(id=owner_id)
+        else:
+            form.instance.owner = self.request.user
         form.instance.quote_serial_no = random_serial_no()
         form.instance.quote_type = self.request.session['type_name']
         return super().form_valid(form)
 
-#create air quote
+#create air quote client
 class QuoteCreateView_Air(CreateView):
     model = Quote_Air
     fields = ['incoterm','other_vas','county_origin','county_destination','collection_address','cargo_description','goods_category','special_delivery','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height']
@@ -113,12 +200,44 @@ class QuoteCreateView_Air(CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        if self.request.user.is_staff:
+            owner_id = self.request.session['owner']
+            form.instance.owner = Account.objects.get(id=owner_id)
+        else:
+            form.instance.owner = self.request.user
         form.instance.quote_serial_no = random_serial_no()
         form.instance.quote_type = self.request.session['type_name']
-        return super().form_valid(form)
+        super().form_valid(form)
+        if self.request.user.is_staff:
+            return HttpResponseRedirect('/quotation/staff/list/')
+        else:
+            return HttpResponseRedirect('/quotation/list')
 
-#create road quote
+#create air quote staff
+class QuoteCreateViewStaff_Air(CreateView):
+    model = Quote_Air
+    fields = ['incoterm','other_vas','county_origin','county_destination','collection_address','cargo_description','goods_category','special_delivery','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height']
+    template_name = 'createair_staff.html'
+    success_url = '/quotation/staff/list/'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Create Quote'
+        context['type'] = 'Air'
+        return context
+
+    def form_valid(self, form):
+        if self.request.user.is_staff:
+            owner_id = self.request.session['owner']
+            form.instance.owner = Account.objects.get(id=owner_id)
+        else:
+            form.instance.owner = self.request.user
+        form.instance.quote_serial_no = random_serial_no()
+        form.instance.quote_type = self.request.session['type_name']
+        super().form_valid(form)
+        return HttpResponseRedirect('/quotation/staff/list/')
+
+#create road quote client
 class QuoteCreateView_Road(CreateView):
     model = Quote_Road
     fields = ['truck_type','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','collection_address','delivery_address']
@@ -131,12 +250,42 @@ class QuoteCreateView_Road(CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        if self.request.user.is_staff:
+            owner_id = self.request.session['owner']
+            form.instance.owner = Account.objects.get(id=owner_id)
+        else:
+            form.instance.owner = self.request.user
+        form.instance.quote_serial_no = random_serial_no()
+        form.instance.quote_type = self.request.session['type_name']
+        super().form_valid(form)
+        if self.request.user.is_staff:
+            return HttpResponseRedirect('/quotation/staff/list/')
+        else:
+            return HttpResponseRedirect('/quotation/list')
+
+#create road quote staff
+class QuoteCreateViewStaff_Road(CreateView):
+    model = Quote_Road
+    fields = ['truck_type','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','collection_address','delivery_address']
+    template_name = 'createroad_staff.html'
+    success_url = '/quotation/staff/list/'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Create Quote'
+        context['type'] = 'Road'
+        return context
+
+    def form_valid(self, form):
+        if self.request.user.is_staff:
+            owner_id = self.request.session['owner']
+            form.instance.owner = Account.objects.get(id=owner_id)
+        else:
+            form.instance.owner = self.request.user
         form.instance.quote_serial_no = random_serial_no()
         form.instance.quote_type = self.request.session['type_name']
         return super().form_valid(form)
 
-#create warehouse quote
+#create warehouse quote client
 class QuoteCreateView_Warehouse(CreateView):
     model = Quote_Warehouse
     fields = ['cargo_description','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','special_delivery']
@@ -149,7 +298,37 @@ class QuoteCreateView_Warehouse(CreateView):
         return context
 
     def form_valid(self, form):
-        form.instance.owner = self.request.user
+        if self.request.user.is_staff:
+            owner_id = self.request.session['owner']
+            form.instance.owner = Account.objects.get(id=owner_id)
+        else:
+            form.instance.owner = self.request.user
+        form.instance.quote_serial_no = random_serial_no()
+        form.instance.quote_type = self.request.session['type_name']
+        super().form_valid(form)
+        if self.request.user.is_staff:
+            return HttpResponseRedirect('/quotation/staff/list/')
+        else:
+            return HttpResponseRedirect('/quotation/list')
+
+#create warehouse quote staff
+class QuoteCreateViewStaff_Warehouse(CreateView):
+    model = Quote_Warehouse
+    fields = ['cargo_description','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','special_delivery']
+    template_name = 'createwarehouse_staff.html'
+    success_url = '/quotation/staff/list/'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Create Quote'
+        context['type'] = 'Warehouse'
+        return context
+
+    def form_valid(self, form):
+        if self.request.user.is_staff:
+            owner_id = self.request.session['owner']
+            form.instance.owner = Account.objects.get(id=owner_id)
+        else:
+            form.instance.owner = self.request.user
         form.instance.quote_serial_no = random_serial_no()
         form.instance.quote_type = self.request.session['type_name']
         return super().form_valid(form)

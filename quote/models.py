@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 from django_countries.fields import CountryField
 from django.urls import reverse
+# import all from accounts
+from accounts.models import *
 
 # Create your models here.
 class Quote(models.Model):
@@ -49,6 +51,7 @@ class QuoteType(models.Model):
     )
     user = settings.AUTH_USER_MODEL
     owner = models.ForeignKey(user, on_delete=models.CASCADE)
+    #owner= models.CharField(max_length=50, choices=[(account.email,account) for account in Account.objects.filter(is_staff="False")])
     type = models.CharField(max_length=30, choices=type_choices, default="Air")
     date = models.DateField()
     # quote_serial_no = models.CharField(max_length=30,default="000")
