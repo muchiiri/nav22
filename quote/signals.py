@@ -6,6 +6,9 @@ from .models import Quote, Quote_App
 from accounts.models import Account
 from django.core.mail import send_mail
 from django.conf import settings
+from django.template import loader
+from django.shortcuts import render
+from django.core.mail import EmailMultiAlternatives
 
 #quote creation signal
 @receiver(post_save, sender=Quote_App)
@@ -20,7 +23,11 @@ def send_email_quote_creation(sender, instance, created, **kwargs):
         email_recipients = [owner] + user_emails
 
         subject = 'Quote Created'
-        message = f'Hi,a quote for {instance.owner.firstname} {instance.owner.lastname} has been created'
+        # message = f'Hi,a quote for {instance.owner.firstname} {instance.owner.lastname} has been created'
+        
+        #Sending Emails with styled HTML Templates
+        template = loader.get_template('email_template.txt')
+        message = template.render()
         email_from = settings.EMAIL_HOST_USER
         recipient_list = email_recipients
         

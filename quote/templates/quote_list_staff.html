@@ -52,7 +52,7 @@
                                                 <th class="border-bottom-0">Type</th>
                                                 <th class="border-bottom-0">Origin</th>
                                                 <th class="border-bottom-0">Destination</th>
-                                                <!-- <th class="border-bottom-0">Incoterm</th> -->
+                                                <th class="border-bottom-0">Client</th>
                                                 <th class="border-bottom-0">Created At</th>
                                                 <th class="border-bottom-0">Status</th>
                                                 <th class="border-bottom-0">Action</th>
@@ -69,7 +69,7 @@
                                                 <td>{{ country.name }}</td>
                                                 {% get_country quote.country_destination as country %}
                                                 <td>{{ country.name }}</td>
-                                                <!-- <td>{{ quote.incoterm }}</td> -->
+                                                <td>{{ quote.owner }}</td>
                                                 <td>{{ quote.created_at }}</td>
                                                 <td>{% if quote.status == 'pending' %} <span class="text text-primary">pending</span> {% elif quote.status == 'review' %}<span class="text text-success"> review </span> {% endif %}</td>
                                                 <td>

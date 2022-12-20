@@ -25,6 +25,12 @@ urlpatterns = [
     path('staff/view_pricing/',view_Staff_Pricing_List,name="staff_view_pricing"),
     path('staff/view_pricing/<int:pk>/',view_Staff_Pricing_Detailed,name="staff_detailed_pricing"),
     path('staff/approval',adminApproval,name="admin_approval"),
+    #staff create quote for client
+    path('staff/type/', QuoteTypeCreateViewStaff.as_view(), name='typestaff'),
+    path('staff_sea/create/',QuoteCreateViewStaff_Sea.as_view(),name="createstaff_sea"),
+    path('staff_air/create/',QuoteCreateViewStaff_Air.as_view(),name="createstaff_air"),
+    path('staff_road/create/',QuoteCreateViewStaff_Road.as_view(),name="createstaff_road"),
+    path('staff_warehouse/create/',QuoteCreateViewStaff_Warehouse.as_view(),name="createstaff_warehouse"),
 
     #download urls
     path('download/<str:quote_app>/',download_pdf_pricing,name="download_pricing"),
