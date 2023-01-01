@@ -1,8 +1,0 @@
-#ignore sqlite database
-db.sqlite3
-
-#ignore settings
-oglshipments/
-
-#ignore db changes
-quote/__pycache__/
