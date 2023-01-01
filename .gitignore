@@ -6,6 +6,7 @@ quote/__pycache__
 db.sqlite3
 *.sqlite
 *.sqlite3
+quote/__pycache__/
 
 node_modules
 testing
