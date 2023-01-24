@@ -2,7 +2,7 @@ $(function() {
 	'use strict'
 	/*LIne-Chart */
 	var ctx = document.getElementById("chartLine").getContext('2d');
-	var myChart = new Chart(ctx, {
+	var myChart1, myChart = new Chart(ctx, {
 		type: 'line',
 		data: {
 			labels: ["Sun", "Mon", "Tus", "Wed", "Thu", "Fri", "Sat"],
@@ -56,7 +56,7 @@ $(function() {
 
 	/* Bar-Chart1 */
 	var ctx = document.getElementById("chartBar1").getContext('2d');
-	var myChart = new Chart(ctx, {
+	var myChart1, myChart = new Chart(ctx, {
 		type: 'bar',
 		data: {
 			labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
@@ -109,7 +109,7 @@ $(function() {
 
 	/* Bar-Chart2*/
 	var ctx = document.getElementById("chartBar2");
-	var myChart = new Chart(ctx, {
+	var myChart, myChart1 = new Chart(ctx, {
 		type: 'bar',
 		data: {
 			labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
@@ -159,7 +159,7 @@ $(function() {
 
 	/* Area Chart*/
 	var ctx = document.getElementById("chartArea");
-	var myChart = new Chart(ctx, {
+	var myChart, myChart1 = new Chart(ctx, {
 		type: 'line',
 		data: {
 			labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
@@ -254,7 +254,7 @@ $(function() {
 
 	/* Radar chart*/
 	var ctx = document.getElementById("chartRadar");
-	var myChart = new Chart(ctx, {
+	var myChart, myChart1 = new Chart(ctx, {
 		type: 'radar',
 		data: {
 			labels: [
@@ -302,7 +302,7 @@ $(function() {
 
 	/* polar chart */
 	var ctx = document.getElementById("chartPolar");
-	var myChart = new Chart(ctx, {
+	var myChart, myChart1 = new Chart(ctx, {
 		type: 'polarArea',
 		data: {
 			datasets: [{

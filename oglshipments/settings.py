@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'reports',
     # 'app',
     'quote',
+    'dashboard',
+    'rest_framework',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

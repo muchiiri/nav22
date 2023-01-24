@@ -75,7 +75,7 @@ function index() {
 	/* Chartjs (#sales-summary) */
 	var myCanvas = document.getElementById("sales-summary");
 	myCanvas.height = "300";
-	var myChart = new Chart(myCanvas, {
+	var myChart, myChart1 = new Chart(myCanvas, {
 		type: 'bar',
 		data: {
 			labels: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"],
