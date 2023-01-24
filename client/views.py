@@ -9,6 +9,7 @@ from django.core.mail import send_mail
 import snoop
 # from birdseye import eye
 # import heartrate
+import pdb
 
 # heartrate.trace(browser=True)
 # @eye
@@ -40,6 +41,9 @@ def home(request):
 	print(usergroup)
 	currentuser = request.user
 
+	# store user id in login session
+	request.session['currentuser'] = request.user.id
+
 	if usergroup == "Ogl Clients":
 		request.session['currentgroup'] = "client"
 		road_list = RoadFreightShip.objects.filter(owner=currentuser)
@@ -54,10 +58,12 @@ def home(request):
 
 	elif usergroup == "Ogl_fielduser":
 		request.session['currentgroup'] = "fielduser"
+		# return redirect("/fielduser/")
 		return redirect("/fielduser/")
 
 	elif usergroup == "Ogl_keyuser":
 		request.session['currentgroup'] = "keyuser"
+		# return redirect("/keyuser/")
 		return redirect("/keyuser/")
 
 	else:
@@ -83,14 +89,14 @@ def homecomplete(request):
 		number_air = len(air_list)		
 		
 		return render(request,"index_complete.html",{"context":road_list,"context2":sea_list,"context3":air_list,"rno":number_road,"sno":number_sea,"airno":number_air})
-	# elif usergroup == "Ogl_fielduser":
-	# 	#return render(request,"index_fielduser.html")
-	# 	return redirect("/fielduser/")
-	# elif usergroup == "Ogl_keyuser":
-	# 	# return redirect("/keyuser/") original, changed to line below
-	# 	return redirect("/fielduser/")
-	# else:
-	# 	return render(request,"index.html")
+	elif usergroup == "Ogl_fielduser":
+		#return render(request,"index_fielduser.html")
+		return redirect("/fielduser/")
+	elif usergroup == "Ogl_keyuser":
+		# return redirect("/keyuser/") original, changed to line below
+		return redirect("/fielduser/")
+	else:
+		return render(request,"index.html")
 
 def view(request,uid,refno):
 	userdetails_r = RoadFreightShip.objects.filter(id=uid)

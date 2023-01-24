@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path,include
+from dashboard import views
 # from .views import indexHome,profileView
 from .views import Home, handler404, profileView
 
@@ -33,6 +34,9 @@ urlpatterns = [
     path('reports/', include('reports.urls')),
     path('quotation/',include('quote.urls')),
     path('quote/',include('quote.urls')),
+    # path('dashboard/',include('dashboard.urls')),
+    path('dashboard/', views.HomeView.as_view(), name= 'dashboard'),
+    path('api', views.ChartData.as_view()),
 
 ]
 
