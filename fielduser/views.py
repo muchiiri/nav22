@@ -12,6 +12,7 @@ from django.core.mail import EmailMessage
 from django.conf import settings
 from django.template.loader import render_to_string
 import datetime
+import pdb
 
 # Create your views here.
 def not_in_oglstaff_group(user):
@@ -38,14 +39,31 @@ def home(request):
 
     return render(request,"index_fielduser.html",{"group":"staff","context":roadfreight,"context2":seafreight,"context3":airfreight,"airno":airno,"sno":sno,"rno":rno,"allno":allno,"sidebar":"true"})
 
+# Payments Home
+@login_required
+@user_passes_test(not_in_oglstaff_group,login_url='/client/')
+def PaymentsHome(request):
+    roadfreight = RoadFreightShip.objects.filter(staff = request.user)
+    seafreight = SeaFreightShip.objects.filter( staff= request.user)
+    airfreight = AirFreightShip.objects.filter( staff= request.user)
+
+    rno = len(roadfreight)
+    sno = len(seafreight)
+    airno = len(airfreight)
+    allno = rno+sno+airno
+
+    #query Quotation model
+    staff_id = request.user.id
+    # quotation = Quote_App.objects.filter(staff_owner=staff_id)
+
+    return render(request,"payments_index.html",{"group":"staff","context":roadfreight,"context2":seafreight,"context3":airfreight,"airno":airno,"sno":sno,"rno":rno,"allno":allno,"sidebar":"true"})
+
+@login_required
 def home2(request):
     # roadfreight = RoadFreightShip.objects.all()
     roadfreight = RoadFreightShip.objects.filter( staff= request.user)
     seafreight = SeaFreightShip.objects.filter( staff= request.user)
     airfreight = AirFreightShip.objects.filter( staff= request.user)
-
-    # shipmentstatus = FreightForwarding.objects.filter(shippingstatus = 'completed')
-    # import pdb;pdb.set_trace()
 
     rno = len(roadfreight)
     sno = len(seafreight)
@@ -327,6 +345,28 @@ def editSeaFreigh(request,userid,refno):
         return redirect(settings.BASEURL+"fielduser/")
 
 @login_required
+def addSeaPayment(request,userid,refno):
+    #userid = userid
+    if request.method == "GET":
+        SeaModelobject = SeaFreightShip.objects.get(id=userid)
+        return render(request,'payments.html',{'roadfreigh':SeaModelobject,'refno':refno})   
+    else:
+        print(userid)
+        form = Payments.objects.get(id=userid)
+        form.refno = request.POST.get("refno")
+        form.dateexecuted = request.POST.get("dateexecuted")
+        form.shippingline = request.POST.get("shippingline")
+        form.paymenttype = request.POST.get("paymenttype")
+        form.description = request.POST.get("description")
+        form.paymentamount = request.POST.get("paymentamount")
+        form.invoiceno = request.POST.get("invoiceno")
+        form.save()
+        
+
+        #return render(request,'index_fielduser.html',{'success':'success'})
+        return redirect(settings.BASEURL+"fielduser/")
+
+@login_required
 def editAirFreigh(request,userid,refno):
     #userid = userid
     if request.method == "GET":
@@ -358,6 +398,7 @@ def view(request,uid,refno):
     updateonshipments = FreightForwarding.objects.filter(refno=refno)
     return render(request,"view.html",{"context":userdetails_road,"context2":userdetails_sea,"context3":userdetails_air,"updateonshipments":updateonshipments,"group":"staff"})
 
+@login_required
 def view2(request,uid,refno):
     #userdetails_road = RoadFreightShip.objects.filter(id=uid)
     userdetails_sea = SeaFreightShip.objects.filter(id=uid)
@@ -365,12 +406,29 @@ def view2(request,uid,refno):
     updateonshipments = FreightForwarding.objects.filter(refno=refno)
     return render(request,"view.html",{"context":userdetails_sea,"updateonshipments":updateonshipments,"group":"staff"})
 
+    # View Shipment payments/ charges
+@login_required    
+def viewseacharges(request,uid,refno):
+    #userdetails_road = RoadFreightShip.objects.filter(id=uid)
+    userdetails_sea = SeaFreightShip.objects.filter(id=uid)
+    seacharges = Payments.objects.filter(refno=refno)
+    context = {
+        "userdetails_sea" : userdetails_sea,
+        "seacharges" : seacharges,
+        "group":"staff"
+    }
+
+    # return render(request,"view_payments.html",{"context":userdetails_sea,"context2": seacharges, "updateonshipments":updateonshipments,"group":"staff"})
+    return render(request,"view_payments.html", context)
+
+@login_required
 def view3(request,uid,refno):
     #userdetails_road = RoadFreightShip.objects.filter(id=uid)
     userdetails_air = AirFreightShip.objects.filter(id=uid)
     #import pdb;pdb.set_trace()
     updateonshipments = FreightForwarding.objects.filter(refno=refno)
     return render(request,"view.html",{"context":userdetails_air,"updateonshipments":updateonshipments,"group":"staff"})
+
 
 @login_required
 def FreightForwardingView(request):
@@ -457,16 +515,6 @@ def FreightForwardingView(request):
             currentowner = airfreight[0]['owner']
         else:
             currentowner = "admin@ogl.com"
-
-        # email = EmailMessage(
-        #     'Shipment Updated',
-        #     'Dear Customer, There is a new update to your shipment. Kindly login to Navicus360 to view. Thank you.',
-        #     settings.EMAIL_HOST_USER,
-        #     [str(currentowner)]
-        # )
-
-        # email.fail_silently = False
-        # email.send()
         
         response = redirect('/fielduser')
         return response
@@ -474,6 +522,48 @@ def FreightForwardingView(request):
     else:
         form = FreightForwarding()
         return render(request,"edit.html",{"form":form})
+
+#  View to add Shipment Payments
+@login_required
+def freightPaymentView(request):
+    if request.method == "POST":
+
+        form = Payments()
+        form.refno = request.POST.get("refno")
+        refno_temp = request.POST.get("refno")
+        
+        form.dateexecuted = request.POST.get("dateexecuted")
+        form.shippingline = request.POST.get("shippingline")
+        form.paymenttype = request.POST.get("paymenttype")
+        form.paymentamount = request.POST.get("paymentamount")
+        form.description = request.POST.get("description")
+        form.invoiceno = request.POST.get("invoiceno")
+        form.save()
+
+        currentrefno = request.POST['refno']
+
+        roadfreight = RoadFreightShip.objects.filter(refno=currentrefno).values('owner')
+        seafreight = SeaFreightShip.objects.filter(refno=currentrefno).values('owner')
+        airfreight = AirFreightShip.objects.filter(refno=currentrefno).values('owner')
+
+
+        if len(roadfreight) > 0:
+            currentowner = roadfreight[0]['owner']
+        elif len(seafreight) > 0:
+            currentowner = seafreight[0]['owner']
+        elif len(airfreight) > 0:
+            currentowner = airfreight[0]['owner']
+        else:
+            currentowner = "admin@ogl.com"
+
+        
+        response = redirect('/fielduser/payments')
+        return response
+
+    else:
+        form = Payments()
+        return render(request,"payments.html",{"form":form})
+
 
 #Staff Notes updates
 @login_required

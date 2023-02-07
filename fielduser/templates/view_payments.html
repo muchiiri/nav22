@@ -1,0 +1,102 @@
+{% extends 'components/base.html'%}
+{% load static %}
+{% load crispy_forms_tags %}
+
+    {% block styles %}
+
+    {% endblock %}
+
+        {% block content %}
+
+					<!-- Page Header -->
+					<div class="page-header">
+						<div>
+							<h2 class="main-content-title tx-24 mg-b-5">Freighship Charges</h2>
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="javascript:void(0);">Payments</a></li>
+								<li class="breadcrumb-item active" aria-current="page">Charges Added</li>
+							</ol>
+						</div>
+						<div class="d-flex">
+							<div class="justify-content-center">
+							</div>
+						</div>
+					</div>
+					<!-- End Page Header -->
+
+          <!-- Sea Shipments Payments -->
+					<!-- Row -->
+					<div class="row row-sm">
+						<div class="col-lg-12">
+							<div class="card custom-card overflow-hidden">
+								<div class="card-body">
+									<div>
+                    
+										<h6 class="main-content-label mb-1">Payments for this Freightship</h6>
+										<p class="text-muted card-sub-title">These are charges for the freightship</p>
+									</div>
+									<div class="table-responsive">
+										<table id="file-datatableair" class="table table-bordered text-nowrap key-buttons border-bottom">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Inv No.</th>
+													<th>Ref No</th>
+													<th>Time</th>
+													<th>Shipping Line</th>
+													<th>Payment for</th>
+													<th>Description</th>
+													<th>Total</th>
+												</tr>
+											</thead>
+											<tbody>
+											{% if seacharges %}
+											{% for seacharge in seacharges %}
+												<tr>
+													<td> {{ seacharge.id }} </td>
+													<td> {{ seacharge.invoiceno }} </td>
+													<td> {{ seacharge.refno }} </td>
+													<td> {{ seacharge.dateexecuted }} </td>
+													<td> {{ seacharge.shippingline }} </td>
+													<td> {{ seacharge.paymenttype }} </td>
+													<td> {{ seacharge.description }} </td>
+													<td> {{ seacharge.paymentamount }} </td>
+												</tr>
+											{% endfor %}
+											{% else %}
+												<tr>
+													<td> No Payments added yet</td>
+												</tr>
+											{% endif %}
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- End Row -->
+		  			<a class="dropdown-item" href="{% url 'fielduser:paymentshome' %}"><button class="btn ripple btn-success"><i class="fa fa-arrow-left"> Go Back</i></button> </a>
+
+        {% endblock %}
+
+    {% block scripts %}
+
+	<!-- Internal Data Table js -->
+	<script src=" {% static 'assets/plugins/datatable/js/jquery.dataTables.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/dataTables.bootstrap5.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/dataTables.buttons.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/buttons.bootstrap5.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/jszip.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/pdfmake/pdfmake.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/pdfmake/vfs_fonts.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/buttons.html5.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/buttons.print.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/js/buttons.colVis.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/dataTables.responsive.min.js' %} "></script>
+	<script src=" {% static 'assets/plugins/datatable/responsive.bootstrap5.min.js' %} "></script>
+	<script src=" {% static 'assets/js/table-dataroad.js' %} "></script>
+	<script src=" {% static 'assets/js/table-datasea.js' %} "></script>
+	<script src=" {% static 'assets/js/table-dataair.js' %} "></script>
+
+    {% endblock %}

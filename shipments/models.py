@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from datetime import datetime
 from accounts.models import Account
 
 # Create your models here.
@@ -91,6 +92,15 @@ class FreightForwarding(models.Model):
 
     def __str__(self):
         return self.refno
+
+class Payments(models.Model):
+    refno = models.CharField(max_length=100)
+    dateexecuted = models.DateTimeField(default=datetime.now)
+    shippingline = models.CharField(max_length=100, blank=True, null=True)
+    paymenttype = models.CharField(max_length=100, blank=True, null=True)
+    description = models.CharField(max_length=100)
+    paymentamount = models.CharField(max_length=50, blank=True, null=True)
+    invoiceno = models.CharField(max_length=50, blank=False, null=False)
 
 class CustomClearance(models.Model):
     refno = models.CharField(max_length=10000000000000)

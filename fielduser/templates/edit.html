@@ -18,38 +18,16 @@
     <div class="col-sm-6">
     <form method="POST" action="/fielduser/freightforward/">
       {% csrf_token %}
-    <div id="main-container">
-      
-    
+    <div id="main-container">   
       <div class="container-item">
         <div class="row">
           <div class="col-sm-12">
             <h3>Freight Forwarding</h3>
           <input type="text" name="refno" value="{{ roadfreigh.refno }}" readonly hidden="false"/>
-          <!-- <label>Country</label>
-          <input type="text" name="country" class="form-control"/> -->
-
           <label>ETD</label>
           <input type="date" name="etd" class="form-control"/>
           <label>ETA</label>
           <input type="date" name="eta" class="form-control"/>
-          <!-- <label>Sailing Status</label>
-          <select name="sailingstatus" required class="form-control">
-            <option value=""> Click to Select</option>
-            <option value="Booking placed"> Booking Placed</option>
-            <option value="Booked"> Booked</option>
-            <option value="SO Released"> SO Released</option>
-            <option value="Collected"> Collected</option>
-            <option value="Delivered to POL"> Delivered to POL</option>
-            <option value="Loaded to Vessel"> Loaded to Vessel</option>
-            <option value="Sailed / In Transit"> Sailed / In Transit</option>
-            <option value="Arrived at POD"> Arrived at POD</option>
-            <option value="Arrived at ICDN"> Arrived at ICDN</option>
-            <option value="Under Clearance"> Under Clearance</option>
-            <option value="Cleared"> Cleared</option>
-            <option value="Delieverd to Customer"> Delieverd to Customer</option>
-            <option value="On Hold"> On Hold</option>
-          </select> -->
           <label>Sailing Status</label>
           <input type="text" name="sailingstatus" required class="form-control"/>
           <hr>
