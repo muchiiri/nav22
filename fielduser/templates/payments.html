@@ -1,0 +1,90 @@
+{% extends "components/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="main-content" id="panel">    
+  <div class="pb-6 p-3">  
+  <h5>Reference Number of Shipment: <b>{{refno}}</b></h5>
+  <div class="row">
+    <div class="col-sm-6">
+    <form method="POST" action="/fielduser/freightpayment/">
+      {% csrf_token %}
+    <div id="main-container">   
+      <div class="container-item">
+          <div class="col-sm-12">
+            <h3>Add Shipment Payment</h3>
+          <div class="row">
+          <div class="col-sm-6">
+          <input type="text" name="refno" value="{{ roadfreigh.refno }}" readonly hidden="false"/>
+          </div>
+          </div>
+          <label>Date</label>
+          <input type="date" name="dateexecuted" class="form-control"/>
+          <br>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Shipping Line</label>
+              <select name="shippingline" class="form-control">
+                <option value="" disabled selected>-- Select a Shipping Line --</option>
+                <option value="Afrigistics South Africa">Afrigistics South Africa </option>
+                <option value="Cargo Partners">Cargo Partners</option>
+                <option value="Central Oceans">Central Oceans</option>
+                <option value="CMACGM">CMACGM</option>
+                <option value="Gruber Logistics">Gruber Logistics</option>
+                <option value="Hannational Shipping Company">Hannational Shipping Company</option>
+                <option value="Maersk"> Maersk</option>
+                <option value="Magellan Logistics">Magellan Logistics</option>
+                <option value="Maurice Ward">Maurice Ward</option>
+                <option value="MSC Line">MSC Line</option>
+                <option value="Perdana Transline">Perdana Transline</option>
+                <option value="Seahorse logistics">Seahorse logistics</option>
+                <option value="Wabco Uganda">Wabco Uganda</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label>Payment Type</label>
+              <select name="paymenttype" class="form-control">
+                <option value="" disabled selected>-- Select Payment --</option>
+                <option value="Duty by US">Duty by US </option>
+                <option value="Clearance Costs">Clearance Costs</option>
+                <option value="Freight Fees">Freight Fees</option>
+                <option value="Origin Fees">Origin Fees</option>
+                <option value="KPA Demurr">KPA Demurr</option>
+                <option value="Miscellaneous">Miscellaneous</option>
+                <option value="Terminal Handling"> Terminal Handling</option>
+                <option value="Transport Charges">Transport Charges</option>
+                <option value="Agency Charges">Agency Charges</option>
+              </select>
+            </div>
+          </div>
+          <br>
+          <label>Amount to Pay</label>
+          <input type="number" name="paymentamount" required class="form-control"/>
+          <hr>
+          <label>Description</label>
+          <textarea class="form-control" required name="description" style="height:140px">
+
+          </textarea>
+          <label>Invoice Number</label>
+          <input type="text" name="invoiceno" required class="form-control"/>
+      </div>
+      </div>
+    </div>
+    <div class="col-sm-12">
+      <input type="submit" name="submit" value="Add Payment" class="btn btn-primary mt-4"/>
+    </div>
+    </div>
+  </form>
+</div>
+
+</div>
+{%  endblock content %}
+
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="{% static '/js/cloneData.js' %}"></script>
+
+  
+  {% endblock %}

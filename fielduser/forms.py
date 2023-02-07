@@ -87,16 +87,6 @@ class RoadFreightShipForm(forms.ModelForm):
             'customerref':'Customer Ref#',
         }
 
-        # widgets = {
-        #     'owner':forms.ChoiceField(choices=Account.objects.all())
-        # }
-    # def getOwners(request):
-    #     usergroup = Account.objects.filter(groups__name='Ogl Clients')
-    #     usergrouplen = len(usergroup)
-    #     for i in range(usergrouplen):
-    #         choices.append('ab')
-    #     return choices
-
 
 class AirFreightShipForm(forms.ModelForm):
     #owner=forms.ChoiceField(choices=[(account.email,account) for account in Account.objects.filter(is_staff="False")])

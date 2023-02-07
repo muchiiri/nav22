@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'quote',
     'dashboard',
     'rest_framework',
+    'debug_toolbar',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -64,6 +65,9 @@ MIDDLEWARE = [
     # other middleware classes
     'htmlmin.middleware.HtmlMinifyMiddleware',
     'htmlmin.middleware.MarkRequestMiddleware',
+
+    # Debug tool-bar
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

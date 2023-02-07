@@ -11,10 +11,10 @@
 					<!-- Page Header -->
 					<div class="page-header">
 						<div>
-							<h2 class="main-content-title tx-24 mg-b-5">Active Shipments Lists</h2>
+							<h2 class="main-content-title tx-24 mg-b-5">Add Shipping Charges</h2>
 							<ol class="breadcrumb">
 								<li class="breadcrumb-item"><a href="javascript:void(0);">Shipments</a></li>
-								<li class="breadcrumb-item active" aria-current="page">Active Shipments</li>
+								<li class="breadcrumb-item active" aria-current="page">Add Shipment Charges</li>
 							</ol>
 						</div>
 						<div class="d-flex">
@@ -33,7 +33,7 @@
 					<!-- End Page Header -->
 
 					<!-- Row -->
-					<div class="row row-sm">
+					<!-- <div class="row row-sm">
 						<div class="col-lg-12">
 							<div class="card custom-card overflow-hidden">
 								<div class="card-body">
@@ -65,8 +65,8 @@
 													<td>{{item.current_etd|wordwrap:25|linebreaks}}</td>
 													<td>{{item.current_sailingstatus|wordwrap:25|linebreaks}}</td>
                           <td>
-                          <a href="view/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a> &nbsp; &nbsp;
-                          <a href="edit/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a> &nbsp; &nbsp;
+                          <a href="view/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
+                          <a href="edit/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
                           <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
                           </td>
 												</tr>
@@ -78,7 +78,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!-- End Row -->
 
           <!-- Sea Shipments -->
@@ -88,15 +88,15 @@
 							<div class="card custom-card overflow-hidden">
 								<div class="card-body">
 									<div>
-										<h6 class="main-content-label mb-1">Sea Shipments Active</h6>
-										<p class="text-muted card-sub-title">These are sea shipments that have been completed</p>
+										<h6 class="main-content-label mb-1">Add Sea Shipments Payments</h6>
+										<p class="text-muted card-sub-title">Select shipment to view and add shipping charges.</p>
 									</div>
 									<div class="table-responsive">
 										<table id="file-datatablesea" class="table table-bordered text-nowrap key-buttons border-bottom">
 											<thead>
 												<tr>
-													<th class="border-bottom-0">Client#</th>
-													<th class="border-bottom-0">CustomerRef</th>
+													<th class="border-bottom-0">Client</th>
+													<th class="border-bottom-0">Shipment Refno</th>
 													<th class="border-bottom-0">Place of Delivery</th>
 													<th class="border-bottom-0">ETA</th>
 													<th class="border-bottom-0">ETD</th>
@@ -105,20 +105,19 @@
 												</tr>
 											</thead>
 											<tbody>
-												{% for item in context2 %}
-                        {% if item.shippingstatus != 'Completed' %}
+											{% for item in context2 %}
+                        					{% if item.shippingstatus != 'Completed' %}
 												<tr>
 													<td>{{ item.owner }}</td>
-													<td>{{item.customerref|wordwrap:25|linebreaks}}</td>
+													<td>{{item.refno|wordwrap:25|linebreaks}}</td>
 													<td>{{item.placeofdelivery|wordwrap:25|linebreaks}}</td>
 													<td>{{item.current_eta|wordwrap:25|linebreaks}}</td>
 													<td>{{item.current_etd|wordwrap:25|linebreaks}}</td>
 													<td>{{item.current_sailingstatus|wordwrap:25|linebreaks}}</td>
-                          <td>
-                          <a href="view2/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a> &nbsp; &nbsp;
-                          <a href="edit2/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a> &nbsp; &nbsp;
-                          <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
-                          </td>
+													<td>
+													<a href="viewseacharges/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a> &nbsp; &nbsp;
+													<a href="pay/{{item.id}}/{{item.refno}}/"><i class="fa fa-edit"></i></a>
+													</td>
 												</tr>
 												{% endif %}
 												{% endfor %}
@@ -134,7 +133,7 @@
 
           <!-- Air Shipments -->
 					<!-- Row -->
-					<div class="row row-sm">
+					<!-- <div class="row row-sm">
 						<div class="col-lg-12">
 							<div class="card custom-card overflow-hidden">
 								<div class="card-body">
@@ -166,8 +165,8 @@
 													<td>{{item.current_etd|wordwrap:25|linebreaks}}</td>
 													<td>{{item.current_sailingstatus|wordwrap:25|linebreaks}}</td>
                           <td>
-                          <a href="view3/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a> &nbsp; &nbsp;
-                          <a href="edit3/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a> &nbsp; &nbsp;
+                          <a href="view3/{{item.id}}/{{item.refno}}/"><i class="fa fa-eye"></i></a>
+                          <a href="edit3/{{item.id}}/{{item.refno}}/"><i class="fa fa-spinner"></i></a>
                           <a href="{% url 'fielduser:editshipment' item.id item.refno %}"><i class="fa fa-edit"></i></a>
                           </td>
 												</tr>
@@ -179,7 +178,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 					<!-- End Row -->
 
         {% endblock %}

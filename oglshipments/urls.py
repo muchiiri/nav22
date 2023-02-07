@@ -24,7 +24,6 @@ urlpatterns = [
     # path("",indexHome),
     path("",Home),
     path("profile/",profileView),
-    # path('admin/clearcache/', include('clearcache.urls')),
     path('admin/', admin.site.urls),
     path('accounts/', include('django.contrib.auth.urls')),
     path('client/', include('client.urls')),
@@ -38,6 +37,8 @@ urlpatterns = [
     path('dashboard/', views.HomeView.as_view(), name= 'dashboard'),
     path('api', views.ChartData.as_view()),
 
+    # Debug tool-bar
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 handler404 = 'oglshipments.views.handler404'
