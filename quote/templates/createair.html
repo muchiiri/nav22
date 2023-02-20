@@ -30,10 +30,10 @@
 
     <div class="row">
         <div class="col-md-6">
-            {{ form.county_origin|as_crispy_field }}
+            {{ form.Country_of_Origin|as_crispy_field }}
         </div>
         <div class="col-md-6">
-            {{ form.county_destination|as_crispy_field }}
+            {{ form.Country_of_Destination|as_crispy_field }}
         </div>
     </div>
 
@@ -48,7 +48,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            {{ form.goods_category|as_crispy_field }}
+            {{ form.Nature_of_Cargo|as_crispy_field }}
         </div>
         <div class="col-md-6">
             {{ form.special_delivery|as_crispy_field }}
@@ -60,17 +60,7 @@
             {{ form.cargo_weight|as_crispy_field }}
         </div>
         <div class="col-md-6">
-            {{ form.cargo_dimension_length|as_crispy_field }}
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-md-6">
-            {{ form.cargo_dimension_width|as_crispy_field }}
-        </div>
-        <div class="col-md-6">
-            {{ form.cargo_dimension_height|as_crispy_field }}
+            {{ form.Volume_CBM|as_crispy_field }}
         </div>
     </div>
 

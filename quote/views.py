@@ -136,7 +136,7 @@ class QuoteTypeCreateViewStaff(CreateView):
 #create sea quote client
 class QuoteCreateView_Sea(CreateView):
     model = Quote_Sea
-    fields = ['incoterm','other_vas','county_origin','county_destination','cargo_description','container_size','container_dimension_length','container_dimension_width','container_dimension_height','goods_category','special_delivery']
+    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','cargo_description','container_size','container_dimension_length','container_dimension_width','container_dimension_height','Nature_of_Cargo','special_delivery']
     template_name = 'createsea.html'
     success_url = '/quotation/list'
     def get_context_data(self, **kwargs):
@@ -165,7 +165,7 @@ class QuoteCreateView_Sea(CreateView):
 #create sea quote staff
 class QuoteCreateViewStaff_Sea(CreateView):
     model = Quote_Sea
-    fields = ['incoterm','other_vas','county_origin','county_destination','cargo_description','container_size','container_dimension_length','container_dimension_width','container_dimension_height','goods_category','special_delivery']
+    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','cargo_description','container_size','container_dimension_length','container_dimension_width','container_dimension_height','Nature_of_Cargo','special_delivery']
     template_name = 'createsea_staff.html'
     success_url = '/quotation/staff/list/'
     def get_context_data(self, **kwargs):
@@ -189,7 +189,7 @@ class QuoteCreateViewStaff_Sea(CreateView):
 #create air quote client
 class QuoteCreateView_Air(CreateView):
     model = Quote_Air
-    fields = ['incoterm','other_vas','county_origin','county_destination','collection_address','cargo_description','goods_category','special_delivery','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height']
+    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','collection_address','cargo_description','Nature_of_Cargo','special_delivery','cargo_weight','Volume_CBM']
     template_name = 'createair.html'
     success_url = '/quotation/list'
 
@@ -216,7 +216,7 @@ class QuoteCreateView_Air(CreateView):
 #create air quote staff
 class QuoteCreateViewStaff_Air(CreateView):
     model = Quote_Air
-    fields = ['incoterm','other_vas','county_origin','county_destination','collection_address','cargo_description','goods_category','special_delivery','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height']
+    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','collection_address','cargo_description','Nature_of_Cargo','special_delivery','cargo_weight','Volume_CBM']
     template_name = 'createair_staff.html'
     success_url = '/quotation/staff/list/'
 
