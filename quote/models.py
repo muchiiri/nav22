@@ -18,8 +18,9 @@ class Quote(models.Model):
     )
 
     category = (
-        ("Yes","Yes"),
-        ("No","No"),
+        ("","------"),
+        ("Dangerous","Dangerous"),
+        ("Non-Dangerous","Non-Dangerous"),
     )
 
     user = settings.AUTH_USER_MODEL
@@ -27,20 +28,15 @@ class Quote(models.Model):
     quote_type = models.CharField(max_length=20)
     incoterm = models.CharField(max_length=30, choices=incoterm_choices, default="EX")
     other_vas = models.CharField(max_length=300, blank=True, null=True)
-    county_origin = CountryField(default="US")
-    county_destination = CountryField(default="KE")
+    Country_of_Origin = CountryField(default="US")
+    Country_of_Destination = CountryField(default="KE")
     cargo_description = models.CharField(max_length=1000, blank=True, null=True)
-    goods_category = models.CharField(max_length=30, choices=category, default="No")
+    Nature_of_Cargo = models.CharField(max_length=30, choices=category, default="No")
     special_delivery = models.CharField(max_length=300, blank=True, null=True)
     quote_serial_no = models.CharField(max_length=30,default="000")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # def __str__(self):
-    #     return self.owner
-
-    # def get_absolute_url(self):
-    #     return reverse("quote:list")
 
 class QuoteType(models.Model):
     type_choices = (
@@ -62,9 +58,10 @@ class QuoteType(models.Model):
 class Quote_Air(Quote):
     # quote_serial_no = models.CharField(max_length=30,default="000")
     cargo_weight = models.FloatField()
-    cargo_dimension_length = models.CharField(max_length=100)
-    cargo_dimension_width = models.CharField(max_length=100)
-    cargo_dimension_height = models.CharField(max_length=100)
+    Volume_CBM = models.CharField(max_length=100)
+    # cargo_dimension_length = models.CharField(max_length=100)
+    # cargo_dimension_width = models.CharField(max_length=100)
+    # cargo_dimension_height = models.CharField(max_length=100)
     collection_address = models.CharField(max_length=300, blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -72,8 +69,8 @@ class Quote_Air(Quote):
             owner = self.owner,
             quote_type=self.quote_type,
             incoterm=self.incoterm,
-            country_origin=self.county_origin,
-            country_destination=self.county_destination,
+            country_origin=self.Country_of_Origin,
+            country_destination=self.Country_of_Destination,
             quote_serial_no=self.quote_serial_no,
         )
         super(Quote_Air,self).save(*args, **kwargs)
@@ -93,8 +90,8 @@ class Quote_Sea(Quote):
             owner = self.owner,
             quote_type=self.quote_type,
             incoterm=self.incoterm,
-            country_origin=self.county_origin,
-            country_destination=self.county_destination,
+            country_origin=self.Country_of_Origin,
+            country_destination=self.Country_of_Destination,
             quote_serial_no=self.quote_serial_no,
         )
         super(Quote_Sea,self).save(*args, **kwargs)
@@ -125,8 +122,8 @@ class Quote_Road(Quote):
             owner = self.owner,
             quote_type=self.quote_type,
             incoterm=self.incoterm,
-            # country_origin=self.county_origin,
-            # country_destination=self.county_destination,
+            # country_origin=self.Country_of_Origin,
+            # country_destination=self.Country_of_Destination,
             quote_serial_no=self.quote_serial_no,
         )
         super(Quote_Road,self).save(*args, **kwargs)
