@@ -79,11 +79,20 @@ class Quote_Air(Quote):
         return str(self.owner)
 
 class Quote_Sea(Quote):
+    container_choices = (
+        ("","-------"),
+        ("1x20FT","1x20FT"),
+        ("1x40FT","1x40FT"),
+        ("1x40HC","1x40HC"),
+        ("1x40 Reefer","1x40 Reefer")
+    )
+    
     # quote_serial_no = models.CharField(max_length=30,default="000")
-    container_size = models.FloatField(max_length=100)
-    container_dimension_length = models.FloatField()
-    container_dimension_width = models.FloatField()
-    container_dimension_height = models.FloatField()
+    container_size = models.CharField(max_length=100, choices=container_choices, default="No")
+    Gross_Weight = models.FloatField()
+    # container_dimension_length = models.FloatField()
+    # container_dimension_width = models.FloatField()
+    # container_dimension_height = models.FloatField()
 
     def save(self, *args, **kwargs):
         Quote_App.objects.create(

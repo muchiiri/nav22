@@ -136,7 +136,7 @@ class QuoteTypeCreateViewStaff(CreateView):
 #create sea quote client
 class QuoteCreateView_Sea(CreateView):
     model = Quote_Sea
-    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','cargo_description','container_size','container_dimension_length','container_dimension_width','container_dimension_height','Nature_of_Cargo','special_delivery']
+    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','cargo_description','container_size','Nature_of_Cargo','special_delivery', 'Gross_Weight']
     template_name = 'createsea.html'
     success_url = '/quotation/list'
     def get_context_data(self, **kwargs):
@@ -165,7 +165,7 @@ class QuoteCreateView_Sea(CreateView):
 #create sea quote staff
 class QuoteCreateViewStaff_Sea(CreateView):
     model = Quote_Sea
-    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','cargo_description','container_size','container_dimension_length','container_dimension_width','container_dimension_height','Nature_of_Cargo','special_delivery']
+    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','cargo_description','container_size','Nature_of_Cargo','special_delivery']
     template_name = 'createsea_staff.html'
     success_url = '/quotation/staff/list/'
     def get_context_data(self, **kwargs):
