@@ -90,9 +90,6 @@ class Quote_Sea(Quote):
     # quote_serial_no = models.CharField(max_length=30,default="000")
     container_size = models.CharField(max_length=100, choices=container_choices, default="No")
     Gross_Weight = models.FloatField()
-    # container_dimension_length = models.FloatField()
-    # container_dimension_width = models.FloatField()
-    # container_dimension_height = models.FloatField()
 
     def save(self, *args, **kwargs):
         Quote_App.objects.create(
@@ -118,11 +115,10 @@ class Quote_Road(Quote):
         ("28T Truck","28T Truck"),
     )
     
-    truck_type = models.CharField(max_length=30, choices=truck_choices)
+    Truck_Size = models.CharField(max_length=30, choices=truck_choices)
     cargo_weight = models.FloatField()
-    cargo_dimension_length = models.FloatField()
-    cargo_dimension_width = models.FloatField()
-    cargo_dimension_height = models.FloatField()
+    Volume_CBM = models.FloatField()
+    Additional_Information = models.CharField(max_length=50, blank=True, null=True)
     collection_address = models.CharField(max_length=300, blank=True, null=True)
     delivery_address = models.CharField(max_length=300, blank=True, null=True)
 
