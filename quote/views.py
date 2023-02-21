@@ -240,7 +240,7 @@ class QuoteCreateViewStaff_Air(CreateView):
 #create road quote client
 class QuoteCreateView_Road(CreateView):
     model = Quote_Road
-    fields = ['truck_type','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','collection_address','delivery_address']
+    fields = ['Truck_Size','cargo_weight','Volume_CBM','incoterm', 'Additional_Information', 'collection_address','delivery_address']
     template_name = 'createroad.html'
     success_url = '/quotation/list'
     def get_context_data(self, **kwargs):
@@ -266,7 +266,7 @@ class QuoteCreateView_Road(CreateView):
 #create road quote staff
 class QuoteCreateViewStaff_Road(CreateView):
     model = Quote_Road
-    fields = ['truck_type','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','collection_address','delivery_address']
+    fields = ['Truck_Size','cargo_weight','Volume_CBM','incoterm', 'Additional_Information', 'collection_address','delivery_address']
     template_name = 'createroad_staff.html'
     success_url = '/quotation/staff/list/'
     def get_context_data(self, **kwargs):
