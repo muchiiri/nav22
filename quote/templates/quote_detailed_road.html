@@ -12,6 +12,7 @@
 {% endblock stylesheets %}
 {% block content %}
 <div class="container">
+  <br>
   <div class="row">
     <div class="col-md-12">
       <h3>{{ _('Details on quote') }}
@@ -35,6 +36,7 @@
     </li>
     {% endif %}
   </ul>
+  <br>
   <!-- Tab panes -->
   <div class="tab-content">
     <div class="tab-pane container active" id="home">
@@ -44,7 +46,7 @@
           <div class="col-md-6 col-sm-12">
             <label>Truck Size
             </label>
-            <input type="text" name="trucksize" value="{{ quote_detail.truck_type }}" class="form-control">
+            <input type="text" name="trucksize" value="{{ quote_detail.Truck_Size }}" class="form-control">
           </div>
           <div class="col-md-6 col-sm-12">
             <label>Cargo collection address
@@ -59,69 +61,30 @@
             <input type="text" name="address2" value="{{ quote_detail.delivery_address }}" class="form-control">
           </div>
           <div class="col-md-6 col-sm-12">
-            <label>Description of goods
+            <label>Incoterm
             </label>
-            <input type="text" name="cargo_des" value="{{ quote.cargo_description}}" class="form-control">
+            <input type="text" name="incoterm" value="{{ quote.incoterm}}" class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 col-sm-12">
-            <label>Weight of goods
+            <label>Cargo Weight
             </label>
             <input type="text" name="cargo_w" value="{{ quote_detail.cargo_weight }}" class="form-control">
           </div>
           <div class="col-md-6 col-sm-12">
-            <label>Cargo Dimension(Lenght)
+            <label>Additional Information
             </label>
-            <input type="text" name="cargo_len" value="{{ quote_detail.cargo_dimension_length }}" class="form-control">
+            <input type="text" name="Additional_Information" value="{{ quote_detail.Additional_Information}}" class="form-control">
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 col-sm-12">
-            <label>Cargo Dimension(Width)
+            <label>Volume CBM
             </label>
-            <input type="text" name="cargo_w" value="{{ quote_detail.cargo_dimension_width }}" class="form-control">
-          </div>
-          <div class="col-md-6 col-sm-12">
-            <label>Cargo Dimension(Height)
-            </label>
-            <input type="text" name="cargo_len" value="{{ quote_detail.cargo_dimension_height }}" class="form-control">
+            <input type="text" name="Volume_CBM" value="{{ quote_detail.Volume_CBM}}" class="form-control">
           </div>
         </div>
-        <!-- <div class="row">
-<div class="col-md-6 col-sm-12">
-<label>Country of Origin</label>
-{% get_countries as countries %}
-{% get_country quote.county_origin as country %}
-<input type="text" name="origin" value="{{ country.name }}" class="form-control">
-</div>
-<div class="col-md-6 col-sm-12">
-<label>Country of Destination</label>
-{% get_countries as countries %}
-{% get_country quote.county_destination as country %}
-<input type="text" name="destination" value="{{ country.name }}" class="form-control">
-</div>
-</div>
-<div class="row">
-<div class="col-md-6 col-sm-12">
-<label>Collection address</label>
-<input type="text" name="address" value="{{ quote_detail.collection_address }}" class="form-control">
-</div>
-<div class="col-md-6 col-sm-12">
-<label>Cargo Description</label>
-<input type="text" name="description" value="{{ quote.cargo_description }}" class="form-control">
-</div>
-</div>
-<div class="row">
-<div class="col-md-6 col-sm-12">
-<label>Are goods categorized as dangerous</label>
-<input type="text" name="goods_category" value="{{ quote.goods_category }}" class="form-control">
-</div>
-<div class="col-md-6 col-sm-12">
-<label>Special Delivery Instructions</label>
-<input type="text" name="delivery_date" value="{{ quote.special_delivery }}" class="form-control">
-</div>
-</div> -->
       </form>
     </div>
     <div class="tab-pane container" id="pricing">
@@ -349,6 +312,7 @@
           {% endif %}
         </div> 
         </div>
+</div>
       {% endblock content %}
       {% block scripts %}
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js">
