@@ -21,25 +21,15 @@
         {% csrf_token %}
     <div class="row">
         <div class="col-md-6">
-            {{ form.truck_type|as_crispy_field }}
+            {{ form.Truck_Size|as_crispy_field }}
         </div>
         <div class="col-md-6">
-            {{ form.cargo_weight|as_crispy_field }}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            {{ form.cargo_dimension_length|as_crispy_field }}
-        </div>
-        <div class="col-md-6">
-            {{ form.cargo_dimension_width|as_crispy_field }}
+            {{ form.incoterm|as_crispy_field }}
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-6">
-            {{ form.cargo_dimension_height|as_crispy_field }}
+            {{ form.delivery_address|as_crispy_field }}
         </div>
         <div class="col-md-6">
             {{ form.collection_address|as_crispy_field }}
@@ -48,13 +38,18 @@
 
     <div class="row">
         <div class="col-md-6">
-            {{ form.delivery_address|as_crispy_field }}
+            {{ form.cargo_weight|as_crispy_field }}
         </div>
-        
+        <div class="col-md-6">
+            {{ form.Additional_Information|as_crispy_field }}
+        </div>
     </div>
-
-            <input type="submit" name="submit" class="btn btn-primary" value="{{ _('Create') }}">
-        
+    <div class="row">
+        <div class="col-md-6">
+            {{ form.Volume_CBM|as_crispy_field }}
+        </div>   
+    </div>
+        <input type="submit" name="submit" class="btn btn-primary" value="{{ _('Create') }}">
     </div>
     </form>
     
