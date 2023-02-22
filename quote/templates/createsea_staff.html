@@ -30,10 +30,10 @@
 
     <div class="row">
         <div class="col-md-6">
-            {{ form.county_origin|as_crispy_field }}
+            {{ form.Country_of_Origin|as_crispy_field }}
         </div>
         <div class="col-md-6">
-            {{ form.county_destination|as_crispy_field }}
+            {{ form.Country_of_Destination|as_crispy_field }}
         </div>
     </div>
 
@@ -45,22 +45,13 @@
             {{ form.container_size|as_crispy_field }}
         </div>
     </div>
-
+    <br>
     <div class="row">
         <div class="col-md-6">
-            {{ form.container_dimension_length|as_crispy_field }}
+            {{ form.Gross_Weight|as_crispy_field }}
         </div>
         <div class="col-md-6">
-            {{ form.container_dimension_width|as_crispy_field }}
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            {{ form.container_dimension_height|as_crispy_field }}
-        </div>
-        <div class="col-md-6">
-            {{ form.goods_category|as_crispy_field }}
+            {{ form.Nature_of_Cargo|as_crispy_field }}
         </div>
     </div>
 
@@ -69,11 +60,9 @@
             {{ form.special_delivery|as_crispy_field }}
         </div>
     </div>
-    
     <input type="submit" name="submit" class="btn btn-primary" value="{{ _('Create') }}">
-        
-    </div>
     </form>
+</div>
     
 {% endblock content %}
 {% block javascripts %}

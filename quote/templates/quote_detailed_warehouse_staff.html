@@ -46,77 +46,70 @@
             <input type="hidden" name="section" value="agent" />
           <input type="hidden" name="quote_app_id" value="{{ request.session.pk }}" />
           
-        <div class="row">
-            <div class="col-sm-12 col-md-6">
-                <label>Quote Serial Number</label>
-                <input type="text" class="form-control" name="quote_serial_number" value="{{ quote_detail.quote_serial_no }}" readonly>
-            </div>
-
-            <div class="col-sm-12 col-md-6">
-                <label>Quote Type</label>
-                <input type="text" class="form-control" name="quote_type" value="Warehouse" readonly>
-            </div>
-        </div>
-
-
-        <div class="row">
+          <div class="row">
             <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label for="quote_description_id">{{ _('Cargo description') }}</label>
-                    <input type="text" class="form-control" id="quote_description_id" name="quote_description" value="{{ quote_detail.cargo_description }}" readonly>
-                </div>
+              <label>Quote Serial
+              </label>
+              <input type="text" name="quote_serial" value="{{ quote_detail.quote_serial_no }}" class="form-control">
             </div>
-
             <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label for="cargo_weight_id">{{ _('Cargo weight') }}</label>
-                    <input type="text" class="form-control" id="cargo_weight_id" name="cargo_weight" value="{{ quote_detail.cargo_weight }}" readonly>
-                </div>
+              <label>Cargo Weight
+              </label>
+              <input type="text" name="weight" value="{{ quote_detail.cargo_weight }}" class="form-control">
             </div>
-        </div>
-
-        <div class="row">
+          </div>
+          <div class="row">
             <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label for="cargo_length_id">{{ _('Cargo Dimension Length') }}</label>
-                    <input type="text" class="form-control" id="cargo_length_id" name="cargo_length" value="{{ quote_detail.cargo_dimension_length }}" readonly>
-                </div>
+              <label>Cargo Length
+              </label>
+              <input type="text" name="weight" value="{{ quote_detail.cargo_dimension_length }}" class="form-control">
             </div>
-
             <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label for="cargo_width_id">{{ _('Cargo Dimension Width') }}</label>
-                    <input type="text" class="form-control" id="cargo_width_id" name="cargo_width" value="{{ quote_detail.cargo_dimension_width }}" readonly>
-                </div>
+              <label>Cargo Width
+              </label>
+              <input type="text" name="cargo_len" value="{{ quote_detail.cargo_dimension_width }}" class="form-control">
             </div>
-        </div>
-
-        <div class="row">
+          </div>
+          <div class="row">
             <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label for="cargo_height_id">{{ _('Cargo Dimension Height') }}</label>
-                    <input type="text" class="form-control" id="cargo_height_id" name="cargo_height" value="{{ quote_detail.cargo_dimension_height }}" readonly>
-                </div>
+              <label>Cargo Height
+              </label>
+              <input type="text" name="origin" value="{{ quote_detail.cargo_dimension_height }}" class="form-control">
             </div>
-
             <div class="col-md-6 col-sm-12">
-                <div class="form-group">
-                    <label for="cargo_special_id">{{ _('Cargo Special Delivery Instructions') }}</label>
-                    <input type="text" class="form-control" id="cargo_special_id" name="cargo_special" value="{{ quote_detail.special_delivery }}" readonly>
-                </div>
+              <label>Additional Information
+              </label>
+              <input type="text" name="destination" value="{{ quote_detail.Additional_Information }}" class="form-control">
             </div>
-        </div>
-
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <label>Nature of Goods
+              </label>
+              <input type="text" name="goods_category" value="{{ quote_detail.Nature_of_Cargo }}" class="form-control">
+            </div>
+            <div class="col-md-6 col-sm-12">
+              <label>Volume CBM
+              </label>
+              <input type="text" name="delivery_date" value="{{ quote_detail.Volume_CBM }}" class="form-control">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 col-sm-12">
+              <label>Cargo Description
+              </label>
+              <input type="text" name="description" value="{{ quote_detail.cargo_description }}" class="form-control">
+            </div>
+          </div>
         <div class="container text-right m-3">
             <input type="submit" class="btn btn-primary subA" value="Proceed to A" />
         </div>
         </form>
     </div>
- 
-     
-    
  </div>
  
+</div>
 {% endblock content %}
 {% block scripts %}
 <script>
