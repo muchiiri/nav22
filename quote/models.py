@@ -137,6 +137,11 @@ class Quote_Road(Quote):
         return str(self.owner)
 
 class Quote_Warehouse(models.Model):
+    category = (
+        ("","-------------------"),
+        ("Non-Dangerous","Non-Dangerous"),
+        ("Dangerous","Dangerous")
+    )
     user = settings.AUTH_USER_MODEL
     owner = models.ForeignKey(user, on_delete=models.CASCADE)
     cargo_description = models.CharField(max_length=1000)
@@ -144,9 +149,10 @@ class Quote_Warehouse(models.Model):
     cargo_dimension_length = models.FloatField()
     cargo_dimension_width = models.FloatField()
     cargo_dimension_height = models.FloatField()
-    special_delivery = models.CharField(max_length=300, blank=True, null=True)
+    Additional_Information = models.CharField(max_length=300, blank=True, null=True)
     quote_serial_no = models.CharField(max_length=30,default="000")
-
+    Nature_of_Cargo = models.CharField(max_length=20,blank=True, null=True,choices=category)
+    Volume_CBM = models.FloatField(blank=True, null=True)
     def save(self, *args, **kwargs):
         Quote_App.objects.create(
             owner = self.owner,
