@@ -19,36 +19,44 @@
 
     <form method="post" action="{% url request.session.type %}">
         {% csrf_token %}
-    <div class="row">
-        <div class="col-md-6">
-            {{ form.cargo_description|as_crispy_field }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form.cargo_description|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ form.cargo_weight|as_crispy_field }}
+            </div>
         </div>
-        <div class="col-md-6">
-            {{ form.cargo_weight|as_crispy_field }}
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            {{ form.cargo_dimension_length|as_crispy_field }}
+        <div class="row">
+            <div class="col-md-4">
+                {{ form.cargo_dimension_length|as_crispy_field }}
+            </div>
+            <div class="col-md-4">
+                {{ form.cargo_dimension_width|as_crispy_field }}
+            </div>
+            <div class="col-md-4">
+                {{ form.cargo_dimension_height|as_crispy_field }}
+            </div>
         </div>
-        <div class="col-md-6">
-            {{ form.cargo_dimension_width|as_crispy_field }}
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            {{ form.cargo_dimension_height|as_crispy_field }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form.Volume_CBM|as_crispy_field }}
+            </div>
+            <div class="col-md-6">
+                {{ form.Additional_Information|as_crispy_field }}
+            </div>
         </div>
-        <div class="col-md-6">
-            {{ form.special_delivery|as_crispy_field }}
+        <div class="row">
+            <div class="col-md-6">
+                {{ form.Nature_of_Cargo|as_crispy_field }}
+            </div>
         </div>
-    </div>
 
-            <input type="submit" name="submit" class="btn btn-primary" value="{{ _('Create') }}">
-</div>     
+        <input type="submit" name="submit" class="btn btn-primary" value="{{ _('Create') }}">   
     </form>
+</div>  
     
 {% endblock content %}
 {% block javascripts %}

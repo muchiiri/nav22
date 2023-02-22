@@ -165,7 +165,7 @@ class QuoteCreateView_Sea(CreateView):
 #create sea quote staff
 class QuoteCreateViewStaff_Sea(CreateView):
     model = Quote_Sea
-    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','cargo_description','container_size','Nature_of_Cargo','special_delivery']
+    fields = ['incoterm','other_vas','Country_of_Origin','Country_of_Destination','cargo_description','container_size','Nature_of_Cargo','special_delivery', 'Gross_Weight']
     template_name = 'createsea_staff.html'
     success_url = '/quotation/staff/list/'
     def get_context_data(self, **kwargs):
@@ -314,7 +314,7 @@ class QuoteCreateView_Warehouse(CreateView):
 #create warehouse quote staff
 class QuoteCreateViewStaff_Warehouse(CreateView):
     model = Quote_Warehouse
-    fields = ['cargo_description','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','special_delivery']
+    fields = ['cargo_description','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','Additional_Information', 'Volume_CBM', 'Nature_of_Cargo']
     template_name = 'createwarehouse_staff.html'
     success_url = '/quotation/staff/list/'
     def get_context_data(self, **kwargs):
