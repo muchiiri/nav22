@@ -288,7 +288,7 @@ class QuoteCreateViewStaff_Road(CreateView):
 #create warehouse quote client
 class QuoteCreateView_Warehouse(CreateView):
     model = Quote_Warehouse
-    fields = ['cargo_description','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','special_delivery']
+    fields = ['cargo_description','cargo_weight','cargo_dimension_length','cargo_dimension_width','cargo_dimension_height','Additional_Information', 'Volume_CBM', 'Nature_of_Cargo']
     template_name = 'createwarehouse.html'
     success_url = '/quotation/list'
     def get_context_data(self, **kwargs):
