@@ -29,20 +29,28 @@
     </div>
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             {{ form.cargo_dimension_length|as_crispy_field }}
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             {{ form.cargo_dimension_width|as_crispy_field }}
+        </div>
+        <div class="col-md-4">
+            {{ form.cargo_dimension_height|as_crispy_field }}
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-6">
-            {{ form.cargo_dimension_height|as_crispy_field }}
+            {{ form.Volume_CBM|as_crispy_field }}
         </div>
         <div class="col-md-6">
-            {{ form.special_delivery|as_crispy_field }}
+            {{ form.Additional_Information|as_crispy_field }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            {{ form.Nature_of_Cargo|as_crispy_field }}
         </div>
     </div>
 
