@@ -10,47 +10,68 @@
     </style>
 {% endblock stylesheets %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h3>{{ _('Create a new quote') }}</h3>
+<!-- Page Header -->
+<div class="page-header">
+    <div>
+        <h2 class="main-content-title tx-24 mg-b-5">Create a Quotation for a RoadFreight</h2>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:void(0);">Quotations</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Road Quotation</li>
+        </ol>
+    </div>
+</div>
+<!-- Row -->
+<div class="row row-sm">
+    <div class="col-lg-12 col-md-12">
+        <div class="card custom-card">
+            <div class="card-header">
+                <div>
+                    <h6 class="main-content-label">Fill in All the Inputs</h6>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row row-sm">
+                    <div class="col-md-12 col-lg-12 col-xl-12">
+                        <form method="post" action="{% url request.session.type %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.Truck_Size|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.incoterm|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.delivery_address|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.collection_address|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.cargo_weight|as_crispy_field }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.Additional_Information|as_crispy_field }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.Volume_CBM|as_crispy_field }}
+                                </div>   
+                            </div>
+                                <input type="submit" name="submit" class="btn btn-primary" value="{{ _('Create') }}">
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <form method="post" action="{% url request.session.type %}">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-md-6">
-                {{ form.Truck_Size|as_crispy_field }}
-            </div>
-            <div class="col-md-6">
-                {{ form.incoterm|as_crispy_field }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                {{ form.delivery_address|as_crispy_field }}
-            </div>
-            <div class="col-md-6">
-                {{ form.collection_address|as_crispy_field }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                {{ form.cargo_weight|as_crispy_field }}
-            </div>
-            <div class="col-md-6">
-                {{ form.Additional_Information|as_crispy_field }}
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                {{ form.Volume_CBM|as_crispy_field }}
-            </div>   
-        </div>
-            <input type="submit" name="submit" class="btn btn-primary" value="{{ _('Create') }}">
-    </form>
 </div>
+<!-- End Row -->
     
 {% endblock content %}
 {% block javascripts %}
