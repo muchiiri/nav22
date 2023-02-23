@@ -27,6 +27,8 @@ ENV/
 env.bak/
 venv.bak/
 
+oglshipments/local_settings.py
+oglshipments/local_settings.py
 local_settings.py
 db.sqlite3
 media
