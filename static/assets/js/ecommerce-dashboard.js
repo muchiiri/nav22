@@ -399,7 +399,7 @@ $(function(e){
 		  type: "radialBar",
 		},
 
-		series: [78],
+		series: [82],
 		colors: ["#4d65d9"],
 		plotOptions: {
 		  radialBar: {
@@ -445,7 +445,7 @@ $(function(e){
 		stroke: {
 		  lineCap: "round",
 		},
-		labels: ["Orders"]
+		labels: ["Shipments"]
 	  };
 
 	  var chart = new ApexCharts(document.querySelector("#recentorders"), options);

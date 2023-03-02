@@ -1,14 +1,28 @@
 $(function() {
 	'use strict'
 	/*LIne-Chart */
+	var endpoint = '/api';
+
+	$.ajax({
+		method: "GET",
+		url: endpoint,
+		success: function(data) {
+			drawLineGraph(data, 'chartLine');
+			console.log("drawing");
+		},
+		error: function(error_data) {
+			console.log(error_data);
+		}
+	});
+
 	var ctx = document.getElementById("chartLine").getContext('2d');
 	var myChart1, myChart = new Chart(ctx, {
 		type: 'line',
 		data: {
-			labels: ["Sun", "Mon", "Tus", "Wed", "Thu", "Fri", "Sat"],
+			labels: data.labels,
 			datasets: [{
-				label: 'Profits',
-				data: [20, 320, 110, 350, 480, 320, 480],
+				label: data.ChartLabel,
+				data: data.chartdata,
 				borderWidth: 2,
 				backgroundColor: 'transparent',
 				borderColor: '#4d65d9',
