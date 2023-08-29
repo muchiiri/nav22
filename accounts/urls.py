@@ -6,6 +6,7 @@ urlpatterns = [
     
      # new
     path('accounts/login', auth_views.login, name='login'),
+    path('accounts/signup', auth_views.UserCreationView.as_view(), name='signup'),
     # accounts/login/ [name='login']
     # accounts/logout/ [name='logout']
     # path(accounts/password_change/ [name='password_change']),
